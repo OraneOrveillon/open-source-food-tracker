@@ -3,6 +3,6 @@ abstract class AppBarTexts {
 }
 
 abstract class ButtonTexts {
-  static const String toDog = "Go to dog";
-  static const String newDog = "New dog";
+  static const String toWeighing = "Go to weighing";
+  static const String addWeighing = "Add weighing";
 }

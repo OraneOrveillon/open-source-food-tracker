@@ -18,7 +18,7 @@ class HomePage extends StatelessWidget {
           ),
           body: Center(
             child: ElevatedButton(
-              child: const Text(ButtonTexts.toDog),
+              child: const Text(ButtonTexts.toWeighing),
               onPressed: () => cHome.onClick(),
             ),
           ),

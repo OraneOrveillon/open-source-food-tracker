@@ -21,7 +21,5 @@ class DatabaseProvider {
     return _instance!;
   }
 
-  // TODO méthodes d'ajout / modification etc standardisées
-
   DatabaseProvider._();
 }
