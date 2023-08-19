@@ -26,17 +26,24 @@ class WeighingController extends GetxController {
   }
 
   // TODO dartz ?
+
   Future<void> getAllWeighings() async {
     weighings.value = await _db.weighings.where().findAll();
   }
 
-  Future<void> putWeighing() async {
+  void putWeighing() {
     final newWeighing = Weighing()
       ..date = DateTime.now()
       ..value = 64;
 
-    await _db.writeTxn(() async {
+    _db.writeTxn(() async {
       return await _db.weighings.put(newWeighing);
+    });
+  }
+
+  void deleteWeighing(Weighing weighing) {
+    _db.writeTxn(() async {
+      return await _db.weighings.delete(weighing.id);
     });
   }
 
