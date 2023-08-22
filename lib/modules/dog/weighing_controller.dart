@@ -25,8 +25,6 @@ class WeighingController extends GetxController {
     await getAllWeighings();
   }
 
-  // TODO dartz ?
-
   Future<void> getAllWeighings() async {
     weighings.value = await _db.weighings.where().findAll();
   }

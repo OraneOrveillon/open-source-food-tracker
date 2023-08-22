@@ -1,10 +1,10 @@
 import 'package:isar/isar.dart';
 
-part 'weighing_model.g.dart';
+part 'meal_model.g.dart';
 
 @Collection()
-class Weighing {
+class Meal {
   Id id = Isar.autoIncrement;
-  DateTime? date;
-  float? value;
+  String? name;
+  float? equivalent;
 }
