@@ -17,14 +17,9 @@ const MealSchema = CollectionSchema(
   name: r'Meal',
   id: 2462895270179255875,
   properties: {
-    r'equivalent': PropertySchema(
+    r'type': PropertySchema(
       id: 0,
-      name: r'equivalent',
-      type: IsarType.float,
-    ),
-    r'name': PropertySchema(
-      id: 1,
-      name: r'name',
+      name: r'type',
       type: IsarType.string,
     )
   },
@@ -49,7 +44,7 @@ int _mealEstimateSize(
 ) {
   var bytesCount = offsets.last;
   {
-    final value = object.name;
+    final value = object.type;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
     }
@@ -63,8 +58,7 @@ void _mealSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeFloat(offsets[0], object.equivalent);
-  writer.writeString(offsets[1], object.name);
+  writer.writeString(offsets[0], object.type);
 }
 
 Meal _mealDeserialize(
@@ -74,9 +68,8 @@ Meal _mealDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Meal();
-  object.equivalent = reader.readFloatOrNull(offsets[0]);
   object.id = id;
-  object.name = reader.readStringOrNull(offsets[1]);
+  object.type = reader.readStringOrNull(offsets[0]);
   return object;
 }
 
@@ -88,8 +81,6 @@ P _mealDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readFloatOrNull(offset)) as P;
-    case 1:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -184,84 +175,6 @@ extension MealQueryWhere on QueryBuilder<Meal, Meal, QWhereClause> {
 }
 
 extension MealQueryFilter on QueryBuilder<Meal, Meal, QFilterCondition> {
-  QueryBuilder<Meal, Meal, QAfterFilterCondition> equivalentIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'equivalent',
-      ));
-    });
-  }
-
-  QueryBuilder<Meal, Meal, QAfterFilterCondition> equivalentIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'equivalent',
-      ));
-    });
-  }
-
-  QueryBuilder<Meal, Meal, QAfterFilterCondition> equivalentEqualTo(
-    double? value, {
-    double epsilon = Query.epsilon,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'equivalent',
-        value: value,
-        epsilon: epsilon,
-      ));
-    });
-  }
-
-  QueryBuilder<Meal, Meal, QAfterFilterCondition> equivalentGreaterThan(
-    double? value, {
-    bool include = false,
-    double epsilon = Query.epsilon,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'equivalent',
-        value: value,
-        epsilon: epsilon,
-      ));
-    });
-  }
-
-  QueryBuilder<Meal, Meal, QAfterFilterCondition> equivalentLessThan(
-    double? value, {
-    bool include = false,
-    double epsilon = Query.epsilon,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'equivalent',
-        value: value,
-        epsilon: epsilon,
-      ));
-    });
-  }
-
-  QueryBuilder<Meal, Meal, QAfterFilterCondition> equivalentBetween(
-    double? lower,
-    double? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    double epsilon = Query.epsilon,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'equivalent',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        epsilon: epsilon,
-      ));
-    });
-  }
-
   QueryBuilder<Meal, Meal, QAfterFilterCondition> idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -314,36 +227,36 @@ extension MealQueryFilter on QueryBuilder<Meal, Meal, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Meal, Meal, QAfterFilterCondition> nameIsNull() {
+  QueryBuilder<Meal, Meal, QAfterFilterCondition> typeIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'name',
+        property: r'type',
       ));
     });
   }
 
-  QueryBuilder<Meal, Meal, QAfterFilterCondition> nameIsNotNull() {
+  QueryBuilder<Meal, Meal, QAfterFilterCondition> typeIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'name',
+        property: r'type',
       ));
     });
   }
 
-  QueryBuilder<Meal, Meal, QAfterFilterCondition> nameEqualTo(
+  QueryBuilder<Meal, Meal, QAfterFilterCondition> typeEqualTo(
     String? value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'name',
+        property: r'type',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Meal, Meal, QAfterFilterCondition> nameGreaterThan(
+  QueryBuilder<Meal, Meal, QAfterFilterCondition> typeGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -351,14 +264,14 @@ extension MealQueryFilter on QueryBuilder<Meal, Meal, QFilterCondition> {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'name',
+        property: r'type',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Meal, Meal, QAfterFilterCondition> nameLessThan(
+  QueryBuilder<Meal, Meal, QAfterFilterCondition> typeLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -366,14 +279,14 @@ extension MealQueryFilter on QueryBuilder<Meal, Meal, QFilterCondition> {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'name',
+        property: r'type',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Meal, Meal, QAfterFilterCondition> nameBetween(
+  QueryBuilder<Meal, Meal, QAfterFilterCondition> typeBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -382,7 +295,7 @@ extension MealQueryFilter on QueryBuilder<Meal, Meal, QFilterCondition> {
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'name',
+        property: r'type',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -392,67 +305,67 @@ extension MealQueryFilter on QueryBuilder<Meal, Meal, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Meal, Meal, QAfterFilterCondition> nameStartsWith(
+  QueryBuilder<Meal, Meal, QAfterFilterCondition> typeStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'name',
+        property: r'type',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Meal, Meal, QAfterFilterCondition> nameEndsWith(
+  QueryBuilder<Meal, Meal, QAfterFilterCondition> typeEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'name',
+        property: r'type',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Meal, Meal, QAfterFilterCondition> nameContains(String value,
+  QueryBuilder<Meal, Meal, QAfterFilterCondition> typeContains(String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
-        property: r'name',
+        property: r'type',
         value: value,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Meal, Meal, QAfterFilterCondition> nameMatches(String pattern,
+  QueryBuilder<Meal, Meal, QAfterFilterCondition> typeMatches(String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
-        property: r'name',
+        property: r'type',
         wildcard: pattern,
         caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Meal, Meal, QAfterFilterCondition> nameIsEmpty() {
+  QueryBuilder<Meal, Meal, QAfterFilterCondition> typeIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'name',
+        property: r'type',
         value: '',
       ));
     });
   }
 
-  QueryBuilder<Meal, Meal, QAfterFilterCondition> nameIsNotEmpty() {
+  QueryBuilder<Meal, Meal, QAfterFilterCondition> typeIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'name',
+        property: r'type',
         value: '',
       ));
     });
@@ -464,44 +377,20 @@ extension MealQueryObject on QueryBuilder<Meal, Meal, QFilterCondition> {}
 extension MealQueryLinks on QueryBuilder<Meal, Meal, QFilterCondition> {}
 
 extension MealQuerySortBy on QueryBuilder<Meal, Meal, QSortBy> {
-  QueryBuilder<Meal, Meal, QAfterSortBy> sortByEquivalent() {
+  QueryBuilder<Meal, Meal, QAfterSortBy> sortByType() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'equivalent', Sort.asc);
+      return query.addSortBy(r'type', Sort.asc);
     });
   }
 
-  QueryBuilder<Meal, Meal, QAfterSortBy> sortByEquivalentDesc() {
+  QueryBuilder<Meal, Meal, QAfterSortBy> sortByTypeDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'equivalent', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Meal, Meal, QAfterSortBy> sortByName() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'name', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Meal, Meal, QAfterSortBy> sortByNameDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'name', Sort.desc);
+      return query.addSortBy(r'type', Sort.desc);
     });
   }
 }
 
 extension MealQuerySortThenBy on QueryBuilder<Meal, Meal, QSortThenBy> {
-  QueryBuilder<Meal, Meal, QAfterSortBy> thenByEquivalent() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'equivalent', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Meal, Meal, QAfterSortBy> thenByEquivalentDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'equivalent', Sort.desc);
-    });
-  }
-
   QueryBuilder<Meal, Meal, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
@@ -514,30 +403,24 @@ extension MealQuerySortThenBy on QueryBuilder<Meal, Meal, QSortThenBy> {
     });
   }
 
-  QueryBuilder<Meal, Meal, QAfterSortBy> thenByName() {
+  QueryBuilder<Meal, Meal, QAfterSortBy> thenByType() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'name', Sort.asc);
+      return query.addSortBy(r'type', Sort.asc);
     });
   }
 
-  QueryBuilder<Meal, Meal, QAfterSortBy> thenByNameDesc() {
+  QueryBuilder<Meal, Meal, QAfterSortBy> thenByTypeDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'name', Sort.desc);
+      return query.addSortBy(r'type', Sort.desc);
     });
   }
 }
 
 extension MealQueryWhereDistinct on QueryBuilder<Meal, Meal, QDistinct> {
-  QueryBuilder<Meal, Meal, QDistinct> distinctByEquivalent() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'equivalent');
-    });
-  }
-
-  QueryBuilder<Meal, Meal, QDistinct> distinctByName(
+  QueryBuilder<Meal, Meal, QDistinct> distinctByType(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'name', caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'type', caseSensitive: caseSensitive);
     });
   }
 }
@@ -549,15 +432,9 @@ extension MealQueryProperty on QueryBuilder<Meal, Meal, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Meal, double?, QQueryOperations> equivalentProperty() {
+  QueryBuilder<Meal, String?, QQueryOperations> typeProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'equivalent');
-    });
-  }
-
-  QueryBuilder<Meal, String?, QQueryOperations> nameProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'name');
+      return query.addPropertyName(r'type');
     });
   }
 }

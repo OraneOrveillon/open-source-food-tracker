@@ -31,13 +31,13 @@ class WeighingsController extends GetxController {
 
   void putWeighing(Weighing weighing) {
     _db.writeTxn(() async {
-      return await _db.weighings.put(weighing);
+      await _db.weighings.put(weighing);
     });
   }
 
   void deleteWeighing(Weighing weighing) {
     _db.writeTxn(() async {
-      return await _db.weighings.delete(weighing.id);
+      await _db.weighings.delete(weighing.id);
     });
   }
 

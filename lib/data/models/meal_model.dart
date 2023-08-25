@@ -5,6 +5,5 @@ part 'meal_model.g.dart';
 @Collection()
 class Meal {
   Id id = Isar.autoIncrement;
-  String? name;
-  float? equivalent;
+  String? type;
 }
