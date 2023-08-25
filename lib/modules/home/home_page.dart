@@ -14,11 +14,13 @@ class HomePage extends StatelessWidget {
       builder: (cHome) {
         return Scaffold(
           appBar: AppBar(
-            title: Text(AppBarTexts.home(cHome.count.value)),
+            title: Text(
+              AppBarTexts.home(cHome.count.value),
+            ),
           ),
           body: Center(
             child: ElevatedButton(
-              child: const Text(ButtonTexts.toWeighing),
+              child: const Text('journal'),
               onPressed: () => cHome.onClick(),
             ),
           ),

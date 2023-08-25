@@ -5,7 +5,7 @@ import 'routes/pages.dart';
 import 'modules/home/home_page.dart';
 import 'core/theme/themes.dart';
 
-Future<void> main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   runApp(

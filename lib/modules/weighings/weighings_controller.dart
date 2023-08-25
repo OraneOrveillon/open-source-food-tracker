@@ -6,7 +6,7 @@ import 'package:isar/isar.dart';
 import '../../data/models/weighing_model.dart';
 import '../../data/providers/database_provider.dart';
 
-class WeighingController extends GetxController {
+class WeighingsController extends GetxController {
   final weighings = [].obs;
 
   late final Isar _db;
@@ -29,13 +29,9 @@ class WeighingController extends GetxController {
     weighings.value = await _db.weighings.where().findAll();
   }
 
-  void putWeighing() {
-    final newWeighing = Weighing()
-      ..date = DateTime.now()
-      ..value = 64;
-
+  void putWeighing(Weighing weighing) {
     _db.writeTxn(() async {
-      return await _db.weighings.put(newWeighing);
+      return await _db.weighings.put(weighing);
     });
   }
 

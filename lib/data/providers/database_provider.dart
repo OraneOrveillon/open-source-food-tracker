@@ -1,6 +1,14 @@
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 
+import '../models/aliment_model.dart';
+import '../models/journal_model.dart';
+import '../models/meal_aliment_model.dart';
+import '../models/meal_model.dart';
+import '../models/meal_recipe_model.dart';
+import '../models/objective_model.dart';
+import '../models/recipe_aliment_model.dart';
+import '../models/recipe_model.dart';
 import '../models/weighing_model.dart';
 
 class DatabaseProvider {
@@ -12,6 +20,14 @@ class DatabaseProvider {
 
       _instance = await Isar.open(
         [
+          AlimentSchema,
+          JournalSchema,
+          MealAlimentSchema,
+          MealSchema,
+          MealRecipeSchema,
+          ObjectiveSchema,
+          RecipeAlimentSchema,
+          RecipeSchema,
           WeighingSchema,
         ],
         directory: directory.path,

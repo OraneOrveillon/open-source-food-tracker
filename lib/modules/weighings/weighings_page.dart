@@ -3,23 +3,22 @@ import 'package:get/get.dart';
 
 import '../../core/utils/paddings.dart';
 import '../../data/models/weighing_model.dart';
-import 'weighing_controller.dart';
+import 'weighings_controller.dart';
 import '../home/home_controller.dart';
 import '../../core/utils/texts.dart';
 
-class WeighingPage extends StatelessWidget {
-  const WeighingPage({super.key});
+class WeighingsPage extends StatelessWidget {
+  const WeighingsPage({super.key});
 
   @override
   Widget build(context) {
-    // ? GetBuilder => access the controller without adding reactivity.
     return GetBuilder<HomeController>(
       builder: (cHome) {
         return Scaffold(
           appBar: AppBar(
             title: Text(AppBarTexts.home(cHome.count.value)),
           ),
-          body: GetX<WeighingController>(
+          body: GetX<WeighingsController>(
             builder: (cWeighing) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -48,7 +47,11 @@ class WeighingPage extends StatelessWidget {
                     padding: const EdgeInsets.all(Paddings.medium),
                     child: ElevatedButton(
                       child: const Text(ButtonTexts.addWeighing),
-                      onPressed: () => cWeighing.putWeighing(),
+                      onPressed: () => cWeighing.putWeighing(
+                        Weighing()
+                          ..date = DateTime.now()
+                          ..value = 64,
+                      ),
                     ),
                   ),
                 ],
