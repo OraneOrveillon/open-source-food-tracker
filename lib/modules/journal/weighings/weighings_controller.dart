@@ -1,22 +1,20 @@
 import 'dart:async';
 
+import 'package:flutter_template/modules/home/home_controller.dart';
 import 'package:get/get.dart';
 import 'package:isar/isar.dart';
 
 import '../../../data/models/weighing_model.dart';
-import '../../../data/providers/database_provider.dart';
 
 class WeighingsController extends GetxController {
   final weighings = [].obs;
 
-  late final Isar _db;
+  final Isar _db = Get.find<HomeController>().database;
   late final StreamSubscription _weighingChanged;
 
   @override
   Future<void> onInit() async {
     super.onInit();
-
-    _db = await DatabaseProvider.getInstance();
 
     _weighingChanged = _db.weighings.watchLazy().listen((event) async {
       await getAllWeighings();
