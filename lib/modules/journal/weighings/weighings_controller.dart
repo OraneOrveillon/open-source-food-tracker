@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:flutter_template/modules/home/home_controller.dart';
 import 'package:get/get.dart';
 import 'package:isar/isar.dart';
 
 import '../../../data/models/weighing_model.dart';
+import '../../home/home_controller.dart';
 
 class WeighingsController extends GetxController {
   final weighings = [].obs;
