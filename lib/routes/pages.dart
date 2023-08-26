@@ -1,13 +1,36 @@
 import 'package:get/get.dart';
 
-import '../modules/weighings/weighings_binding.dart';
-import '../modules/weighings/weighings_page.dart';
+import '../modules/aliments/aliments_binding.dart';
+import '../modules/aliments/aliments_pages.dart';
+import '../modules/journal/journal_binding.dart';
+import '../modules/journal/journal_page.dart';
+import '../modules/journal/weighings/weighings_binding.dart';
+import '../modules/journal/weighings/weighings_page.dart';
+import '../modules/recipes/recipes_binding.dart';
+import '../modules/recipes/recipes_pages.dart';
 import 'routes.dart';
 
 List<GetPage> pages = [
   GetPage(
-    name: weighings,
-    page: () => const WeighingsPage(),
-    binding: WeighingsBinding(),
+    name: aliments,
+    page: () => const AlimentsPage(),
+    binding: AlimentsBinding(),
+  ),
+  GetPage(
+    name: recipes,
+    page: () => const RecipesPage(),
+    binding: RecipesBinding(),
+  ),
+  GetPage(
+    name: journal,
+    page: () => const JournalPage(),
+    binding: JournalBinding(),
+    children: [
+      GetPage(
+        name: weighings,
+        page: () => const WeighingsPage(),
+        binding: WeighingsBinding(),
+      ),
+    ],
   ),
 ];

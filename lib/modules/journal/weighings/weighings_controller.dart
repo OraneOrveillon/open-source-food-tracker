@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:get/get.dart';
 import 'package:isar/isar.dart';
 
-import '../../data/models/weighing_model.dart';
-import '../../data/providers/database_provider.dart';
+import '../../../data/models/weighing_model.dart';
+import '../../../data/providers/database_provider.dart';
 
 class WeighingsController extends GetxController {
   final weighings = [].obs;
