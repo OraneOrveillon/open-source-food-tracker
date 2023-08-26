@@ -18,7 +18,7 @@ class ObjectivesPage extends StatelessWidget {
         child: Column(
           children: [
             Expanded(
-              child: GetX<ObjectivesController>(builder: (cObjectives) {
+              child: GetBuilder<ObjectivesController>(builder: (cObjectives) {
                 return Form(
                   child: ListView(
                     children: [
@@ -26,37 +26,37 @@ class ObjectivesPage extends StatelessWidget {
                         decoration: const InputDecoration(
                           label: Text('Calories'),
                         ),
-                        controller: cObjectives.caloriesTEC.value,
+                        controller: cObjectives.caloriesTEC,
                       ),
                       TextFormField(
                         decoration: const InputDecoration(
                           label: Text('Proteins'),
                         ),
-                        controller: cObjectives.proteinsTEC.value,
+                        controller: cObjectives.proteinsTEC,
                       ),
                       TextFormField(
                         decoration: const InputDecoration(
                           label: Text('Carbohydrates'),
                         ),
-                        controller: cObjectives.carbohydratesTEC.value,
+                        controller: cObjectives.carbohydratesTEC,
                       ),
                       TextFormField(
                         decoration: const InputDecoration(
                           label: Text('Sugars'),
                         ),
-                        controller: cObjectives.sugarsTEC.value,
+                        controller: cObjectives.sugarsTEC,
                       ),
                       TextFormField(
                         decoration: const InputDecoration(
                           label: Text('Lipids'),
                         ),
-                        controller: cObjectives.lipidsTEC.value,
+                        controller: cObjectives.lipidsTEC,
                       ),
                       TextFormField(
                         decoration: const InputDecoration(
                           label: Text('Saturated fats'),
                         ),
-                        controller: cObjectives.saturatedFatsTEC.value,
+                        controller: cObjectives.saturatedFatsTEC,
                       ),
                     ],
                   ),

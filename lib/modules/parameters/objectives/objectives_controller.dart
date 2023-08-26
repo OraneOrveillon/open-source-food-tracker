@@ -12,12 +12,12 @@ class ObjectivesController extends GetxController {
 
   Objective? lastObjective;
 
-  final caloriesTEC = TextEditingController().obs;
-  final proteinsTEC = TextEditingController().obs;
-  final carbohydratesTEC = TextEditingController().obs;
-  final sugarsTEC = TextEditingController().obs;
-  final lipidsTEC = TextEditingController().obs;
-  final saturatedFatsTEC = TextEditingController().obs;
+  final caloriesTEC = TextEditingController();
+  final proteinsTEC = TextEditingController();
+  final carbohydratesTEC = TextEditingController();
+  final sugarsTEC = TextEditingController();
+  final lipidsTEC = TextEditingController();
+  final saturatedFatsTEC = TextEditingController();
 
   @override
   Future<void> onInit() async {
@@ -25,22 +25,22 @@ class ObjectivesController extends GetxController {
     await getLastObjective();
 
     if (lastObjective?.calories != null) {
-      caloriesTEC.value.text = lastObjective!.calories.toString();
+      caloriesTEC.text = lastObjective!.calories.toString();
     }
     if (lastObjective?.proteins != null) {
-      proteinsTEC.value.text = lastObjective!.proteins.toString();
+      proteinsTEC.text = lastObjective!.proteins.toString();
     }
     if (lastObjective?.carbohydrates != null) {
-      carbohydratesTEC.value.text = lastObjective!.carbohydrates.toString();
+      carbohydratesTEC.text = lastObjective!.carbohydrates.toString();
     }
     if (lastObjective?.sugars != null) {
-      sugarsTEC.value.text = lastObjective!.sugars.toString();
+      sugarsTEC.text = lastObjective!.sugars.toString();
     }
     if (lastObjective?.lipids != null) {
-      lipidsTEC.value.text = lastObjective!.lipids.toString();
+      lipidsTEC.text = lastObjective!.lipids.toString();
     }
     if (lastObjective?.saturatedFats != null) {
-      saturatedFatsTEC.value.text = lastObjective!.saturatedFats.toString();
+      saturatedFatsTEC.text = lastObjective!.saturatedFats.toString();
     }
   }
 
