@@ -20,7 +20,7 @@ class Aliment {
   float? carbohydrates;
   float? sugars;
   float? lipids;
-  float? saturatedFat;
+  float? saturatedFats;
   bool? deleted;
   List<Dose>? doses;
 }

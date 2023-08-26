@@ -7,10 +7,10 @@ import '../../../data/models/weighing_model.dart';
 import '../../home/home_controller.dart';
 
 class WeighingsController extends GetxController {
-  final weighings = [].obs;
-
   final Isar _db = Get.find<HomeController>().database;
   late final StreamSubscription _weighingChanged;
+
+  final weighings = [].obs;
 
   @override
   Future<void> onInit() async {

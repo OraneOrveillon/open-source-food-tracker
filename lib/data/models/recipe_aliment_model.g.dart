@@ -47,9 +47,9 @@ const RecipeAlimentSchema = CollectionSchema(
       name: r'quantity',
       type: IsarType.int,
     ),
-    r'saturatedFat': PropertySchema(
+    r'saturatedFats': PropertySchema(
       id: 6,
-      name: r'saturatedFat',
+      name: r'saturatedFats',
       type: IsarType.float,
     ),
     r'sugars': PropertySchema(
@@ -112,7 +112,7 @@ void _recipeAlimentSerialize(
   writer.writeFloat(offsets[3], object.lipids);
   writer.writeFloat(offsets[4], object.proteins);
   writer.writeInt(offsets[5], object.quantity);
-  writer.writeFloat(offsets[6], object.saturatedFat);
+  writer.writeFloat(offsets[6], object.saturatedFats);
   writer.writeFloat(offsets[7], object.sugars);
 }
 
@@ -130,7 +130,7 @@ RecipeAliment _recipeAlimentDeserialize(
   object.lipids = reader.readFloatOrNull(offsets[3]);
   object.proteins = reader.readFloatOrNull(offsets[4]);
   object.quantity = reader.readIntOrNull(offsets[5]);
-  object.saturatedFat = reader.readFloatOrNull(offsets[6]);
+  object.saturatedFats = reader.readFloatOrNull(offsets[6]);
   object.sugars = reader.readFloatOrNull(offsets[7]);
   return object;
 }
@@ -869,31 +869,31 @@ extension RecipeAlimentQueryFilter
   }
 
   QueryBuilder<RecipeAliment, RecipeAliment, QAfterFilterCondition>
-      saturatedFatIsNull() {
+      saturatedFatsIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'saturatedFat',
+        property: r'saturatedFats',
       ));
     });
   }
 
   QueryBuilder<RecipeAliment, RecipeAliment, QAfterFilterCondition>
-      saturatedFatIsNotNull() {
+      saturatedFatsIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'saturatedFat',
+        property: r'saturatedFats',
       ));
     });
   }
 
   QueryBuilder<RecipeAliment, RecipeAliment, QAfterFilterCondition>
-      saturatedFatEqualTo(
+      saturatedFatsEqualTo(
     double? value, {
     double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'saturatedFat',
+        property: r'saturatedFats',
         value: value,
         epsilon: epsilon,
       ));
@@ -901,7 +901,7 @@ extension RecipeAlimentQueryFilter
   }
 
   QueryBuilder<RecipeAliment, RecipeAliment, QAfterFilterCondition>
-      saturatedFatGreaterThan(
+      saturatedFatsGreaterThan(
     double? value, {
     bool include = false,
     double epsilon = Query.epsilon,
@@ -909,7 +909,7 @@ extension RecipeAlimentQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'saturatedFat',
+        property: r'saturatedFats',
         value: value,
         epsilon: epsilon,
       ));
@@ -917,7 +917,7 @@ extension RecipeAlimentQueryFilter
   }
 
   QueryBuilder<RecipeAliment, RecipeAliment, QAfterFilterCondition>
-      saturatedFatLessThan(
+      saturatedFatsLessThan(
     double? value, {
     bool include = false,
     double epsilon = Query.epsilon,
@@ -925,7 +925,7 @@ extension RecipeAlimentQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'saturatedFat',
+        property: r'saturatedFats',
         value: value,
         epsilon: epsilon,
       ));
@@ -933,7 +933,7 @@ extension RecipeAlimentQueryFilter
   }
 
   QueryBuilder<RecipeAliment, RecipeAliment, QAfterFilterCondition>
-      saturatedFatBetween(
+      saturatedFatsBetween(
     double? lower,
     double? upper, {
     bool includeLower = true,
@@ -942,7 +942,7 @@ extension RecipeAlimentQueryFilter
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'saturatedFat',
+        property: r'saturatedFats',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -1151,16 +1151,16 @@ extension RecipeAlimentQuerySortBy
   }
 
   QueryBuilder<RecipeAliment, RecipeAliment, QAfterSortBy>
-      sortBySaturatedFat() {
+      sortBySaturatedFats() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'saturatedFat', Sort.asc);
+      return query.addSortBy(r'saturatedFats', Sort.asc);
     });
   }
 
   QueryBuilder<RecipeAliment, RecipeAliment, QAfterSortBy>
-      sortBySaturatedFatDesc() {
+      sortBySaturatedFatsDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'saturatedFat', Sort.desc);
+      return query.addSortBy(r'saturatedFats', Sort.desc);
     });
   }
 
@@ -1269,16 +1269,16 @@ extension RecipeAlimentQuerySortThenBy
   }
 
   QueryBuilder<RecipeAliment, RecipeAliment, QAfterSortBy>
-      thenBySaturatedFat() {
+      thenBySaturatedFats() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'saturatedFat', Sort.asc);
+      return query.addSortBy(r'saturatedFats', Sort.asc);
     });
   }
 
   QueryBuilder<RecipeAliment, RecipeAliment, QAfterSortBy>
-      thenBySaturatedFatDesc() {
+      thenBySaturatedFatsDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'saturatedFat', Sort.desc);
+      return query.addSortBy(r'saturatedFats', Sort.desc);
     });
   }
 
@@ -1336,9 +1336,9 @@ extension RecipeAlimentQueryWhereDistinct
   }
 
   QueryBuilder<RecipeAliment, RecipeAliment, QDistinct>
-      distinctBySaturatedFat() {
+      distinctBySaturatedFats() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'saturatedFat');
+      return query.addDistinctBy(r'saturatedFats');
     });
   }
 
@@ -1395,9 +1395,9 @@ extension RecipeAlimentQueryProperty
   }
 
   QueryBuilder<RecipeAliment, double?, QQueryOperations>
-      saturatedFatProperty() {
+      saturatedFatsProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'saturatedFat');
+      return query.addPropertyName(r'saturatedFats');
     });
   }
 

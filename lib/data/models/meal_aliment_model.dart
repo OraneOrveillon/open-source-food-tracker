@@ -17,5 +17,5 @@ class MealAliment {
   float? carbohydrates;
   float? sugars;
   float? lipids;
-  float? saturatedFat;
+  float? saturatedFats;
 }

@@ -42,9 +42,9 @@ const ObjectiveSchema = CollectionSchema(
       name: r'proteins',
       type: IsarType.float,
     ),
-    r'saturatedFat': PropertySchema(
+    r'saturatedFats': PropertySchema(
       id: 5,
-      name: r'saturatedFat',
+      name: r'saturatedFats',
       type: IsarType.float,
     ),
     r'sugars': PropertySchema(
@@ -58,7 +58,21 @@ const ObjectiveSchema = CollectionSchema(
   deserialize: _objectiveDeserialize,
   deserializeProp: _objectiveDeserializeProp,
   idName: r'id',
-  indexes: {},
+  indexes: {
+    r'creationDate': IndexSchema(
+      id: -78501097794997996,
+      name: r'creationDate',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'creationDate',
+          type: IndexType.value,
+          caseSensitive: false,
+        )
+      ],
+    )
+  },
   links: {},
   embeddedSchemas: {},
   getId: _objectiveGetId,
@@ -87,7 +101,7 @@ void _objectiveSerialize(
   writer.writeDateTime(offsets[2], object.creationDate);
   writer.writeFloat(offsets[3], object.lipids);
   writer.writeFloat(offsets[4], object.proteins);
-  writer.writeFloat(offsets[5], object.saturatedFat);
+  writer.writeFloat(offsets[5], object.saturatedFats);
   writer.writeFloat(offsets[6], object.sugars);
 }
 
@@ -104,7 +118,7 @@ Objective _objectiveDeserialize(
   object.id = id;
   object.lipids = reader.readFloatOrNull(offsets[3]);
   object.proteins = reader.readFloatOrNull(offsets[4]);
-  object.saturatedFat = reader.readFloatOrNull(offsets[5]);
+  object.saturatedFats = reader.readFloatOrNull(offsets[5]);
   object.sugars = reader.readFloatOrNull(offsets[6]);
   return object;
 }
@@ -152,6 +166,14 @@ extension ObjectiveQueryWhereSort
   QueryBuilder<Objective, Objective, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
+    });
+  }
+
+  QueryBuilder<Objective, Objective, QAfterWhere> anyCreationDate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'creationDate'),
+      );
     });
   }
 }
@@ -218,6 +240,117 @@ extension ObjectiveQueryWhere
         lower: lowerId,
         includeLower: includeLower,
         upper: upperId,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Objective, Objective, QAfterWhereClause> creationDateIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'creationDate',
+        value: [null],
+      ));
+    });
+  }
+
+  QueryBuilder<Objective, Objective, QAfterWhereClause>
+      creationDateIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'creationDate',
+        lower: [null],
+        includeLower: false,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<Objective, Objective, QAfterWhereClause> creationDateEqualTo(
+      DateTime? creationDate) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'creationDate',
+        value: [creationDate],
+      ));
+    });
+  }
+
+  QueryBuilder<Objective, Objective, QAfterWhereClause> creationDateNotEqualTo(
+      DateTime? creationDate) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'creationDate',
+              lower: [],
+              upper: [creationDate],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'creationDate',
+              lower: [creationDate],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'creationDate',
+              lower: [creationDate],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'creationDate',
+              lower: [],
+              upper: [creationDate],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<Objective, Objective, QAfterWhereClause> creationDateGreaterThan(
+    DateTime? creationDate, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'creationDate',
+        lower: [creationDate],
+        includeLower: include,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<Objective, Objective, QAfterWhereClause> creationDateLessThan(
+    DateTime? creationDate, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'creationDate',
+        lower: [],
+        upper: [creationDate],
+        includeUpper: include,
+      ));
+    });
+  }
+
+  QueryBuilder<Objective, Objective, QAfterWhereClause> creationDateBetween(
+    DateTime? lowerCreationDate,
+    DateTime? upperCreationDate, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'creationDate',
+        lower: [lowerCreationDate],
+        includeLower: includeLower,
+        upper: [upperCreationDate],
         includeUpper: includeUpper,
       ));
     });
@@ -664,30 +797,31 @@ extension ObjectiveQueryFilter
   }
 
   QueryBuilder<Objective, Objective, QAfterFilterCondition>
-      saturatedFatIsNull() {
+      saturatedFatsIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'saturatedFat',
+        property: r'saturatedFats',
       ));
     });
   }
 
   QueryBuilder<Objective, Objective, QAfterFilterCondition>
-      saturatedFatIsNotNull() {
+      saturatedFatsIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'saturatedFat',
+        property: r'saturatedFats',
       ));
     });
   }
 
-  QueryBuilder<Objective, Objective, QAfterFilterCondition> saturatedFatEqualTo(
+  QueryBuilder<Objective, Objective, QAfterFilterCondition>
+      saturatedFatsEqualTo(
     double? value, {
     double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'saturatedFat',
+        property: r'saturatedFats',
         value: value,
         epsilon: epsilon,
       ));
@@ -695,7 +829,7 @@ extension ObjectiveQueryFilter
   }
 
   QueryBuilder<Objective, Objective, QAfterFilterCondition>
-      saturatedFatGreaterThan(
+      saturatedFatsGreaterThan(
     double? value, {
     bool include = false,
     double epsilon = Query.epsilon,
@@ -703,7 +837,7 @@ extension ObjectiveQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'saturatedFat',
+        property: r'saturatedFats',
         value: value,
         epsilon: epsilon,
       ));
@@ -711,7 +845,7 @@ extension ObjectiveQueryFilter
   }
 
   QueryBuilder<Objective, Objective, QAfterFilterCondition>
-      saturatedFatLessThan(
+      saturatedFatsLessThan(
     double? value, {
     bool include = false,
     double epsilon = Query.epsilon,
@@ -719,14 +853,15 @@ extension ObjectiveQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'saturatedFat',
+        property: r'saturatedFats',
         value: value,
         epsilon: epsilon,
       ));
     });
   }
 
-  QueryBuilder<Objective, Objective, QAfterFilterCondition> saturatedFatBetween(
+  QueryBuilder<Objective, Objective, QAfterFilterCondition>
+      saturatedFatsBetween(
     double? lower,
     double? upper, {
     bool includeLower = true,
@@ -735,7 +870,7 @@ extension ObjectiveQueryFilter
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'saturatedFat',
+        property: r'saturatedFats',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -891,15 +1026,15 @@ extension ObjectiveQuerySortBy on QueryBuilder<Objective, Objective, QSortBy> {
     });
   }
 
-  QueryBuilder<Objective, Objective, QAfterSortBy> sortBySaturatedFat() {
+  QueryBuilder<Objective, Objective, QAfterSortBy> sortBySaturatedFats() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'saturatedFat', Sort.asc);
+      return query.addSortBy(r'saturatedFats', Sort.asc);
     });
   }
 
-  QueryBuilder<Objective, Objective, QAfterSortBy> sortBySaturatedFatDesc() {
+  QueryBuilder<Objective, Objective, QAfterSortBy> sortBySaturatedFatsDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'saturatedFat', Sort.desc);
+      return query.addSortBy(r'saturatedFats', Sort.desc);
     });
   }
 
@@ -990,15 +1125,15 @@ extension ObjectiveQuerySortThenBy
     });
   }
 
-  QueryBuilder<Objective, Objective, QAfterSortBy> thenBySaturatedFat() {
+  QueryBuilder<Objective, Objective, QAfterSortBy> thenBySaturatedFats() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'saturatedFat', Sort.asc);
+      return query.addSortBy(r'saturatedFats', Sort.asc);
     });
   }
 
-  QueryBuilder<Objective, Objective, QAfterSortBy> thenBySaturatedFatDesc() {
+  QueryBuilder<Objective, Objective, QAfterSortBy> thenBySaturatedFatsDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'saturatedFat', Sort.desc);
+      return query.addSortBy(r'saturatedFats', Sort.desc);
     });
   }
 
@@ -1047,9 +1182,9 @@ extension ObjectiveQueryWhereDistinct
     });
   }
 
-  QueryBuilder<Objective, Objective, QDistinct> distinctBySaturatedFat() {
+  QueryBuilder<Objective, Objective, QDistinct> distinctBySaturatedFats() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'saturatedFat');
+      return query.addDistinctBy(r'saturatedFats');
     });
   }
 
@@ -1098,9 +1233,9 @@ extension ObjectiveQueryProperty
     });
   }
 
-  QueryBuilder<Objective, double?, QQueryOperations> saturatedFatProperty() {
+  QueryBuilder<Objective, double?, QQueryOperations> saturatedFatsProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'saturatedFat');
+      return query.addPropertyName(r'saturatedFats');
     });
   }
 

@@ -42,9 +42,9 @@ const MealRecipeSchema = CollectionSchema(
       name: r'proteins',
       type: IsarType.float,
     ),
-    r'saturatedFat': PropertySchema(
+    r'saturatedFats': PropertySchema(
       id: 5,
-      name: r'saturatedFat',
+      name: r'saturatedFats',
       type: IsarType.float,
     ),
     r'sugars': PropertySchema(
@@ -100,7 +100,7 @@ void _mealRecipeSerialize(
   writer.writeFloat(offsets[2], object.lipids);
   writer.writeFloat(offsets[3], object.portions);
   writer.writeFloat(offsets[4], object.proteins);
-  writer.writeFloat(offsets[5], object.saturatedFat);
+  writer.writeFloat(offsets[5], object.saturatedFats);
   writer.writeFloat(offsets[6], object.sugars);
 }
 
@@ -117,7 +117,7 @@ MealRecipe _mealRecipeDeserialize(
   object.lipids = reader.readFloatOrNull(offsets[2]);
   object.portions = reader.readFloatOrNull(offsets[3]);
   object.proteins = reader.readFloatOrNull(offsets[4]);
-  object.saturatedFat = reader.readFloatOrNull(offsets[5]);
+  object.saturatedFats = reader.readFloatOrNull(offsets[5]);
   object.sugars = reader.readFloatOrNull(offsets[6]);
   return object;
 }
@@ -698,31 +698,31 @@ extension MealRecipeQueryFilter
   }
 
   QueryBuilder<MealRecipe, MealRecipe, QAfterFilterCondition>
-      saturatedFatIsNull() {
+      saturatedFatsIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'saturatedFat',
+        property: r'saturatedFats',
       ));
     });
   }
 
   QueryBuilder<MealRecipe, MealRecipe, QAfterFilterCondition>
-      saturatedFatIsNotNull() {
+      saturatedFatsIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'saturatedFat',
+        property: r'saturatedFats',
       ));
     });
   }
 
   QueryBuilder<MealRecipe, MealRecipe, QAfterFilterCondition>
-      saturatedFatEqualTo(
+      saturatedFatsEqualTo(
     double? value, {
     double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'saturatedFat',
+        property: r'saturatedFats',
         value: value,
         epsilon: epsilon,
       ));
@@ -730,7 +730,7 @@ extension MealRecipeQueryFilter
   }
 
   QueryBuilder<MealRecipe, MealRecipe, QAfterFilterCondition>
-      saturatedFatGreaterThan(
+      saturatedFatsGreaterThan(
     double? value, {
     bool include = false,
     double epsilon = Query.epsilon,
@@ -738,7 +738,7 @@ extension MealRecipeQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'saturatedFat',
+        property: r'saturatedFats',
         value: value,
         epsilon: epsilon,
       ));
@@ -746,7 +746,7 @@ extension MealRecipeQueryFilter
   }
 
   QueryBuilder<MealRecipe, MealRecipe, QAfterFilterCondition>
-      saturatedFatLessThan(
+      saturatedFatsLessThan(
     double? value, {
     bool include = false,
     double epsilon = Query.epsilon,
@@ -754,7 +754,7 @@ extension MealRecipeQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'saturatedFat',
+        property: r'saturatedFats',
         value: value,
         epsilon: epsilon,
       ));
@@ -762,7 +762,7 @@ extension MealRecipeQueryFilter
   }
 
   QueryBuilder<MealRecipe, MealRecipe, QAfterFilterCondition>
-      saturatedFatBetween(
+      saturatedFatsBetween(
     double? lower,
     double? upper, {
     bool includeLower = true,
@@ -771,7 +771,7 @@ extension MealRecipeQueryFilter
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'saturatedFat',
+        property: r'saturatedFats',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -955,15 +955,15 @@ extension MealRecipeQuerySortBy
     });
   }
 
-  QueryBuilder<MealRecipe, MealRecipe, QAfterSortBy> sortBySaturatedFat() {
+  QueryBuilder<MealRecipe, MealRecipe, QAfterSortBy> sortBySaturatedFats() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'saturatedFat', Sort.asc);
+      return query.addSortBy(r'saturatedFats', Sort.asc);
     });
   }
 
-  QueryBuilder<MealRecipe, MealRecipe, QAfterSortBy> sortBySaturatedFatDesc() {
+  QueryBuilder<MealRecipe, MealRecipe, QAfterSortBy> sortBySaturatedFatsDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'saturatedFat', Sort.desc);
+      return query.addSortBy(r'saturatedFats', Sort.desc);
     });
   }
 
@@ -1054,15 +1054,15 @@ extension MealRecipeQuerySortThenBy
     });
   }
 
-  QueryBuilder<MealRecipe, MealRecipe, QAfterSortBy> thenBySaturatedFat() {
+  QueryBuilder<MealRecipe, MealRecipe, QAfterSortBy> thenBySaturatedFats() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'saturatedFat', Sort.asc);
+      return query.addSortBy(r'saturatedFats', Sort.asc);
     });
   }
 
-  QueryBuilder<MealRecipe, MealRecipe, QAfterSortBy> thenBySaturatedFatDesc() {
+  QueryBuilder<MealRecipe, MealRecipe, QAfterSortBy> thenBySaturatedFatsDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'saturatedFat', Sort.desc);
+      return query.addSortBy(r'saturatedFats', Sort.desc);
     });
   }
 
@@ -1111,9 +1111,9 @@ extension MealRecipeQueryWhereDistinct
     });
   }
 
-  QueryBuilder<MealRecipe, MealRecipe, QDistinct> distinctBySaturatedFat() {
+  QueryBuilder<MealRecipe, MealRecipe, QDistinct> distinctBySaturatedFats() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'saturatedFat');
+      return query.addDistinctBy(r'saturatedFats');
     });
   }
 
@@ -1162,9 +1162,9 @@ extension MealRecipeQueryProperty
     });
   }
 
-  QueryBuilder<MealRecipe, double?, QQueryOperations> saturatedFatProperty() {
+  QueryBuilder<MealRecipe, double?, QQueryOperations> saturatedFatsProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'saturatedFat');
+      return query.addPropertyName(r'saturatedFats');
     });
   }
 

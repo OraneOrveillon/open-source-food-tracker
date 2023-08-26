@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../core/utils/paddings.dart';
+import 'objectives_controller.dart';
 
 class ObjectivesPage extends StatelessWidget {
   const ObjectivesPage({super.key});
@@ -16,42 +18,50 @@ class ObjectivesPage extends StatelessWidget {
         child: Column(
           children: [
             Expanded(
-              child: Form(
-                child: ListView(
-                  children: [
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        label: Text('Calories'),
+              child: GetX<ObjectivesController>(builder: (cObjectives) {
+                return Form(
+                  child: ListView(
+                    children: [
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          label: Text('Calories'),
+                        ),
+                        controller: cObjectives.caloriesTEC.value,
                       ),
-                    ),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        label: Text('Proteins'),
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          label: Text('Proteins'),
+                        ),
+                        controller: cObjectives.proteinsTEC.value,
                       ),
-                    ),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        label: Text('Carbohydrates'),
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          label: Text('Carbohydrates'),
+                        ),
+                        controller: cObjectives.carbohydratesTEC.value,
                       ),
-                    ),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        label: Text('Sugars'),
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          label: Text('Sugars'),
+                        ),
+                        controller: cObjectives.sugarsTEC.value,
                       ),
-                    ),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        label: Text('Lipids'),
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          label: Text('Lipids'),
+                        ),
+                        controller: cObjectives.lipidsTEC.value,
                       ),
-                    ),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        label: Text('Saturated fat'),
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          label: Text('Saturated fats'),
+                        ),
+                        controller: cObjectives.saturatedFatsTEC.value,
                       ),
-                    ),
-                  ],
-                ),
-              ),
+                    ],
+                  ),
+                );
+              }),
             ),
             ElevatedButton(onPressed: () {}, child: const Text('Validate'))
           ],

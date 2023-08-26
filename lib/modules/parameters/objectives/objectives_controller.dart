@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:isar/isar.dart';
 
@@ -7,41 +8,50 @@ import '../../../data/models/objective_model.dart';
 import '../../home/home_controller.dart';
 
 class ObjectivesController extends GetxController {
-  final objectives = [].obs;
-
   final Isar _db = Get.find<HomeController>().database;
-  late final StreamSubscription _objectiveChanged;
+
+  Objective? lastObjective;
+
+  final caloriesTEC = TextEditingController().obs;
+  final proteinsTEC = TextEditingController().obs;
+  final carbohydratesTEC = TextEditingController().obs;
+  final sugarsTEC = TextEditingController().obs;
+  final lipidsTEC = TextEditingController().obs;
+  final saturatedFatsTEC = TextEditingController().obs;
 
   @override
   Future<void> onInit() async {
     super.onInit();
+    await getLastObjective();
 
-    _objectiveChanged = _db.objectives.watchLazy().listen((event) async {
-      await getAllObjectives();
-    });
-
-    await getAllObjectives();
+    if (lastObjective?.calories != null) {
+      caloriesTEC.value.text = lastObjective!.calories.toString();
+    }
+    if (lastObjective?.proteins != null) {
+      proteinsTEC.value.text = lastObjective!.proteins.toString();
+    }
+    if (lastObjective?.carbohydrates != null) {
+      carbohydratesTEC.value.text = lastObjective!.carbohydrates.toString();
+    }
+    if (lastObjective?.sugars != null) {
+      sugarsTEC.value.text = lastObjective!.sugars.toString();
+    }
+    if (lastObjective?.lipids != null) {
+      lipidsTEC.value.text = lastObjective!.lipids.toString();
+    }
+    if (lastObjective?.saturatedFats != null) {
+      saturatedFatsTEC.value.text = lastObjective!.saturatedFats.toString();
+    }
   }
 
-  Future<void> getAllObjectives() async {
-    objectives.value = await _db.objectives.where().findAll();
+  Future<void> getLastObjective() async {
+    lastObjective =
+        await _db.objectives.where().sortByCreationDateDesc().findFirst();
   }
 
   void putObjective(Objective objective) {
     _db.writeTxn(() async {
       await _db.objectives.put(objective);
     });
-  }
-
-  void deleteObjective(Objective objective) {
-    _db.writeTxn(() async {
-      await _db.objectives.delete(objective.id);
-    });
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-    _objectiveChanged.cancel();
   }
 }
