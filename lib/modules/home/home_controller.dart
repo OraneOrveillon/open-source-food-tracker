@@ -17,4 +17,5 @@ class HomeController extends GetxController {
   void goToAliments() => Get.toNamed(aliments);
   void goToRecipes() => Get.toNamed(recipes);
   void goToJournal() => Get.toNamed(journal);
+  void goToParameters() => Get.toNamed(parameters);
 }

@@ -29,6 +29,10 @@ class HomePage extends StatelessWidget {
                   child: const Text('journal'),
                   onPressed: () => cHome.goToJournal(),
                 ),
+                ElevatedButton(
+                  child: const Text('parameters'),
+                  onPressed: () => cHome.goToParameters(),
+                ),
               ],
             ),
           ),
