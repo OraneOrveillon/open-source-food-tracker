@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../core/utils/paddings.dart';
+import '../../../core/utils/validators.dart';
 import 'objectives_controller.dart';
 
 class ObjectivesPage extends StatelessWidget {
@@ -15,56 +16,79 @@ class ObjectivesPage extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(Paddings.medium),
-        child: Column(
-          children: [
-            Expanded(
-              child: GetBuilder<ObjectivesController>(builder: (cObjectives) {
-                return Form(
-                  child: ListView(
-                    children: [
-                      TextFormField(
-                        decoration: const InputDecoration(
-                          label: Text('Calories'),
+        child: GetBuilder<ObjectivesController>(
+          builder: (cObjectives) {
+            return Column(
+              children: [
+                Expanded(
+                  child: Form(
+                    key: cObjectives.formKey,
+                    child: ListView(
+                      children: [
+                        TextFormField(
+                          decoration: const InputDecoration(
+                            label: Text('Calories'),
+                          ),
+                          controller: cObjectives.caloriesTEC,
+                          keyboardType: TextInputType.number,
+                          validator: (value) => Validators.notEmptyInt(value),
                         ),
-                        controller: cObjectives.caloriesTEC,
-                      ),
-                      TextFormField(
-                        decoration: const InputDecoration(
-                          label: Text('Proteins'),
+                        TextFormField(
+                          decoration: const InputDecoration(
+                            label: Text('Proteins'),
+                          ),
+                          controller: cObjectives.proteinsTEC,
+                          keyboardType: TextInputType.number,
+                          validator: (value) =>
+                              Validators.notEmptyDouble(value),
                         ),
-                        controller: cObjectives.proteinsTEC,
-                      ),
-                      TextFormField(
-                        decoration: const InputDecoration(
-                          label: Text('Carbohydrates'),
+                        TextFormField(
+                          decoration: const InputDecoration(
+                            label: Text('Carbohydrates'),
+                          ),
+                          controller: cObjectives.carbohydratesTEC,
+                          keyboardType: TextInputType.number,
+                          validator: (value) =>
+                              Validators.notEmptyDouble(value),
                         ),
-                        controller: cObjectives.carbohydratesTEC,
-                      ),
-                      TextFormField(
-                        decoration: const InputDecoration(
-                          label: Text('Sugars'),
+                        TextFormField(
+                          decoration: const InputDecoration(
+                            label: Text('Sugars'),
+                          ),
+                          controller: cObjectives.sugarsTEC,
+                          keyboardType: TextInputType.number,
+                          validator: (value) =>
+                              Validators.notEmptyDouble(value),
                         ),
-                        controller: cObjectives.sugarsTEC,
-                      ),
-                      TextFormField(
-                        decoration: const InputDecoration(
-                          label: Text('Lipids'),
+                        TextFormField(
+                          decoration: const InputDecoration(
+                            label: Text('Lipids'),
+                          ),
+                          controller: cObjectives.lipidsTEC,
+                          keyboardType: TextInputType.number,
+                          validator: (value) =>
+                              Validators.notEmptyDouble(value),
                         ),
-                        controller: cObjectives.lipidsTEC,
-                      ),
-                      TextFormField(
-                        decoration: const InputDecoration(
-                          label: Text('Saturated fats'),
+                        TextFormField(
+                          decoration: const InputDecoration(
+                            label: Text('Saturated fats'),
+                          ),
+                          controller: cObjectives.saturatedFatsTEC,
+                          keyboardType: TextInputType.number,
+                          validator: (value) =>
+                              Validators.notEmptyDouble(value),
                         ),
-                        controller: cObjectives.saturatedFatsTEC,
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                );
-              }),
-            ),
-            ElevatedButton(onPressed: () {}, child: const Text('Validate'))
-          ],
+                ),
+                ElevatedButton(
+                  onPressed: () => cObjectives.onValidateClick(),
+                  child: const Text('Validate'),
+                )
+              ],
+            );
+          },
         ),
       ),
     );

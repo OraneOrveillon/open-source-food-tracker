@@ -12,6 +12,8 @@ class ObjectivesController extends GetxController {
 
   Objective? lastObjective;
 
+  final GlobalKey<FormState> formKey = GlobalKey();
+
   final caloriesTEC = TextEditingController();
   final proteinsTEC = TextEditingController();
   final carbohydratesTEC = TextEditingController();
@@ -22,7 +24,7 @@ class ObjectivesController extends GetxController {
   @override
   Future<void> onInit() async {
     super.onInit();
-    await getLastObjective();
+    await _getLastObjective();
 
     if (lastObjective?.calories != null) {
       caloriesTEC.text = lastObjective!.calories.toString();
@@ -44,12 +46,27 @@ class ObjectivesController extends GetxController {
     }
   }
 
-  Future<void> getLastObjective() async {
+  void onValidateClick() async {
+    if (formKey.currentState!.validate()) {
+      final Objective objective = Objective()
+        ..creationDate = DateTime.now()
+        ..calories = int.parse(caloriesTEC.text)
+        ..proteins = double.parse(proteinsTEC.text)
+        ..carbohydrates = double.parse(carbohydratesTEC.text)
+        ..sugars = double.parse(sugarsTEC.text)
+        ..lipids = double.parse(lipidsTEC.text)
+        ..saturatedFats = double.parse(saturatedFatsTEC.text);
+
+      _putObjective(objective);
+    }
+  }
+
+  Future<void> _getLastObjective() async {
     lastObjective =
         await _db.objectives.where().sortByCreationDateDesc().findFirst();
   }
 
-  void putObjective(Objective objective) {
+  void _putObjective(Objective objective) async {
     _db.writeTxn(() async {
       await _db.objectives.put(objective);
     });
