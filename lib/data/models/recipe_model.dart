@@ -9,7 +9,7 @@ class Recipe {
   DateTime? updateDate;
   String? name;
   List<String>? tags;
-  short? portions;
+  int? portions;
   String? description;
   bool? deleted;
 }

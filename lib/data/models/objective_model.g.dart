@@ -20,12 +20,12 @@ const ObjectiveSchema = CollectionSchema(
     r'calories': PropertySchema(
       id: 0,
       name: r'calories',
-      type: IsarType.int,
+      type: IsarType.long,
     ),
     r'carbohydrates': PropertySchema(
       id: 1,
       name: r'carbohydrates',
-      type: IsarType.double,
+      type: IsarType.long,
     ),
     r'creationDate': PropertySchema(
       id: 2,
@@ -35,22 +35,22 @@ const ObjectiveSchema = CollectionSchema(
     r'lipids': PropertySchema(
       id: 3,
       name: r'lipids',
-      type: IsarType.double,
+      type: IsarType.long,
     ),
     r'proteins': PropertySchema(
       id: 4,
       name: r'proteins',
-      type: IsarType.double,
+      type: IsarType.long,
     ),
     r'saturatedFats': PropertySchema(
       id: 5,
       name: r'saturatedFats',
-      type: IsarType.double,
+      type: IsarType.long,
     ),
     r'sugars': PropertySchema(
       id: 6,
       name: r'sugars',
-      type: IsarType.double,
+      type: IsarType.long,
     )
   },
   estimateSize: _objectiveEstimateSize,
@@ -96,13 +96,13 @@ void _objectiveSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeInt(offsets[0], object.calories);
-  writer.writeDouble(offsets[1], object.carbohydrates);
+  writer.writeLong(offsets[0], object.calories);
+  writer.writeLong(offsets[1], object.carbohydrates);
   writer.writeDateTime(offsets[2], object.creationDate);
-  writer.writeDouble(offsets[3], object.lipids);
-  writer.writeDouble(offsets[4], object.proteins);
-  writer.writeDouble(offsets[5], object.saturatedFats);
-  writer.writeDouble(offsets[6], object.sugars);
+  writer.writeLong(offsets[3], object.lipids);
+  writer.writeLong(offsets[4], object.proteins);
+  writer.writeLong(offsets[5], object.saturatedFats);
+  writer.writeLong(offsets[6], object.sugars);
 }
 
 Objective _objectiveDeserialize(
@@ -112,14 +112,14 @@ Objective _objectiveDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Objective();
-  object.calories = reader.readIntOrNull(offsets[0]);
-  object.carbohydrates = reader.readDoubleOrNull(offsets[1]);
+  object.calories = reader.readLongOrNull(offsets[0]);
+  object.carbohydrates = reader.readLongOrNull(offsets[1]);
   object.creationDate = reader.readDateTimeOrNull(offsets[2]);
   object.id = id;
-  object.lipids = reader.readDoubleOrNull(offsets[3]);
-  object.proteins = reader.readDoubleOrNull(offsets[4]);
-  object.saturatedFats = reader.readDoubleOrNull(offsets[5]);
-  object.sugars = reader.readDoubleOrNull(offsets[6]);
+  object.lipids = reader.readLongOrNull(offsets[3]);
+  object.proteins = reader.readLongOrNull(offsets[4]);
+  object.saturatedFats = reader.readLongOrNull(offsets[5]);
+  object.sugars = reader.readLongOrNull(offsets[6]);
   return object;
 }
 
@@ -131,19 +131,19 @@ P _objectiveDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readIntOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 1:
-      return (reader.readDoubleOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 2:
       return (reader.readDateTimeOrNull(offset)) as P;
     case 3:
-      return (reader.readDoubleOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 4:
-      return (reader.readDoubleOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 5:
-      return (reader.readDoubleOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 6:
-      return (reader.readDoubleOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -448,58 +448,49 @@ extension ObjectiveQueryFilter
   }
 
   QueryBuilder<Objective, Objective, QAfterFilterCondition>
-      carbohydratesEqualTo(
-    double? value, {
-    double epsilon = Query.epsilon,
-  }) {
+      carbohydratesEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'carbohydrates',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<Objective, Objective, QAfterFilterCondition>
       carbohydratesGreaterThan(
-    double? value, {
+    int? value, {
     bool include = false,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'carbohydrates',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<Objective, Objective, QAfterFilterCondition>
       carbohydratesLessThan(
-    double? value, {
+    int? value, {
     bool include = false,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'carbohydrates',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<Objective, Objective, QAfterFilterCondition>
       carbohydratesBetween(
-    double? lower,
-    double? upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -508,7 +499,6 @@ extension ObjectiveQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-        epsilon: epsilon,
       ));
     });
   }
@@ -656,54 +646,46 @@ extension ObjectiveQueryFilter
   }
 
   QueryBuilder<Objective, Objective, QAfterFilterCondition> lipidsEqualTo(
-    double? value, {
-    double epsilon = Query.epsilon,
-  }) {
+      int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'lipids',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<Objective, Objective, QAfterFilterCondition> lipidsGreaterThan(
-    double? value, {
+    int? value, {
     bool include = false,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'lipids',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<Objective, Objective, QAfterFilterCondition> lipidsLessThan(
-    double? value, {
+    int? value, {
     bool include = false,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'lipids',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<Objective, Objective, QAfterFilterCondition> lipidsBetween(
-    double? lower,
-    double? upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -712,7 +694,6 @@ extension ObjectiveQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-        epsilon: epsilon,
       ));
     });
   }
@@ -735,54 +716,46 @@ extension ObjectiveQueryFilter
   }
 
   QueryBuilder<Objective, Objective, QAfterFilterCondition> proteinsEqualTo(
-    double? value, {
-    double epsilon = Query.epsilon,
-  }) {
+      int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'proteins',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<Objective, Objective, QAfterFilterCondition> proteinsGreaterThan(
-    double? value, {
+    int? value, {
     bool include = false,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'proteins',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<Objective, Objective, QAfterFilterCondition> proteinsLessThan(
-    double? value, {
+    int? value, {
     bool include = false,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'proteins',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<Objective, Objective, QAfterFilterCondition> proteinsBetween(
-    double? lower,
-    double? upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -791,7 +764,6 @@ extension ObjectiveQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-        epsilon: epsilon,
       ));
     });
   }
@@ -815,58 +787,49 @@ extension ObjectiveQueryFilter
   }
 
   QueryBuilder<Objective, Objective, QAfterFilterCondition>
-      saturatedFatsEqualTo(
-    double? value, {
-    double epsilon = Query.epsilon,
-  }) {
+      saturatedFatsEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'saturatedFats',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<Objective, Objective, QAfterFilterCondition>
       saturatedFatsGreaterThan(
-    double? value, {
+    int? value, {
     bool include = false,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'saturatedFats',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<Objective, Objective, QAfterFilterCondition>
       saturatedFatsLessThan(
-    double? value, {
+    int? value, {
     bool include = false,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'saturatedFats',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<Objective, Objective, QAfterFilterCondition>
       saturatedFatsBetween(
-    double? lower,
-    double? upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -875,7 +838,6 @@ extension ObjectiveQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-        epsilon: epsilon,
       ));
     });
   }
@@ -897,54 +859,46 @@ extension ObjectiveQueryFilter
   }
 
   QueryBuilder<Objective, Objective, QAfterFilterCondition> sugarsEqualTo(
-    double? value, {
-    double epsilon = Query.epsilon,
-  }) {
+      int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'sugars',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<Objective, Objective, QAfterFilterCondition> sugarsGreaterThan(
-    double? value, {
+    int? value, {
     bool include = false,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'sugars',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<Objective, Objective, QAfterFilterCondition> sugarsLessThan(
-    double? value, {
+    int? value, {
     bool include = false,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'sugars',
         value: value,
-        epsilon: epsilon,
       ));
     });
   }
 
   QueryBuilder<Objective, Objective, QAfterFilterCondition> sugarsBetween(
-    double? lower,
-    double? upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
-    double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -953,7 +907,6 @@ extension ObjectiveQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-        epsilon: epsilon,
       ));
     });
   }
@@ -1209,7 +1162,7 @@ extension ObjectiveQueryProperty
     });
   }
 
-  QueryBuilder<Objective, double?, QQueryOperations> carbohydratesProperty() {
+  QueryBuilder<Objective, int?, QQueryOperations> carbohydratesProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'carbohydrates');
     });
@@ -1221,25 +1174,25 @@ extension ObjectiveQueryProperty
     });
   }
 
-  QueryBuilder<Objective, double?, QQueryOperations> lipidsProperty() {
+  QueryBuilder<Objective, int?, QQueryOperations> lipidsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'lipids');
     });
   }
 
-  QueryBuilder<Objective, double?, QQueryOperations> proteinsProperty() {
+  QueryBuilder<Objective, int?, QQueryOperations> proteinsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'proteins');
     });
   }
 
-  QueryBuilder<Objective, double?, QQueryOperations> saturatedFatsProperty() {
+  QueryBuilder<Objective, int?, QQueryOperations> saturatedFatsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'saturatedFats');
     });
   }
 
-  QueryBuilder<Objective, double?, QQueryOperations> sugarsProperty() {
+  QueryBuilder<Objective, int?, QQueryOperations> sugarsProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'sugars');
     });

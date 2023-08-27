@@ -51,11 +51,11 @@ class ObjectivesController extends GetxController {
       final Objective objective = Objective()
         ..creationDate = DateTime.now()
         ..calories = int.parse(caloriesTEC.text)
-        ..proteins = double.parse(proteinsTEC.text)
-        ..carbohydrates = double.parse(carbohydratesTEC.text)
-        ..sugars = double.parse(sugarsTEC.text)
-        ..lipids = double.parse(lipidsTEC.text)
-        ..saturatedFats = double.parse(saturatedFatsTEC.text);
+        ..proteins = int.parse(proteinsTEC.text)
+        ..carbohydrates = int.parse(carbohydratesTEC.text)
+        ..sugars = int.parse(sugarsTEC.text)
+        ..lipids = int.parse(lipidsTEC.text)
+        ..saturatedFats = int.parse(saturatedFatsTEC.text);
 
       _putObjective(objective);
     }
@@ -70,5 +70,16 @@ class ObjectivesController extends GetxController {
     _db.writeTxn(() async {
       await _db.objectives.put(objective);
     });
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+    caloriesTEC.dispose();
+    proteinsTEC.dispose();
+    carbohydratesTEC.dispose();
+    sugarsTEC.dispose();
+    lipidsTEC.dispose();
+    saturatedFatsTEC.dispose();
   }
 }

@@ -20,7 +20,7 @@ const MealAlimentSchema = CollectionSchema(
     r'calories': PropertySchema(
       id: 0,
       name: r'calories',
-      type: IsarType.int,
+      type: IsarType.long,
     ),
     r'carbohydrates': PropertySchema(
       id: 1,
@@ -45,7 +45,7 @@ const MealAlimentSchema = CollectionSchema(
     r'quantity': PropertySchema(
       id: 5,
       name: r'quantity',
-      type: IsarType.int,
+      type: IsarType.long,
     ),
     r'saturatedFats': PropertySchema(
       id: 6,
@@ -106,12 +106,12 @@ void _mealAlimentSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeInt(offsets[0], object.calories);
+  writer.writeLong(offsets[0], object.calories);
   writer.writeDouble(offsets[1], object.carbohydrates);
   writer.writeString(offsets[2], object.dose);
   writer.writeDouble(offsets[3], object.lipids);
   writer.writeDouble(offsets[4], object.proteins);
-  writer.writeInt(offsets[5], object.quantity);
+  writer.writeLong(offsets[5], object.quantity);
   writer.writeDouble(offsets[6], object.saturatedFats);
   writer.writeDouble(offsets[7], object.sugars);
 }
@@ -123,13 +123,13 @@ MealAliment _mealAlimentDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = MealAliment();
-  object.calories = reader.readIntOrNull(offsets[0]);
+  object.calories = reader.readLongOrNull(offsets[0]);
   object.carbohydrates = reader.readDoubleOrNull(offsets[1]);
   object.dose = reader.readStringOrNull(offsets[2]);
   object.id = id;
   object.lipids = reader.readDoubleOrNull(offsets[3]);
   object.proteins = reader.readDoubleOrNull(offsets[4]);
-  object.quantity = reader.readIntOrNull(offsets[5]);
+  object.quantity = reader.readLongOrNull(offsets[5]);
   object.saturatedFats = reader.readDoubleOrNull(offsets[6]);
   object.sugars = reader.readDoubleOrNull(offsets[7]);
   return object;
@@ -143,7 +143,7 @@ P _mealAlimentDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readIntOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 1:
       return (reader.readDoubleOrNull(offset)) as P;
     case 2:
@@ -153,7 +153,7 @@ P _mealAlimentDeserializeProp<P>(
     case 4:
       return (reader.readDoubleOrNull(offset)) as P;
     case 5:
-      return (reader.readIntOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 6:
       return (reader.readDoubleOrNull(offset)) as P;
     case 7:

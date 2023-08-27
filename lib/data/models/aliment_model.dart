@@ -15,7 +15,7 @@ class Aliment {
   String? image;
   String? unit;
   double? servingQuantity;
-  short? calories;
+  int? calories;
   double? proteins;
   double? carbohydrates;
   double? sugars;

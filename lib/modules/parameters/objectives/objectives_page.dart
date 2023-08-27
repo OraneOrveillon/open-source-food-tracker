@@ -39,8 +39,7 @@ class ObjectivesPage extends StatelessWidget {
                           ),
                           controller: cObjectives.proteinsTEC,
                           keyboardType: TextInputType.number,
-                          validator: (value) =>
-                              Validators.notEmptyDouble(value),
+                          validator: (value) => Validators.notEmptyInt(value),
                         ),
                         TextFormField(
                           decoration: const InputDecoration(
@@ -48,8 +47,7 @@ class ObjectivesPage extends StatelessWidget {
                           ),
                           controller: cObjectives.carbohydratesTEC,
                           keyboardType: TextInputType.number,
-                          validator: (value) =>
-                              Validators.notEmptyDouble(value),
+                          validator: (value) => Validators.notEmptyInt(value),
                         ),
                         TextFormField(
                           decoration: const InputDecoration(
@@ -57,8 +55,7 @@ class ObjectivesPage extends StatelessWidget {
                           ),
                           controller: cObjectives.sugarsTEC,
                           keyboardType: TextInputType.number,
-                          validator: (value) =>
-                              Validators.notEmptyDouble(value),
+                          validator: (value) => Validators.notEmptyInt(value),
                         ),
                         TextFormField(
                           decoration: const InputDecoration(
@@ -66,8 +63,7 @@ class ObjectivesPage extends StatelessWidget {
                           ),
                           controller: cObjectives.lipidsTEC,
                           keyboardType: TextInputType.number,
-                          validator: (value) =>
-                              Validators.notEmptyDouble(value),
+                          validator: (value) => Validators.notEmptyInt(value),
                         ),
                         TextFormField(
                           decoration: const InputDecoration(
@@ -75,8 +71,7 @@ class ObjectivesPage extends StatelessWidget {
                           ),
                           controller: cObjectives.saturatedFatsTEC,
                           keyboardType: TextInputType.number,
-                          validator: (value) =>
-                              Validators.notEmptyDouble(value),
+                          validator: (value) => Validators.notEmptyInt(value),
                         ),
                       ],
                     ),

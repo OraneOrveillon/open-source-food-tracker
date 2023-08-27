@@ -30,7 +30,7 @@ const AlimentSchema = CollectionSchema(
     r'calories': PropertySchema(
       id: 2,
       name: r'calories',
-      type: IsarType.int,
+      type: IsarType.long,
     ),
     r'carbohydrates': PropertySchema(
       id: 3,
@@ -207,7 +207,7 @@ void _alimentSerialize(
 ) {
   writer.writeString(offsets[0], object.barcode);
   writer.writeStringList(offsets[1], object.brands);
-  writer.writeInt(offsets[2], object.calories);
+  writer.writeLong(offsets[2], object.calories);
   writer.writeDouble(offsets[3], object.carbohydrates);
   writer.writeStringList(offsets[4], object.categories);
   writer.writeDateTime(offsets[5], object.creationDate);
@@ -239,7 +239,7 @@ Aliment _alimentDeserialize(
   final object = Aliment();
   object.barcode = reader.readStringOrNull(offsets[0]);
   object.brands = reader.readStringList(offsets[1]);
-  object.calories = reader.readIntOrNull(offsets[2]);
+  object.calories = reader.readLongOrNull(offsets[2]);
   object.carbohydrates = reader.readDoubleOrNull(offsets[3]);
   object.categories = reader.readStringList(offsets[4]);
   object.creationDate = reader.readDateTimeOrNull(offsets[5]);
@@ -276,7 +276,7 @@ P _alimentDeserializeProp<P>(
     case 1:
       return (reader.readStringList(offset)) as P;
     case 2:
-      return (reader.readIntOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 3:
       return (reader.readDoubleOrNull(offset)) as P;
     case 4:

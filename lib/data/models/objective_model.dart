@@ -7,10 +7,10 @@ class Objective {
   Id id = Isar.autoIncrement;
   @Index()
   DateTime? creationDate;
-  short? calories;
-  double? proteins;
-  double? carbohydrates;
-  double? sugars;
-  double? lipids;
-  double? saturatedFats;
+  int? calories;
+  int? proteins;
+  int? carbohydrates;
+  int? sugars;
+  int? lipids;
+  int? saturatedFats;
 }

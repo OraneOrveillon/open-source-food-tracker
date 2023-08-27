@@ -11,8 +11,8 @@ class RecipeAliment {
   final recipe = IsarLink<Recipe>();
   final aliment = IsarLink<Aliment>();
   String? dose;
-  short? quantity;
-  short? calories;
+  int? quantity;
+  int? calories;
   double? proteins;
   double? carbohydrates;
   double? sugars;

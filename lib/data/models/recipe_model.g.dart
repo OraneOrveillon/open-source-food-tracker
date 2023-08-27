@@ -40,7 +40,7 @@ const RecipeSchema = CollectionSchema(
     r'portions': PropertySchema(
       id: 4,
       name: r'portions',
-      type: IsarType.int,
+      type: IsarType.long,
     ),
     r'tags': PropertySchema(
       id: 5,
@@ -110,7 +110,7 @@ void _recipeSerialize(
   writer.writeBool(offsets[1], object.deleted);
   writer.writeString(offsets[2], object.description);
   writer.writeString(offsets[3], object.name);
-  writer.writeInt(offsets[4], object.portions);
+  writer.writeLong(offsets[4], object.portions);
   writer.writeStringList(offsets[5], object.tags);
   writer.writeDateTime(offsets[6], object.updateDate);
 }
@@ -127,7 +127,7 @@ Recipe _recipeDeserialize(
   object.description = reader.readStringOrNull(offsets[2]);
   object.id = id;
   object.name = reader.readStringOrNull(offsets[3]);
-  object.portions = reader.readIntOrNull(offsets[4]);
+  object.portions = reader.readLongOrNull(offsets[4]);
   object.tags = reader.readStringList(offsets[5]);
   object.updateDate = reader.readDateTimeOrNull(offsets[6]);
   return object;
@@ -149,7 +149,7 @@ P _recipeDeserializeProp<P>(
     case 3:
       return (reader.readStringOrNull(offset)) as P;
     case 4:
-      return (reader.readIntOrNull(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 5:
       return (reader.readStringList(offset)) as P;
     case 6:
