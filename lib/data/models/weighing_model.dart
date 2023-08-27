@@ -6,5 +6,5 @@ part 'weighing_model.g.dart';
 class Weighing {
   Id id = Isar.autoIncrement;
   DateTime? date;
-  float? value;
+  double? value;
 }

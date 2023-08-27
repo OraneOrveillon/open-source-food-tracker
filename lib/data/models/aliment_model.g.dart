@@ -35,7 +35,7 @@ const AlimentSchema = CollectionSchema(
     r'carbohydrates': PropertySchema(
       id: 3,
       name: r'carbohydrates',
-      type: IsarType.float,
+      type: IsarType.double,
     ),
     r'categories': PropertySchema(
       id: 4,
@@ -66,7 +66,7 @@ const AlimentSchema = CollectionSchema(
     r'lipids': PropertySchema(
       id: 9,
       name: r'lipids',
-      type: IsarType.float,
+      type: IsarType.double,
     ),
     r'name': PropertySchema(
       id: 10,
@@ -81,22 +81,22 @@ const AlimentSchema = CollectionSchema(
     r'proteins': PropertySchema(
       id: 12,
       name: r'proteins',
-      type: IsarType.float,
+      type: IsarType.double,
     ),
     r'saturatedFats': PropertySchema(
       id: 13,
       name: r'saturatedFats',
-      type: IsarType.float,
+      type: IsarType.double,
     ),
     r'servingQuantity': PropertySchema(
       id: 14,
       name: r'servingQuantity',
-      type: IsarType.float,
+      type: IsarType.double,
     ),
     r'sugars': PropertySchema(
       id: 15,
       name: r'sugars',
-      type: IsarType.float,
+      type: IsarType.double,
     ),
     r'unit': PropertySchema(
       id: 16,
@@ -208,7 +208,7 @@ void _alimentSerialize(
   writer.writeString(offsets[0], object.barcode);
   writer.writeStringList(offsets[1], object.brands);
   writer.writeInt(offsets[2], object.calories);
-  writer.writeFloat(offsets[3], object.carbohydrates);
+  writer.writeDouble(offsets[3], object.carbohydrates);
   writer.writeStringList(offsets[4], object.categories);
   writer.writeDateTime(offsets[5], object.creationDate);
   writer.writeBool(offsets[6], object.deleted);
@@ -219,13 +219,13 @@ void _alimentSerialize(
     object.doses,
   );
   writer.writeString(offsets[8], object.image);
-  writer.writeFloat(offsets[9], object.lipids);
+  writer.writeDouble(offsets[9], object.lipids);
   writer.writeString(offsets[10], object.name);
   writer.writeString(offsets[11], object.nutriscore);
-  writer.writeFloat(offsets[12], object.proteins);
-  writer.writeFloat(offsets[13], object.saturatedFats);
-  writer.writeFloat(offsets[14], object.servingQuantity);
-  writer.writeFloat(offsets[15], object.sugars);
+  writer.writeDouble(offsets[12], object.proteins);
+  writer.writeDouble(offsets[13], object.saturatedFats);
+  writer.writeDouble(offsets[14], object.servingQuantity);
+  writer.writeDouble(offsets[15], object.sugars);
   writer.writeString(offsets[16], object.unit);
   writer.writeDateTime(offsets[17], object.updateDate);
 }
@@ -240,7 +240,7 @@ Aliment _alimentDeserialize(
   object.barcode = reader.readStringOrNull(offsets[0]);
   object.brands = reader.readStringList(offsets[1]);
   object.calories = reader.readIntOrNull(offsets[2]);
-  object.carbohydrates = reader.readFloatOrNull(offsets[3]);
+  object.carbohydrates = reader.readDoubleOrNull(offsets[3]);
   object.categories = reader.readStringList(offsets[4]);
   object.creationDate = reader.readDateTimeOrNull(offsets[5]);
   object.deleted = reader.readBoolOrNull(offsets[6]);
@@ -252,13 +252,13 @@ Aliment _alimentDeserialize(
   );
   object.id = id;
   object.image = reader.readStringOrNull(offsets[8]);
-  object.lipids = reader.readFloatOrNull(offsets[9]);
+  object.lipids = reader.readDoubleOrNull(offsets[9]);
   object.name = reader.readStringOrNull(offsets[10]);
   object.nutriscore = reader.readStringOrNull(offsets[11]);
-  object.proteins = reader.readFloatOrNull(offsets[12]);
-  object.saturatedFats = reader.readFloatOrNull(offsets[13]);
-  object.servingQuantity = reader.readFloatOrNull(offsets[14]);
-  object.sugars = reader.readFloatOrNull(offsets[15]);
+  object.proteins = reader.readDoubleOrNull(offsets[12]);
+  object.saturatedFats = reader.readDoubleOrNull(offsets[13]);
+  object.servingQuantity = reader.readDoubleOrNull(offsets[14]);
+  object.sugars = reader.readDoubleOrNull(offsets[15]);
   object.unit = reader.readStringOrNull(offsets[16]);
   object.updateDate = reader.readDateTimeOrNull(offsets[17]);
   return object;
@@ -278,7 +278,7 @@ P _alimentDeserializeProp<P>(
     case 2:
       return (reader.readIntOrNull(offset)) as P;
     case 3:
-      return (reader.readFloatOrNull(offset)) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     case 4:
       return (reader.readStringList(offset)) as P;
     case 5:
@@ -295,19 +295,19 @@ P _alimentDeserializeProp<P>(
     case 8:
       return (reader.readStringOrNull(offset)) as P;
     case 9:
-      return (reader.readFloatOrNull(offset)) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     case 10:
       return (reader.readStringOrNull(offset)) as P;
     case 11:
       return (reader.readStringOrNull(offset)) as P;
     case 12:
-      return (reader.readFloatOrNull(offset)) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     case 13:
-      return (reader.readFloatOrNull(offset)) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     case 14:
-      return (reader.readFloatOrNull(offset)) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     case 15:
-      return (reader.readFloatOrNull(offset)) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     case 16:
       return (reader.readStringOrNull(offset)) as P;
     case 17:
@@ -3099,7 +3099,7 @@ const DoseSchema = Schema(
     r'equivalent': PropertySchema(
       id: 0,
       name: r'equivalent',
-      type: IsarType.float,
+      type: IsarType.double,
     ),
     r'name': PropertySchema(
       id: 1,
@@ -3134,7 +3134,7 @@ void _doseSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeFloat(offsets[0], object.equivalent);
+  writer.writeDouble(offsets[0], object.equivalent);
   writer.writeString(offsets[1], object.name);
 }
 
@@ -3145,7 +3145,7 @@ Dose _doseDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Dose();
-  object.equivalent = reader.readFloatOrNull(offsets[0]);
+  object.equivalent = reader.readDoubleOrNull(offsets[0]);
   object.name = reader.readStringOrNull(offsets[1]);
   return object;
 }
@@ -3158,7 +3158,7 @@ P _doseDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readFloatOrNull(offset)) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     case 1:
       return (reader.readStringOrNull(offset)) as P;
     default:

@@ -14,13 +14,13 @@ class Aliment {
   String? nutriscore;
   String? image;
   String? unit;
-  float? servingQuantity;
+  double? servingQuantity;
   short? calories;
-  float? proteins;
-  float? carbohydrates;
-  float? sugars;
-  float? lipids;
-  float? saturatedFats;
+  double? proteins;
+  double? carbohydrates;
+  double? sugars;
+  double? lipids;
+  double? saturatedFats;
   bool? deleted;
   List<Dose>? doses;
 }
@@ -28,5 +28,5 @@ class Aliment {
 @Embedded()
 class Dose {
   String? name;
-  float? equivalent;
+  double? equivalent;
 }

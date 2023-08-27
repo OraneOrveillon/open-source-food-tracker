@@ -20,37 +20,37 @@ const MealRecipeSchema = CollectionSchema(
     r'calories': PropertySchema(
       id: 0,
       name: r'calories',
-      type: IsarType.float,
+      type: IsarType.double,
     ),
     r'carbohydrates': PropertySchema(
       id: 1,
       name: r'carbohydrates',
-      type: IsarType.float,
+      type: IsarType.double,
     ),
     r'lipids': PropertySchema(
       id: 2,
       name: r'lipids',
-      type: IsarType.float,
+      type: IsarType.double,
     ),
     r'portions': PropertySchema(
       id: 3,
       name: r'portions',
-      type: IsarType.float,
+      type: IsarType.double,
     ),
     r'proteins': PropertySchema(
       id: 4,
       name: r'proteins',
-      type: IsarType.float,
+      type: IsarType.double,
     ),
     r'saturatedFats': PropertySchema(
       id: 5,
       name: r'saturatedFats',
-      type: IsarType.float,
+      type: IsarType.double,
     ),
     r'sugars': PropertySchema(
       id: 6,
       name: r'sugars',
-      type: IsarType.float,
+      type: IsarType.double,
     )
   },
   estimateSize: _mealRecipeEstimateSize,
@@ -95,13 +95,13 @@ void _mealRecipeSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeFloat(offsets[0], object.calories);
-  writer.writeFloat(offsets[1], object.carbohydrates);
-  writer.writeFloat(offsets[2], object.lipids);
-  writer.writeFloat(offsets[3], object.portions);
-  writer.writeFloat(offsets[4], object.proteins);
-  writer.writeFloat(offsets[5], object.saturatedFats);
-  writer.writeFloat(offsets[6], object.sugars);
+  writer.writeDouble(offsets[0], object.calories);
+  writer.writeDouble(offsets[1], object.carbohydrates);
+  writer.writeDouble(offsets[2], object.lipids);
+  writer.writeDouble(offsets[3], object.portions);
+  writer.writeDouble(offsets[4], object.proteins);
+  writer.writeDouble(offsets[5], object.saturatedFats);
+  writer.writeDouble(offsets[6], object.sugars);
 }
 
 MealRecipe _mealRecipeDeserialize(
@@ -111,14 +111,14 @@ MealRecipe _mealRecipeDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = MealRecipe();
-  object.calories = reader.readFloatOrNull(offsets[0]);
-  object.carbohydrates = reader.readFloatOrNull(offsets[1]);
+  object.calories = reader.readDoubleOrNull(offsets[0]);
+  object.carbohydrates = reader.readDoubleOrNull(offsets[1]);
   object.id = id;
-  object.lipids = reader.readFloatOrNull(offsets[2]);
-  object.portions = reader.readFloatOrNull(offsets[3]);
-  object.proteins = reader.readFloatOrNull(offsets[4]);
-  object.saturatedFats = reader.readFloatOrNull(offsets[5]);
-  object.sugars = reader.readFloatOrNull(offsets[6]);
+  object.lipids = reader.readDoubleOrNull(offsets[2]);
+  object.portions = reader.readDoubleOrNull(offsets[3]);
+  object.proteins = reader.readDoubleOrNull(offsets[4]);
+  object.saturatedFats = reader.readDoubleOrNull(offsets[5]);
+  object.sugars = reader.readDoubleOrNull(offsets[6]);
   return object;
 }
 
@@ -130,19 +130,19 @@ P _mealRecipeDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readFloatOrNull(offset)) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     case 1:
-      return (reader.readFloatOrNull(offset)) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     case 2:
-      return (reader.readFloatOrNull(offset)) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     case 3:
-      return (reader.readFloatOrNull(offset)) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     case 4:
-      return (reader.readFloatOrNull(offset)) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     case 5:
-      return (reader.readFloatOrNull(offset)) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     case 6:
-      return (reader.readFloatOrNull(offset)) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }

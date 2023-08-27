@@ -10,11 +10,11 @@ class MealRecipe {
   Id id = Isar.autoIncrement;
   final meal = IsarLink<Meal>();
   final recipe = IsarLink<Recipe>();
-  float? portions;
-  float? calories;
-  float? proteins;
-  float? carbohydrates;
-  float? sugars;
-  float? lipids;
-  float? saturatedFats;
+  double? portions;
+  double? calories;
+  double? proteins;
+  double? carbohydrates;
+  double? sugars;
+  double? lipids;
+  double? saturatedFats;
 }

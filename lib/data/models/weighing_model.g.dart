@@ -25,7 +25,7 @@ const WeighingSchema = CollectionSchema(
     r'value': PropertySchema(
       id: 1,
       name: r'value',
-      type: IsarType.float,
+      type: IsarType.double,
     )
   },
   estimateSize: _weighingEstimateSize,
@@ -58,7 +58,7 @@ void _weighingSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeDateTime(offsets[0], object.date);
-  writer.writeFloat(offsets[1], object.value);
+  writer.writeDouble(offsets[1], object.value);
 }
 
 Weighing _weighingDeserialize(
@@ -70,7 +70,7 @@ Weighing _weighingDeserialize(
   final object = Weighing();
   object.date = reader.readDateTimeOrNull(offsets[0]);
   object.id = id;
-  object.value = reader.readFloatOrNull(offsets[1]);
+  object.value = reader.readDoubleOrNull(offsets[1]);
   return object;
 }
 
@@ -84,7 +84,7 @@ P _weighingDeserializeProp<P>(
     case 0:
       return (reader.readDateTimeOrNull(offset)) as P;
     case 1:
-      return (reader.readFloatOrNull(offset)) as P;
+      return (reader.readDoubleOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }

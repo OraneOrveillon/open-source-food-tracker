@@ -8,9 +8,9 @@ class Objective {
   @Index()
   DateTime? creationDate;
   short? calories;
-  float? proteins;
-  float? carbohydrates;
-  float? sugars;
-  float? lipids;
-  float? saturatedFats;
+  double? proteins;
+  double? carbohydrates;
+  double? sugars;
+  double? lipids;
+  double? saturatedFats;
 }
