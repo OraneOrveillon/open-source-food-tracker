@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../../../core/utils/paddings.dart';
 import '../../../data/models/weighing_model.dart';
@@ -12,19 +13,19 @@ class WeighingsPage extends StatelessWidget {
   @override
   Widget build(context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: GetX<WeighingsController>(
-        builder: (cWeighing) {
+      appBar: AppBar(
+        title: const Text('weighings'),
+      ),
+      body: GetBuilder<WeighingsController>(
+        builder: (cWeighings) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
-                child: ListView.builder(
-                  itemCount: cWeighing.weighings.length,
-                  itemBuilder: (_, index) {
-                    final Weighing weighing = cWeighing.weighings[index];
-
-                    return ListTile(
+                child: PagedListView<int, Weighing>(
+                  pagingController: cWeighings.pagingController,
+                  builderDelegate: PagedChildBuilderDelegate<Weighing>(
+                    itemBuilder: (_, weighing, index) => ListTile(
                       title: Text(weighing.value.toString()),
                       subtitle: Text(weighing.date.toString()),
                       leading: CircleAvatar(
@@ -32,17 +33,17 @@ class WeighingsPage extends StatelessWidget {
                       ),
                       trailing: IconButton(
                         icon: const Icon(Icons.delete),
-                        onPressed: () => cWeighing.deleteWeighing(weighing),
+                        onPressed: () => cWeighings.deleteWeighing(weighing),
                       ),
-                    );
-                  },
+                    ),
+                  ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(Paddings.medium),
                 child: ElevatedButton(
                   child: const Text(ButtonTexts.addWeighing),
-                  onPressed: () => cWeighing.putWeighing(
+                  onPressed: () => cWeighings.putWeighing(
                     Weighing()
                       ..date = DateTime.now()
                       ..value = 64,
