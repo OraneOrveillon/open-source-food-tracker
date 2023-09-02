@@ -3,10 +3,10 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../../../core/utils/paddings.dart';
-import '../../../core/utils/validators.dart';
 import '../../../data/models/weighing_model.dart';
 import 'weighings_controller.dart';
 import '../../../core/utils/texts.dart';
+import 'widgets/dialog_weighing_form.dart';
 
 class WeighingsPage extends StatelessWidget {
   const WeighingsPage({super.key});
@@ -29,29 +29,10 @@ class WeighingsPage extends StatelessWidget {
                     itemBuilder: (_, weighing, index) => ListTile(
                       onTap: () => cWeighings.openDialog(
                         weighing: weighing,
-                        // TODO composant à part
-                        dialog: AlertDialog(
-                          title: const Text('Edit'),
-                          content: Form(
-                            key: cWeighings.formKey,
-                            child: TextFormField(
-                              controller: cWeighings.valueTEC,
-                              keyboardType: TextInputType.number,
-                              validator: (value) =>
-                                  Validators.notEmptyDouble(value),
-                            ),
-                          ),
-                          actions: [
-                            TextButton(
-                              onPressed: () => cWeighings.closeDialog(),
-                              child: const Text('CANCEL'),
-                            ),
-                            TextButton(
-                              onPressed: () =>
-                                  cWeighings.updateWeighing(weighing),
-                              child: const Text('OK'),
-                            ),
-                          ],
+                        dialog: DialogWeighingForm(
+                          title: 'Edit',
+                          onCancelClick: () => cWeighings.closeDialog(),
+                          onOKClick: () => cWeighings.updateWeighing(weighing),
                         ),
                       ),
                       title: Text(weighing.value.toString()),
@@ -73,27 +54,10 @@ class WeighingsPage extends StatelessWidget {
                   child: const Text(ButtonTexts.addWeighing),
                   onPressed: () => cWeighings.openDialog(
                     weighing: null,
-                    dialog: AlertDialog(
-                      title: const Text('Edit'),
-                      content: Form(
-                        key: cWeighings.formKey,
-                        child: TextFormField(
-                          controller: cWeighings.valueTEC,
-                          keyboardType: TextInputType.number,
-                          validator: (value) =>
-                              Validators.notEmptyDouble(value),
-                        ),
-                      ),
-                      actions: [
-                        TextButton(
-                          onPressed: () => cWeighings.closeDialog(),
-                          child: const Text('CANCEL'),
-                        ),
-                        TextButton(
-                          onPressed: () => cWeighings.addWeighing(),
-                          child: const Text('OK'),
-                        ),
-                      ],
+                    dialog: DialogWeighingForm(
+                      title: 'Add',
+                      onCancelClick: () => cWeighings.closeDialog(),
+                      onOKClick: () => cWeighings.addWeighing(),
                     ),
                   ),
                 ),
