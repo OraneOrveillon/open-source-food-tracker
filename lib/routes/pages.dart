@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
 import '../modules/aliments/aliments_binding.dart';
-import '../modules/aliments/aliments_pages.dart';
+import '../modules/aliments/aliments_page.dart';
 import '../modules/journal/journal_binding.dart';
 import '../modules/journal/journal_page.dart';
 import '../modules/journal/weighings/weighings_binding.dart';
