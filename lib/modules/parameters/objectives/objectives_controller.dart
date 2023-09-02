@@ -1,14 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
+import 'package:flutter_template/data/services/objective_service.dart';
 import 'package:get/get.dart';
-import 'package:isar/isar.dart';
 
 import '../../../data/models/objective_model.dart';
-import '../../home/home_controller.dart';
 
 class ObjectivesController extends GetxController {
-  final Isar _db = Get.find<HomeController>().database;
+  final ObjectiveService _service = ObjectiveService();
 
   Objective? lastObjective;
 
@@ -24,7 +23,7 @@ class ObjectivesController extends GetxController {
   @override
   Future<void> onInit() async {
     super.onInit();
-    await _getLastObjective();
+    lastObjective = await _service.getLastObjective();
 
     if (lastObjective?.calories != null) {
       caloriesTEC.text = lastObjective!.calories.toString();
@@ -57,19 +56,8 @@ class ObjectivesController extends GetxController {
         ..lipids = int.parse(lipidsTEC.text)
         ..saturatedFats = int.parse(saturatedFatsTEC.text);
 
-      _putObjective(objective);
+      await _service.putObjective(objective);
     }
-  }
-
-  Future<void> _getLastObjective() async {
-    lastObjective =
-        await _db.objectives.where().sortByCreationDateDesc().findFirst();
-  }
-
-  void _putObjective(Objective objective) async {
-    _db.writeTxn(() async {
-      await _db.objectives.put(objective);
-    });
   }
 
   @override

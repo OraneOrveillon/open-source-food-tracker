@@ -5,10 +5,10 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../../../data/models/weighing_model.dart';
-import '../../../data/services/weighings_service.dart';
+import '../../../data/services/weighing_service.dart';
 
 class WeighingsController extends GetxController {
-  final WeighingService weighingService = WeighingService();
+  final WeighingService _service = WeighingService();
 
   static const int _numberOfWeighingsPerRequest = 20;
   int _weighingsOffset = 0;
@@ -41,7 +41,7 @@ class WeighingsController extends GetxController {
 
   Future<List<Weighing>> _getLastWeighings() async {
     final List<Weighing> nextWeighings =
-        await weighingService.getLastWeighingsWithOffset(
+        await _service.getLastWeighingsWithOffset(
       _numberOfWeighingsPerRequest,
       _weighingsOffset,
     );
@@ -72,7 +72,7 @@ class WeighingsController extends GetxController {
         ..date = DateTime.now()
         ..value = double.parse(valueTEC.text);
 
-      await weighingService.putWeighing(weighing);
+      await _service.putWeighing(weighing);
 
       pagingController.value.itemList?.insert(0, weighing);
       _fetchPage(0);
@@ -85,9 +85,8 @@ class WeighingsController extends GetxController {
     if (formKey.currentState!.validate()) {
       weighing.value = double.parse(valueTEC.text);
 
-      await weighingService.putWeighing(weighing);
+      await _service.putWeighing(weighing);
 
-      // TODO voir si meilleure méthode
       pagingController
           .value
           .itemList?[pagingController.value.itemList!
@@ -100,7 +99,7 @@ class WeighingsController extends GetxController {
   }
 
   Future<void> deleteWeighing(Weighing weighing) async {
-    await weighingService.deleteWeighing(weighing);
+    await _service.deleteWeighing(weighing);
 
     pagingController.value.itemList
         ?.removeWhere((Weighing w) => w.id == weighing.id);
@@ -111,5 +110,6 @@ class WeighingsController extends GetxController {
   void onClose() {
     super.onClose();
     pagingController.dispose();
+    valueTEC.dispose();
   }
 }
