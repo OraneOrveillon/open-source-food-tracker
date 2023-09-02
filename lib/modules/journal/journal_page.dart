@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template/modules/journal/journal_controller.dart';
 import 'package:get/get.dart';
+
+import 'journal_controller.dart';
 
 class JournalPage extends StatelessWidget {
   const JournalPage({super.key});

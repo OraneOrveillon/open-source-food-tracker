@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../../../core/utils/paddings.dart';
+import '../../../core/utils/validators.dart';
 import '../../../data/models/weighing_model.dart';
 import 'weighings_controller.dart';
 import '../../../core/utils/texts.dart';
@@ -26,6 +27,31 @@ class WeighingsPage extends StatelessWidget {
                   pagingController: cWeighings.pagingController,
                   builderDelegate: PagedChildBuilderDelegate<Weighing>(
                     itemBuilder: (_, weighing, index) => ListTile(
+                      onTap: () => cWeighings.openDialog(
+                        weighing: weighing,
+                        // TODO composant à part
+                        // TODO form validation
+                        dialog: AlertDialog(
+                          title: const Text('Edit'),
+                          content: TextFormField(
+                            controller: cWeighings.valueTEC,
+                            keyboardType: TextInputType.number,
+                            validator: (value) =>
+                                Validators.notEmptyDouble(value),
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () => cWeighings.closeDialog(),
+                              child: const Text('CANCEL'),
+                            ),
+                            TextButton(
+                              onPressed: () =>
+                                  cWeighings.updateWeighing(weighing),
+                              child: const Text('OK'),
+                            ),
+                          ],
+                        ),
+                      ),
                       title: Text(weighing.value.toString()),
                       subtitle: Text(weighing.date.toString()),
                       leading: CircleAvatar(
@@ -33,7 +59,7 @@ class WeighingsPage extends StatelessWidget {
                       ),
                       trailing: IconButton(
                         icon: const Icon(Icons.delete),
-                        onPressed: () => cWeighings.deleteWeighing(weighing),
+                        onPressed: () => cWeighings.deleteWeighingDB(weighing),
                       ),
                     ),
                   ),
@@ -43,10 +69,27 @@ class WeighingsPage extends StatelessWidget {
                 padding: const EdgeInsets.all(Paddings.medium),
                 child: ElevatedButton(
                   child: const Text(ButtonTexts.addWeighing),
-                  onPressed: () => cWeighings.putWeighing(
-                    Weighing()
-                      ..date = DateTime.now()
-                      ..value = 64,
+                  onPressed: () => cWeighings.openDialog(
+                    weighing: null,
+                    dialog: AlertDialog(
+                      // TODO form validation
+                      title: const Text('Edit'),
+                      content: TextFormField(
+                        controller: cWeighings.valueTEC,
+                        keyboardType: TextInputType.number,
+                        validator: (value) => Validators.notEmptyDouble(value),
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () => cWeighings.closeDialog(),
+                          child: const Text('CANCEL'),
+                        ),
+                        TextButton(
+                          onPressed: () => cWeighings.addWeighing(),
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
