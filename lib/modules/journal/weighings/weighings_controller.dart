@@ -83,14 +83,17 @@ class WeighingsController extends GetxController {
 
   Future<void> updateWeighing(Weighing weighing) async {
     if (formKey.currentState!.validate()) {
-      // TODO vérifier que la valeur est différente
-      weighing.value = double.parse(valueTEC.text);
+      final newValue = double.parse(valueTEC.text);
 
-      await _service.putWeighing(weighing);
+      if (weighing.value != newValue) {
+        weighing.value = newValue;
 
-      pagingController.value.itemList?[pagingController.value.itemList!
-          .indexWhere((w) => w.id == weighing.id)] = weighing;
-      _fetchPage(0);
+        await _service.putWeighing(weighing);
+
+        pagingController.value.itemList?[pagingController.value.itemList!
+            .indexWhere((w) => w.id == weighing.id)] = weighing;
+        _fetchPage(0);
+      }
 
       closeDialog();
     }
