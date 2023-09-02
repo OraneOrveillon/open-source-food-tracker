@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../core/utils/texts.dart';
 import '../../../../core/utils/validators.dart';
 import '../weighings_controller.dart';
 
@@ -33,11 +34,11 @@ class DialogWeighingForm extends StatelessWidget {
       actions: [
         TextButton(
           onPressed: onCancelClick,
-          child: const Text('CANCEL'),
+          child: const Text(ButtonTexts.cancel),
         ),
         TextButton(
           onPressed: onOKClick,
-          child: const Text('OK'),
+          child: const Text(ButtonTexts.ok),
         ),
       ],
     );

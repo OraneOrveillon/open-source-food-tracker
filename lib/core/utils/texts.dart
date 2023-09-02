@@ -1,8 +1,13 @@
 abstract class AppBarTexts {
-  static String home(int count) => "Count : $count";
+  static const String weighings = 'Weighings';
 }
 
 abstract class ButtonTexts {
-  static const String toWeighing = "Go to weighing";
-  static const String addWeighing = "Add weighing";
+  static const String ok = "OK";
+  static const String cancel = "CANCEL";
+}
+
+abstract class DialogTexts {
+  static const String edit = 'Edit';
+  static const String add = 'Add';
 }
