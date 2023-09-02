@@ -30,14 +30,16 @@ class WeighingsPage extends StatelessWidget {
                       onTap: () => cWeighings.openDialog(
                         weighing: weighing,
                         // TODO composant à part
-                        // TODO form validation
                         dialog: AlertDialog(
                           title: const Text('Edit'),
-                          content: TextFormField(
-                            controller: cWeighings.valueTEC,
-                            keyboardType: TextInputType.number,
-                            validator: (value) =>
-                                Validators.notEmptyDouble(value),
+                          content: Form(
+                            key: cWeighings.formKey,
+                            child: TextFormField(
+                              controller: cWeighings.valueTEC,
+                              keyboardType: TextInputType.number,
+                              validator: (value) =>
+                                  Validators.notEmptyDouble(value),
+                            ),
                           ),
                           actions: [
                             TextButton(
@@ -72,12 +74,15 @@ class WeighingsPage extends StatelessWidget {
                   onPressed: () => cWeighings.openDialog(
                     weighing: null,
                     dialog: AlertDialog(
-                      // TODO form validation
                       title: const Text('Edit'),
-                      content: TextFormField(
-                        controller: cWeighings.valueTEC,
-                        keyboardType: TextInputType.number,
-                        validator: (value) => Validators.notEmptyDouble(value),
+                      content: Form(
+                        key: cWeighings.formKey,
+                        child: TextFormField(
+                          controller: cWeighings.valueTEC,
+                          keyboardType: TextInputType.number,
+                          validator: (value) =>
+                              Validators.notEmptyDouble(value),
+                        ),
                       ),
                       actions: [
                         TextButton(

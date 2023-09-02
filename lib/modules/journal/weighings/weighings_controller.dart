@@ -17,6 +17,7 @@ class WeighingsController extends GetxController {
   final PagingController<int, Weighing> pagingController =
       PagingController(firstPageKey: 0);
 
+  final GlobalKey<FormState> formKey = GlobalKey();
   final valueTEC = TextEditingController();
 
   @override
@@ -68,32 +69,36 @@ class WeighingsController extends GetxController {
   }
 
   Future<void> addWeighing() async {
-    final Weighing weighing = Weighing()
-      ..date = DateTime.now()
-      ..value = double.parse(valueTEC.text);
+    if (formKey.currentState!.validate()) {
+      final Weighing weighing = Weighing()
+        ..date = DateTime.now()
+        ..value = double.parse(valueTEC.text);
 
-    await _putWeighingDB(weighing);
+      await _putWeighingDB(weighing);
 
-    pagingController.value.itemList?.insert(0, weighing);
-    _fetchPage(0);
+      pagingController.value.itemList?.insert(0, weighing);
+      _fetchPage(0);
 
-    closeDialog();
+      closeDialog();
+    }
   }
 
   Future<void> updateWeighing(Weighing weighing) async {
-    weighing.value = double.parse(valueTEC.text);
+    if (formKey.currentState!.validate()) {
+      weighing.value = double.parse(valueTEC.text);
 
-    await _putWeighingDB(weighing);
+      await _putWeighingDB(weighing);
 
-    // TODO voir si meilleure méthode
-    pagingController
-        .value
-        .itemList?[pagingController.value.itemList!
-            .indexWhere((w) => w.id == weighing.id)]
-        .value = weighing.value;
-    _fetchPage(0);
+      // TODO voir si meilleure méthode
+      pagingController
+          .value
+          .itemList?[pagingController.value.itemList!
+              .indexWhere((w) => w.id == weighing.id)]
+          .value = weighing.value;
+      _fetchPage(0);
 
-    closeDialog();
+      closeDialog();
+    }
   }
 
   Future<void> _putWeighingDB(Weighing weighing) async {
