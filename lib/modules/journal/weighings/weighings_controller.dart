@@ -3,13 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:isar/isar.dart';
 
 import '../../../data/models/weighing_model.dart';
-import '../../home/home_controller.dart';
+import '../../../data/services/weighings_service.dart';
 
 class WeighingsController extends GetxController {
-  final Isar _db = Get.find<HomeController>().database;
+  final WeighingService weighingService = WeighingService();
 
   static const int _numberOfWeighingsPerRequest = 20;
   int _weighingsOffset = 0;
@@ -41,12 +40,11 @@ class WeighingsController extends GetxController {
   void closeDialog() => Get.back();
 
   Future<List<Weighing>> _getLastWeighings() async {
-    final List<Weighing> nextWeighings = await _db.weighings
-        .where()
-        .sortByDateDesc()
-        .offset(_weighingsOffset)
-        .limit(_numberOfWeighingsPerRequest)
-        .findAll();
+    final List<Weighing> nextWeighings =
+        await weighingService.getLastWeighingsWithOffset(
+      _numberOfWeighingsPerRequest,
+      _weighingsOffset,
+    );
 
     _weighingsOffset += _numberOfWeighingsPerRequest;
 
@@ -74,7 +72,7 @@ class WeighingsController extends GetxController {
         ..date = DateTime.now()
         ..value = double.parse(valueTEC.text);
 
-      await _putWeighingDB(weighing);
+      await weighingService.putWeighing(weighing);
 
       pagingController.value.itemList?.insert(0, weighing);
       _fetchPage(0);
@@ -87,7 +85,7 @@ class WeighingsController extends GetxController {
     if (formKey.currentState!.validate()) {
       weighing.value = double.parse(valueTEC.text);
 
-      await _putWeighingDB(weighing);
+      await weighingService.putWeighing(weighing);
 
       // TODO voir si meilleure méthode
       pagingController
@@ -101,18 +99,9 @@ class WeighingsController extends GetxController {
     }
   }
 
-  Future<void> _putWeighingDB(Weighing weighing) async {
-    _db.writeTxn(() async {
-      await _db.weighings.put(weighing);
-    });
-  }
+  Future<void> deleteWeighing(Weighing weighing) async {
+    await weighingService.deleteWeighing(weighing);
 
-  Future<void> deleteWeighingDB(Weighing weighing) async {
-    _db.writeTxn(() async {
-      await _db.weighings.delete(weighing.id);
-    });
-
-    // TODO pareil bouger dans une autre méthode
     pagingController.value.itemList
         ?.removeWhere((Weighing w) => w.id == weighing.id);
     _fetchPage(0);

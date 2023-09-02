@@ -40,7 +40,7 @@ class WeighingsPage extends StatelessWidget {
                     ),
                     trailing: IconButton(
                       icon: const Icon(Icons.delete),
-                      onPressed: () => cWeighings.deleteWeighingDB(weighing),
+                      onPressed: () => cWeighings.deleteWeighing(weighing),
                     ),
                   ),
                 ),
