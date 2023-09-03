@@ -19,6 +19,8 @@ abstract class InputTexts {
 
   static const String name = 'Name';
   static const String barcode = 'Barcode';
+  static const String nutriscore = 'Nutriscore';
+  static const String unit = 'Unit';
   static const String servingQuantity = 'Serving quantity';
 }
 

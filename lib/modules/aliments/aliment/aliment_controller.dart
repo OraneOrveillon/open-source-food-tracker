@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../core/utils/lists.dart';
 import '../../../data/models/aliment_model.dart';
 import '../../../data/services/aliment_service.dart';
 
@@ -18,6 +19,10 @@ class AlimentController extends GetxController {
   final sugarsTEC = TextEditingController();
   final lipidsTEC = TextEditingController();
   final saturatedFatsTEC = TextEditingController();
+
+  // TODO vérifier l'utilité du Rx à la validation (+ GetX ou GetBuilder)
+  final nutriscoreValue = Rx<String?>(null);
+  final unitValue = Rx<String?>(DropdownValues.units[0]);
 
   void onValidateClick() {}
 

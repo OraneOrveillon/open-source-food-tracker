@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../core/utils/lists.dart';
 import '../../../core/utils/paddings.dart';
 import '../../../core/utils/texts.dart';
 import '../../../core/utils/validators.dart';
@@ -18,19 +19,19 @@ class AlimentPage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(Paddings.medium),
         child: GetBuilder<AlimentController>(
-          builder: (cAliments) {
+          builder: (cAliment) {
             return Column(
               children: [
                 Expanded(
                   child: Form(
-                    key: cAliments.formKey,
+                    key: cAliment.formKey,
                     child: ListView(
                       children: [
                         TextFormField(
                           decoration: const InputDecoration(
                             label: Text(InputTexts.name),
                           ),
-                          controller: cAliments.nameTEC,
+                          controller: cAliment.nameTEC,
                           keyboardType: TextInputType.text,
                           validator: (value) => Validators.required(value),
                         ),
@@ -38,20 +39,48 @@ class AlimentPage extends StatelessWidget {
                           decoration: const InputDecoration(
                             label: Text(InputTexts.barcode),
                           ),
-                          controller: cAliments.barcodeTEC,
+                          controller: cAliment.barcodeTEC,
                           keyboardType: TextInputType.number,
                           validator: null,
                         ),
                         // TODO brands
                         // TODO categories
-                        // TODO nutriscore
+                        DropdownButtonFormField(
+                          decoration: const InputDecoration(
+                            label: Text(InputTexts.nutriscore),
+                          ),
+                          items: DropdownValues.nutriscores
+                              .map((String value) => DropdownMenuItem(
+                                    value: value,
+                                    child: Text(value),
+                                  ))
+                              .toList(),
+                          value: cAliment.nutriscoreValue.value,
+                          onChanged: (value) =>
+                              cAliment.nutriscoreValue.value = value,
+                          validator: null,
+                        ),
                         // TODO image
-                        // TODO unit
+                        DropdownButtonFormField(
+                          decoration: const InputDecoration(
+                            label: Text(InputTexts.unit),
+                          ),
+                          items: DropdownValues.units
+                              .map((String value) => DropdownMenuItem(
+                                    value: value,
+                                    child: Text(value),
+                                  ))
+                              .toList(),
+                          value: cAliment.unitValue.value,
+                          onChanged: (value) =>
+                              cAliment.unitValue.value = value,
+                          validator: (value) => Validators.required(value),
+                        ),
                         TextFormField(
                           decoration: const InputDecoration(
                             label: Text(InputTexts.servingQuantity),
                           ),
-                          controller: cAliments.servingQuantityTEC,
+                          controller: cAliment.servingQuantityTEC,
                           keyboardType: TextInputType.number,
                           validator: (value) =>
                               Validators.optionalDouble(value),
@@ -60,7 +89,7 @@ class AlimentPage extends StatelessWidget {
                           decoration: const InputDecoration(
                             label: Text(InputTexts.calories),
                           ),
-                          controller: cAliments.caloriesTEC,
+                          controller: cAliment.caloriesTEC,
                           keyboardType: TextInputType.number,
                           validator: (value) => Validators.requiredInt(value),
                         ),
@@ -68,7 +97,7 @@ class AlimentPage extends StatelessWidget {
                           decoration: const InputDecoration(
                             label: Text(InputTexts.proteins),
                           ),
-                          controller: cAliments.proteinsTEC,
+                          controller: cAliment.proteinsTEC,
                           keyboardType: TextInputType.number,
                           validator: (value) =>
                               Validators.requiredDouble(value),
@@ -77,7 +106,7 @@ class AlimentPage extends StatelessWidget {
                           decoration: const InputDecoration(
                             label: Text(InputTexts.carbohydrates),
                           ),
-                          controller: cAliments.carbohydratesTEC,
+                          controller: cAliment.carbohydratesTEC,
                           keyboardType: TextInputType.number,
                           validator: (value) =>
                               Validators.requiredDouble(value),
@@ -86,7 +115,7 @@ class AlimentPage extends StatelessWidget {
                           decoration: const InputDecoration(
                             label: Text(InputTexts.sugars),
                           ),
-                          controller: cAliments.sugarsTEC,
+                          controller: cAliment.sugarsTEC,
                           keyboardType: TextInputType.number,
                           validator: (value) =>
                               Validators.requiredDouble(value),
@@ -95,7 +124,7 @@ class AlimentPage extends StatelessWidget {
                           decoration: const InputDecoration(
                             label: Text(InputTexts.lipids),
                           ),
-                          controller: cAliments.lipidsTEC,
+                          controller: cAliment.lipidsTEC,
                           keyboardType: TextInputType.number,
                           validator: (value) =>
                               Validators.requiredDouble(value),
@@ -104,7 +133,7 @@ class AlimentPage extends StatelessWidget {
                           decoration: const InputDecoration(
                             label: Text(InputTexts.saturatedFats),
                           ),
-                          controller: cAliments.saturatedFatsTEC,
+                          controller: cAliment.saturatedFatsTEC,
                           keyboardType: TextInputType.number,
                           validator: (value) =>
                               Validators.requiredDouble(value),
@@ -114,7 +143,7 @@ class AlimentPage extends StatelessWidget {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () => cAliments.onValidateClick(),
+                  onPressed: () => cAliment.onValidateClick(),
                   child: const Text(ButtonTexts.validate),
                 )
               ],
