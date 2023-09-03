@@ -28,7 +28,7 @@ class ObjectivesPage extends StatelessWidget {
                       children: [
                         TextFormField(
                           decoration: const InputDecoration(
-                            label: Text('Calories'),
+                            label: Text(InputTexts.calories),
                           ),
                           controller: cObjectives.caloriesTEC,
                           keyboardType: TextInputType.number,
@@ -36,7 +36,7 @@ class ObjectivesPage extends StatelessWidget {
                         ),
                         TextFormField(
                           decoration: const InputDecoration(
-                            label: Text('Proteins'),
+                            label: Text(InputTexts.proteins),
                           ),
                           controller: cObjectives.proteinsTEC,
                           keyboardType: TextInputType.number,
@@ -44,7 +44,7 @@ class ObjectivesPage extends StatelessWidget {
                         ),
                         TextFormField(
                           decoration: const InputDecoration(
-                            label: Text('Carbohydrates'),
+                            label: Text(InputTexts.carbohydrates),
                           ),
                           controller: cObjectives.carbohydratesTEC,
                           keyboardType: TextInputType.number,
@@ -52,7 +52,7 @@ class ObjectivesPage extends StatelessWidget {
                         ),
                         TextFormField(
                           decoration: const InputDecoration(
-                            label: Text('Sugars'),
+                            label: Text(InputTexts.sugars),
                           ),
                           controller: cObjectives.sugarsTEC,
                           keyboardType: TextInputType.number,
@@ -60,7 +60,7 @@ class ObjectivesPage extends StatelessWidget {
                         ),
                         TextFormField(
                           decoration: const InputDecoration(
-                            label: Text('Lipids'),
+                            label: Text(InputTexts.lipids),
                           ),
                           controller: cObjectives.lipidsTEC,
                           keyboardType: TextInputType.number,
@@ -68,7 +68,7 @@ class ObjectivesPage extends StatelessWidget {
                         ),
                         TextFormField(
                           decoration: const InputDecoration(
-                            label: Text('Saturated fats'),
+                            label: Text(InputTexts.saturatedFats),
                           ),
                           controller: cObjectives.saturatedFatsTEC,
                           keyboardType: TextInputType.number,

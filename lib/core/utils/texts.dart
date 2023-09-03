@@ -10,7 +10,16 @@ abstract class ButtonTexts {
 }
 
 abstract class InputTexts {
-// TODO
+  static const String calories = 'Calories';
+  static const String proteins = 'Proteins';
+  static const String carbohydrates = 'Carbohydrates';
+  static const String sugars = 'Sugars';
+  static const String lipids = 'Lipids';
+  static const String saturatedFats = 'Saturated fats';
+
+  static const String name = 'Name';
+  static const String barcode = 'Barcode';
+  static const String servingQuantity = 'Serving quantity';
 }
 
 abstract class DialogTexts {

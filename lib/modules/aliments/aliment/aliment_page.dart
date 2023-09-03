@@ -28,8 +28,7 @@ class AlimentPage extends StatelessWidget {
                       children: [
                         TextFormField(
                           decoration: const InputDecoration(
-                            // TODO constante (pareil pour ObjectivesPages)
-                            label: Text('Name'),
+                            label: Text(InputTexts.name),
                           ),
                           controller: cAliments.nameTEC,
                           keyboardType: TextInputType.text,
@@ -37,7 +36,7 @@ class AlimentPage extends StatelessWidget {
                         ),
                         TextFormField(
                           decoration: const InputDecoration(
-                            label: Text('Barcode'),
+                            label: Text(InputTexts.barcode),
                           ),
                           controller: cAliments.barcodeTEC,
                           keyboardType: TextInputType.number,
@@ -50,7 +49,7 @@ class AlimentPage extends StatelessWidget {
                         // TODO unit
                         TextFormField(
                           decoration: const InputDecoration(
-                            label: Text('Serving quantity'),
+                            label: Text(InputTexts.servingQuantity),
                           ),
                           controller: cAliments.servingQuantityTEC,
                           keyboardType: TextInputType.number,
@@ -59,7 +58,7 @@ class AlimentPage extends StatelessWidget {
                         ),
                         TextFormField(
                           decoration: const InputDecoration(
-                            label: Text('Calories'),
+                            label: Text(InputTexts.calories),
                           ),
                           controller: cAliments.caloriesTEC,
                           keyboardType: TextInputType.number,
@@ -67,7 +66,7 @@ class AlimentPage extends StatelessWidget {
                         ),
                         TextFormField(
                           decoration: const InputDecoration(
-                            label: Text('Proteins'),
+                            label: Text(InputTexts.proteins),
                           ),
                           controller: cAliments.proteinsTEC,
                           keyboardType: TextInputType.number,
@@ -76,7 +75,7 @@ class AlimentPage extends StatelessWidget {
                         ),
                         TextFormField(
                           decoration: const InputDecoration(
-                            label: Text('Carbohydrates'),
+                            label: Text(InputTexts.carbohydrates),
                           ),
                           controller: cAliments.carbohydratesTEC,
                           keyboardType: TextInputType.number,
@@ -85,7 +84,7 @@ class AlimentPage extends StatelessWidget {
                         ),
                         TextFormField(
                           decoration: const InputDecoration(
-                            label: Text('Sugars'),
+                            label: Text(InputTexts.sugars),
                           ),
                           controller: cAliments.sugarsTEC,
                           keyboardType: TextInputType.number,
@@ -94,7 +93,7 @@ class AlimentPage extends StatelessWidget {
                         ),
                         TextFormField(
                           decoration: const InputDecoration(
-                            label: Text('Lipids'),
+                            label: Text(InputTexts.lipids),
                           ),
                           controller: cAliments.lipidsTEC,
                           keyboardType: TextInputType.number,
@@ -103,7 +102,7 @@ class AlimentPage extends StatelessWidget {
                         ),
                         TextFormField(
                           decoration: const InputDecoration(
-                            label: Text('Saturated fats'),
+                            label: Text(InputTexts.saturatedFats),
                           ),
                           controller: cAliments.saturatedFatsTEC,
                           keyboardType: TextInputType.number,
@@ -116,7 +115,6 @@ class AlimentPage extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () => cAliments.onValidateClick(),
-                  // TODO constante (pareil pour ObjectivesPages)
                   child: const Text(ButtonTexts.validate),
                 )
               ],
