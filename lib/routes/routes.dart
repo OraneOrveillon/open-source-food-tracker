@@ -1,4 +1,5 @@
 const String aliments = "/aliments";
+const String aliment = "/aliment";
 const String recipes = "/recipes";
 const String journal = "/journal";
 const String weighings = "/weighings";

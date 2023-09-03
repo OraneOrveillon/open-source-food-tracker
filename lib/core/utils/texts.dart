@@ -6,6 +6,11 @@ abstract class AppBarTexts {
 abstract class ButtonTexts {
   static const String ok = "OK";
   static const String cancel = "CANCEL";
+  static const String validate = "Validate";
+}
+
+abstract class InputTexts {
+// TODO
 }
 
 abstract class DialogTexts {

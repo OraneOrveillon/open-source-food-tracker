@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/aliments/aliment/aliment_binding.dart';
+import '../modules/aliments/aliment/aliment_page.dart';
 import '../modules/aliments/aliments_binding.dart';
 import '../modules/aliments/aliments_page.dart';
 import '../modules/journal/journal_binding.dart';
@@ -19,6 +21,13 @@ List<GetPage> pages = [
     name: aliments,
     page: () => const AlimentsPage(),
     binding: AlimentsBinding(),
+    children: [
+      GetPage(
+        name: aliment,
+        page: () => const AlimentPage(),
+        binding: AlimentBinding(),
+      ),
+    ],
   ),
   GetPage(
     name: recipes,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../core/utils/paddings.dart';
+import '../../../core/utils/texts.dart';
 import '../../../core/utils/validators.dart';
 import 'objectives_controller.dart';
 
@@ -31,7 +32,7 @@ class ObjectivesPage extends StatelessWidget {
                           ),
                           controller: cObjectives.caloriesTEC,
                           keyboardType: TextInputType.number,
-                          validator: (value) => Validators.notEmptyInt(value),
+                          validator: (value) => Validators.requiredInt(value),
                         ),
                         TextFormField(
                           decoration: const InputDecoration(
@@ -39,7 +40,7 @@ class ObjectivesPage extends StatelessWidget {
                           ),
                           controller: cObjectives.proteinsTEC,
                           keyboardType: TextInputType.number,
-                          validator: (value) => Validators.notEmptyInt(value),
+                          validator: (value) => Validators.requiredInt(value),
                         ),
                         TextFormField(
                           decoration: const InputDecoration(
@@ -47,7 +48,7 @@ class ObjectivesPage extends StatelessWidget {
                           ),
                           controller: cObjectives.carbohydratesTEC,
                           keyboardType: TextInputType.number,
-                          validator: (value) => Validators.notEmptyInt(value),
+                          validator: (value) => Validators.requiredInt(value),
                         ),
                         TextFormField(
                           decoration: const InputDecoration(
@@ -55,7 +56,7 @@ class ObjectivesPage extends StatelessWidget {
                           ),
                           controller: cObjectives.sugarsTEC,
                           keyboardType: TextInputType.number,
-                          validator: (value) => Validators.notEmptyInt(value),
+                          validator: (value) => Validators.requiredInt(value),
                         ),
                         TextFormField(
                           decoration: const InputDecoration(
@@ -63,7 +64,7 @@ class ObjectivesPage extends StatelessWidget {
                           ),
                           controller: cObjectives.lipidsTEC,
                           keyboardType: TextInputType.number,
-                          validator: (value) => Validators.notEmptyInt(value),
+                          validator: (value) => Validators.requiredInt(value),
                         ),
                         TextFormField(
                           decoration: const InputDecoration(
@@ -71,7 +72,7 @@ class ObjectivesPage extends StatelessWidget {
                           ),
                           controller: cObjectives.saturatedFatsTEC,
                           keyboardType: TextInputType.number,
-                          validator: (value) => Validators.notEmptyInt(value),
+                          validator: (value) => Validators.requiredInt(value),
                         ),
                       ],
                     ),
@@ -79,7 +80,7 @@ class ObjectivesPage extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () => cObjectives.onValidateClick(),
-                  child: const Text('Validate'),
+                  child: const Text(ButtonTexts.validate),
                 )
               ],
             );

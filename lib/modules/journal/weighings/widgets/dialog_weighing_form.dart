@@ -27,7 +27,7 @@ class DialogWeighingForm extends StatelessWidget {
           child: TextFormField(
             controller: cWeighings.valueTEC,
             keyboardType: TextInputType.number,
-            validator: (value) => Validators.notEmptyDouble(value),
+            validator: (value) => Validators.requiredDouble(value),
           ),
         );
       }),

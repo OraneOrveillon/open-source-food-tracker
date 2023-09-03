@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../../../data/models/aliment_model.dart';
 import '../../../data/services/aliment_service.dart';
+import '../../routes/routes.dart';
 
 class AlimentsController extends GetxController {
   final AlimentService _service = AlimentService();
@@ -15,9 +15,6 @@ class AlimentsController extends GetxController {
 
   final PagingController<int, Aliment> pagingController =
       PagingController(firstPageKey: 0);
-
-  final GlobalKey<FormState> formKey = GlobalKey();
-  // final valueTEC = TextEditingController();
 
   @override
   Future<void> onInit() async {
@@ -54,35 +51,6 @@ class AlimentsController extends GetxController {
     }
   }
 
-  Future<void> addAliment() async {
-    if (formKey.currentState!.validate()) {
-      final Aliment aliment = Aliment();
-      // ..date = DateTime.now()
-      // ..value = double.parse(valueTEC.text);
-
-      await _service.putAliment(aliment);
-
-      pagingController.value.itemList?.insert(0, aliment);
-      _fetchPage(0);
-    }
-  }
-
-  // TODO vérifier qu'au moins une valeur est différente
-  // TODO mettre à jour updateDate
-  // TODO mettre à jour les macros des recettes si l'aliment a déjà été enregistré dans une recette
-  Future<void> updateAliment(Aliment aliment) async {
-    if (formKey.currentState!.validate()) {
-      // aliment.value = double.parse(valueTEC.text);
-
-      await _service.putAliment(aliment);
-
-      pagingController.value.itemList?[pagingController.value.itemList!
-          .indexWhere((w) => w.id == aliment.id)] = aliment;
-
-      _fetchPage(0);
-    }
-  }
-
   // TODO vérifier si l'aliment a déjà été enregistré dans une recette
   Future<void> deleteAliment(Aliment aliment) async {
     await _service.deleteAliment(aliment);
@@ -92,10 +60,11 @@ class AlimentsController extends GetxController {
     _fetchPage(0);
   }
 
+  void goToAliment() => Get.toNamed(aliments + aliment);
+
   @override
   void onClose() {
     super.onClose();
     pagingController.dispose();
-    // valueTEC.dispose();
   }
 }

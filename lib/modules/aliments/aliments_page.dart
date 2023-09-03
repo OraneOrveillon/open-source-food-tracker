@@ -16,29 +16,26 @@ class AlimentsPage extends StatelessWidget {
         appBar: AppBar(
           title: const Text(AppBarTexts.aliments),
         ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-              child: PagedListView<int, Aliment>(
-                pagingController: cAliments.pagingController,
-                builderDelegate: PagedChildBuilderDelegate<Aliment>(
-                  itemBuilder: (_, aliment, index) => ListTile(
-                    onTap: () {},
-                    title: Text(aliment.name.toString()),
-                    subtitle: Text(aliment.creationDate.toString()),
-                    leading: CircleAvatar(
-                      child: Text(aliment.id.toString()),
-                    ),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.delete),
-                      onPressed: () => cAliments.deleteAliment(aliment),
-                    ),
-                  ),
-                ),
+        body: PagedListView<int, Aliment>(
+          pagingController: cAliments.pagingController,
+          builderDelegate: PagedChildBuilderDelegate<Aliment>(
+            itemBuilder: (_, aliment, index) => ListTile(
+              onTap: () {},
+              title: Text(aliment.name.toString()),
+              subtitle: Text(aliment.creationDate.toString()),
+              leading: CircleAvatar(
+                child: Text(aliment.id.toString()),
+              ),
+              trailing: IconButton(
+                icon: const Icon(Icons.delete),
+                onPressed: () => cAliments.deleteAliment(aliment),
               ),
             ),
-          ],
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.add),
+          onPressed: () => cAliments.goToAliment(),
         ),
       ),
     );

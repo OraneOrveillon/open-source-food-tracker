@@ -17,36 +17,29 @@ class WeighingsPage extends StatelessWidget {
         appBar: AppBar(
           title: const Text(AppBarTexts.weighings),
         ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-              child: PagedListView<int, Weighing>(
-                pagingController: cWeighings.pagingController,
-                builderDelegate: PagedChildBuilderDelegate<Weighing>(
-                  itemBuilder: (_, weighing, index) => ListTile(
-                    onTap: () => cWeighings.openDialog(
-                      weighing: weighing,
-                      dialog: DialogWeighingForm(
-                        title: DialogTexts.edit,
-                        onCancelClick: () => cWeighings.closeDialog(),
-                        onOKClick: () => cWeighings.updateWeighing(weighing),
-                      ),
-                    ),
-                    title: Text(weighing.value.toString()),
-                    subtitle: Text(weighing.date.toString()),
-                    leading: CircleAvatar(
-                      child: Text(weighing.id.toString()),
-                    ),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.delete),
-                      onPressed: () => cWeighings.deleteWeighing(weighing),
-                    ),
-                  ),
+        body: PagedListView<int, Weighing>(
+          pagingController: cWeighings.pagingController,
+          builderDelegate: PagedChildBuilderDelegate<Weighing>(
+            itemBuilder: (_, weighing, index) => ListTile(
+              onTap: () => cWeighings.openDialog(
+                weighing: weighing,
+                dialog: DialogWeighingForm(
+                  title: DialogTexts.edit,
+                  onCancelClick: () => cWeighings.closeDialog(),
+                  onOKClick: () => cWeighings.updateWeighing(weighing),
                 ),
               ),
+              title: Text(weighing.value.toString()),
+              subtitle: Text(weighing.date.toString()),
+              leading: CircleAvatar(
+                child: Text(weighing.id.toString()),
+              ),
+              trailing: IconButton(
+                icon: const Icon(Icons.delete),
+                onPressed: () => cWeighings.deleteWeighing(weighing),
+              ),
             ),
-          ],
+          ),
         ),
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),

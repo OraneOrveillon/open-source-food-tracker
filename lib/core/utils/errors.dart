@@ -1,6 +1,7 @@
 abstract class ValidatorErrors {
-  static const String notEmptyInt = 'Please enter an integer value.';
-  static const String notEmptyDouble = 'Please enter a decimal value.';
+  static const String notEmpty = 'Please enter something.';
+  static const String int = 'Please enter an integer value.';
+  static const String double = 'Please enter a decimal value.';
 }
 
 abstract class FetchErrors {
