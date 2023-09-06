@@ -4,9 +4,11 @@ import 'package:get/get.dart';
 import '../../../core/utils/lists.dart';
 import '../../../data/models/aliment_model.dart';
 import '../../../data/services/aliment_service.dart';
+import '../aliments_controller.dart';
 
 class AlimentController extends GetxController {
   final AlimentService _service = AlimentService();
+  final AlimentsController cAliments = Get.find<AlimentsController>();
 
   final GlobalKey<FormState> formKey = GlobalKey();
 
@@ -20,19 +22,32 @@ class AlimentController extends GetxController {
   final lipidsTEC = TextEditingController();
   final saturatedFatsTEC = TextEditingController();
 
-  // TODO vérifier l'utilité du Rx à la validation (+ GetX ou GetBuilder)
-  final nutriscoreValue = Rx<String?>(null);
-  final unitValue = Rx<String?>(DropdownValues.units[0]);
+  String? nutriscoreValue;
+  String? unitValue = DropdownValues.units[0];
 
   void onValidateClick() {}
 
   Future<void> addAliment() async {
     if (formKey.currentState!.validate()) {
-      final Aliment aliment = Aliment();
-      // ..date = DateTime.now()
-      // ..value = double.parse(valueTEC.text);
-
+      final Aliment aliment = Aliment()
+        ..creationDate = DateTime.now()
+        ..name = nameTEC.text
+        ..barcode = barcodeTEC.text
+        ..nutriscore = nutriscoreValue
+        ..unit = unitValue
+        ..servingQuantity = double.parse(servingQuantityTEC.text)
+        ..calories = int.parse(caloriesTEC.text)
+        ..proteins = double.parse(proteinsTEC.text)
+        ..carbohydrates = double.parse(carbohydratesTEC.text)
+        ..sugars = double.parse(sugarsTEC.text)
+        ..lipids = double.parse(lipidsTEC.text)
+        ..saturatedFats = double.parse(saturatedFatsTEC.text)
+        ..deleted = false;
       await _service.putAliment(aliment);
+
+      cAliments.addAlimentInList(aliment);
+
+      goBack();
     }
   }
 
@@ -46,4 +61,6 @@ class AlimentController extends GetxController {
       await _service.putAliment(aliment);
     }
   }
+
+  void goBack() => Get.back();
 }

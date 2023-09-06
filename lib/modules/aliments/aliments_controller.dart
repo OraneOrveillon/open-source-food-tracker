@@ -51,6 +51,11 @@ class AlimentsController extends GetxController {
     }
   }
 
+  void addAlimentInList(Aliment aliment) {
+    pagingController.value.itemList?.insert(0, aliment);
+    _fetchPage(0);
+  }
+
   // TODO vérifier si l'aliment a déjà été enregistré dans une recette
   Future<void> deleteAliment(Aliment aliment) async {
     await _service.deleteAliment(aliment);
