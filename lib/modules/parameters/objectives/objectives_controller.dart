@@ -25,23 +25,13 @@ class ObjectivesController extends GetxController {
     super.onInit();
     lastObjective = await _service.getLastObjective();
 
-    if (lastObjective?.calories != null) {
-      caloriesTEC.text = lastObjective!.calories.toString();
-    }
-    if (lastObjective?.proteins != null) {
-      proteinsTEC.text = lastObjective!.proteins.toString();
-    }
-    if (lastObjective?.carbohydrates != null) {
+    if (lastObjective != null) {
+      caloriesTEC.text = lastObjective!.calories!.toString();
+      proteinsTEC.text = lastObjective!.proteins!.toString();
       carbohydratesTEC.text = lastObjective!.carbohydrates.toString();
-    }
-    if (lastObjective?.sugars != null) {
-      sugarsTEC.text = lastObjective!.sugars.toString();
-    }
-    if (lastObjective?.lipids != null) {
-      lipidsTEC.text = lastObjective!.lipids.toString();
-    }
-    if (lastObjective?.saturatedFats != null) {
-      saturatedFatsTEC.text = lastObjective!.saturatedFats.toString();
+      sugarsTEC.text = lastObjective!.sugars!.toString();
+      lipidsTEC.text = lastObjective!.lipids!.toString();
+      saturatedFatsTEC.text = lastObjective!.saturatedFats!.toString();
     }
   }
 
@@ -57,6 +47,8 @@ class ObjectivesController extends GetxController {
         ..saturatedFats = int.parse(saturatedFatsTEC.text);
 
       await _service.putObjective(objective);
+
+      Get.back();
     }
   }
 
