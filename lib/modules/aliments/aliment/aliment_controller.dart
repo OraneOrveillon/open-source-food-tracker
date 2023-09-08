@@ -9,6 +9,7 @@ import '../aliments_controller.dart';
 class AlimentController extends GetxController {
   final AlimentService _service = AlimentService();
   final AlimentsController cAliments = Get.find<AlimentsController>();
+  Aliment? aliment = Get.arguments;
 
   final GlobalKey<FormState> formKey = GlobalKey();
 
@@ -25,7 +26,26 @@ class AlimentController extends GetxController {
   String? nutriscoreValue;
   String? unitValue = DropdownValues.units[0];
 
-  void onValidateClick() {}
+  @override
+  void onInit() {
+    super.onInit();
+    if (aliment != null) {
+      nameTEC.text = aliment!.name!;
+      barcodeTEC.text = aliment!.barcode!;
+      servingQuantityTEC.text = aliment!.servingQuantity!.toString();
+      caloriesTEC.text = aliment!.calories!.toString();
+      proteinsTEC.text = aliment!.proteins!.toString();
+      carbohydratesTEC.text = aliment!.carbohydrates.toString();
+      sugarsTEC.text = aliment!.sugars!.toString();
+      lipidsTEC.text = aliment!.lipids!.toString();
+      saturatedFatsTEC.text = aliment!.saturatedFats!.toString();
+
+      nutriscoreValue = aliment!.nutriscore;
+      unitValue = aliment!.unit;
+    }
+  }
+
+  void onValidateClick() => aliment == null ? addAliment() : updateAliment();
 
   Future<void> addAliment() async {
     if (formKey.currentState!.validate()) {
@@ -51,14 +71,30 @@ class AlimentController extends GetxController {
     }
   }
 
-  // TODO vérifier qu'au moins une valeur est différente
-  // TODO mettre à jour updateDate
   // TODO mettre à jour les macros des recettes si l'aliment a déjà été enregistré dans une recette
-  Future<void> updateAliment(Aliment aliment) async {
+  Future<void> updateAliment() async {
     if (formKey.currentState!.validate()) {
-      // aliment.value = double.parse(valueTEC.text);
+      final Aliment newAliment = aliment!.copyWith(
+        name: nameTEC.text,
+        barcode: barcodeTEC.text,
+        nutriscore: nutriscoreValue,
+        unit: unitValue,
+        servingQuantity: double.parse(servingQuantityTEC.text),
+        calories: int.parse(caloriesTEC.text),
+        proteins: double.parse(proteinsTEC.text),
+        carbohydrates: double.parse(carbohydratesTEC.text),
+        sugars: double.parse(sugarsTEC.text),
+        lipids: double.parse(lipidsTEC.text),
+        saturatedFats: double.parse(saturatedFatsTEC.text),
+      );
 
-      await _service.putAliment(aliment);
+      if (newAliment != aliment) {
+        await _service.putAliment(newAliment..updateDate = DateTime.now());
+      }
+
+      cAliments.updateAlimentInList(newAliment);
+
+      goBack();
     }
   }
 

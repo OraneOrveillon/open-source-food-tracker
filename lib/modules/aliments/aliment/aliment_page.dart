@@ -143,7 +143,7 @@ class AlimentPage extends StatelessWidget {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () => cAliment.addAliment(),
+                  onPressed: () => cAliment.onValidateClick(),
                   child: const Text(ButtonTexts.validate),
                 )
               ],
