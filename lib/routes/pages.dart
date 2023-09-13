@@ -15,7 +15,7 @@ import '../modules/parameters/parameters_page.dart';
 import '../modules/recipes/recipe/recipe_binding.dart';
 import '../modules/recipes/recipe/recipe_page.dart';
 import '../modules/recipes/recipes_binding.dart';
-import '../modules/recipes/recipes_pages.dart';
+import '../modules/recipes/recipes_page.dart';
 import 'routes.dart';
 
 List<GetPage> pages = [

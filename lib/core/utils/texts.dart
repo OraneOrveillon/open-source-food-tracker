@@ -23,6 +23,9 @@ abstract class InputTexts {
   static const String nutriscore = 'Nutriscore';
   static const String unit = 'Unit';
   static const String servingQuantity = 'Serving quantity';
+
+  static const String portions = 'Number of portions';
+  static const String description = 'Description';
 }
 
 abstract class DialogTexts {
