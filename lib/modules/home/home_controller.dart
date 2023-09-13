@@ -14,8 +14,8 @@ class HomeController extends GetxController {
     database = await DatabaseProvider.getInstance();
   }
 
-  void goToAliments() => Get.toNamed(aliments);
-  void goToRecipes() => Get.toNamed(recipes);
-  void goToJournal() => Get.toNamed(journal);
-  void goToParameters() => Get.toNamed(parameters);
+  void goToAliments() => Get.toNamed(Routes.aliments);
+  void goToRecipes() => Get.toNamed(Routes.recipes);
+  void goToJournal() => Get.toNamed(Routes.journal);
+  void goToParameters() => Get.toNamed(Routes.parameters);
 }

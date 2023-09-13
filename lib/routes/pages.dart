@@ -20,48 +20,48 @@ import 'routes.dart';
 
 List<GetPage> pages = [
   GetPage(
-    name: aliments,
+    name: Routes.aliments,
     page: () => const AlimentsPage(),
     binding: AlimentsBinding(),
     children: [
       GetPage(
-        name: aliment,
+        name: Routes.aliment,
         page: () => const AlimentPage(),
         binding: AlimentBinding(),
       ),
     ],
   ),
   GetPage(
-    name: recipes,
+    name: Routes.recipes,
     page: () => const RecipesPage(),
     binding: RecipesBinding(),
     children: [
       GetPage(
-        name: recipe,
+        name: Routes.recipe,
         page: () => const RecipePage(),
         binding: RecipeBinding(),
       ),
     ],
   ),
   GetPage(
-    name: journal,
+    name: Routes.journal,
     page: () => const JournalPage(),
     binding: JournalBinding(),
     children: [
       GetPage(
-        name: weighings,
+        name: Routes.weighings,
         page: () => const WeighingsPage(),
         binding: WeighingsBinding(),
       ),
     ],
   ),
   GetPage(
-    name: parameters,
+    name: Routes.parameters,
     page: () => const ParametersPage(),
     binding: ParametersBinding(),
     children: [
       GetPage(
-        name: objectives,
+        name: Routes.objectives,
         page: () => const ObjectivesPage(),
         binding: ObjectivesBinding(),
       ),

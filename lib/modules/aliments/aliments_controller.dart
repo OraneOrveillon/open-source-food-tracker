@@ -71,10 +71,10 @@ class AlimentsController extends GetxController {
     _fetchPage(0);
   }
 
-  void goToAddAliment() => Get.toNamed(aliments + aliment);
+  void goToAddAliment() => Get.toNamed(Routes.aliments + Routes.aliment);
 
-  void goToEditAliment(Aliment a) =>
-      Get.toNamed(aliments + aliment, arguments: a);
+  void goToEditAliment(Aliment aliment) =>
+      Get.toNamed(Routes.aliments + Routes.aliment, arguments: aliment);
 
   @override
   void onClose() {

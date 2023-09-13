@@ -71,9 +71,12 @@ class RecipesController extends GetxController {
     _fetchPage(0);
   }
 
-  void goToAddRecipe() => Get.toNamed(recipes + recipe);
+  void goToAddRecipe() => Get.toNamed(Routes.recipes + Routes.recipe);
 
-  void goToEditRecipe(Recipe r) => Get.toNamed(recipes + recipe, arguments: r);
+  void goToEditRecipe(Recipe recipe) => Get.toNamed(
+        Routes.recipes + Routes.recipe,
+        arguments: recipe,
+      );
 
   @override
   void onClose() {
