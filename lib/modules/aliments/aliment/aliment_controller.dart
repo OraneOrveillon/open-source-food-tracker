@@ -63,6 +63,7 @@ class AlimentController extends GetxController {
         ..lipids = double.parse(lipidsTEC.text)
         ..saturatedFats = double.parse(saturatedFatsTEC.text)
         ..deleted = false;
+
       await _service.putAliment(aliment);
 
       cAliments.addAlimentInList(aliment);
@@ -99,4 +100,18 @@ class AlimentController extends GetxController {
   }
 
   void goBack() => Get.back();
+
+  @override
+  void onClose() {
+    super.onClose();
+    nameTEC.dispose();
+    barcodeTEC.dispose();
+    servingQuantityTEC.dispose();
+    caloriesTEC.dispose();
+    proteinsTEC.dispose();
+    carbohydratesTEC.dispose();
+    sugarsTEC.dispose();
+    lipidsTEC.dispose();
+    saturatedFatsTEC.dispose();
+  }
 }

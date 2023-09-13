@@ -1,6 +1,7 @@
 abstract class AppBarTexts {
   static const String aliments = 'Aliments';
   static const String weighings = 'Weighings';
+  static const String recipes = 'Recipes';
 }
 
 abstract class ButtonTexts {

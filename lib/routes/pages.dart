@@ -12,6 +12,8 @@ import '../modules/parameters/objectives/objectives_binding.dart';
 import '../modules/parameters/objectives/objectives_page.dart';
 import '../modules/parameters/parameters_binding.dart';
 import '../modules/parameters/parameters_page.dart';
+import '../modules/recipes/recipe/recipe_binding.dart';
+import '../modules/recipes/recipe/recipe_page.dart';
 import '../modules/recipes/recipes_binding.dart';
 import '../modules/recipes/recipes_pages.dart';
 import 'routes.dart';
@@ -33,6 +35,13 @@ List<GetPage> pages = [
     name: recipes,
     page: () => const RecipesPage(),
     binding: RecipesBinding(),
+    children: [
+      GetPage(
+        name: recipe,
+        page: () => const RecipePage(),
+        binding: RecipeBinding(),
+      ),
+    ],
   ),
   GetPage(
     name: journal,
