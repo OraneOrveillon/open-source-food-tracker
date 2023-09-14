@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../../core/utils/lists.dart';
 import '../../../data/models/aliment_model.dart';
 import '../../../data/services/aliment_service.dart';
+import '../../../routes/routes.dart';
 import '../aliments_controller.dart';
 
 class AlimentController extends GetxController {
@@ -44,6 +45,10 @@ class AlimentController extends GetxController {
       unitValue = aliment!.unit;
     }
   }
+
+  void goToBrands() => Get.toNamed(
+        Routes.aliments + Routes.aliment + Routes.brands,
+      );
 
   void onValidateClick() => aliment == null ? addAliment() : updateAliment();
 

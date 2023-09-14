@@ -3,6 +3,7 @@ abstract class AppBarTexts {
   static const String weighings = 'Weighings';
   static const String recipes = 'Recipes';
   static const String objectives = 'Objectives';
+  static const String brands = 'Brands';
 }
 
 abstract class ButtonTexts {
