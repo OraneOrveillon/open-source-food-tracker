@@ -2,12 +2,12 @@ abstract class AppBarTexts {
   static const String aliments = 'Aliments';
   static const String weighings = 'Weighings';
   static const String recipes = 'Recipes';
+  static const String objectives = 'Objectives';
 }
 
 abstract class ButtonTexts {
   static const String ok = "OK";
   static const String cancel = "CANCEL";
-  static const String validate = "Validate";
 }
 
 abstract class InputTexts {
