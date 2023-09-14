@@ -20,7 +20,7 @@ class AlimentsPage extends StatelessWidget {
           pagingController: cAliments.pagingController,
           builderDelegate: PagedChildBuilderDelegate<Aliment>(
             itemBuilder: (_, aliment, index) => ListTile(
-              onTap: () {},
+              onTap: () => cAliments.goToEditAliment(aliment),
               title: Text(aliment.name.toString()),
               subtitle: Text(aliment.creationDate.toString()),
               leading: CircleAvatar(
@@ -35,7 +35,7 @@ class AlimentsPage extends StatelessWidget {
         ),
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
-          onPressed: () => cAliments.goToAliment(),
+          onPressed: () => cAliments.goToAddAliment(),
         ),
       ),
     );

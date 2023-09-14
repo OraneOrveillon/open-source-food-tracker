@@ -12,47 +12,56 @@ import '../modules/parameters/objectives/objectives_binding.dart';
 import '../modules/parameters/objectives/objectives_page.dart';
 import '../modules/parameters/parameters_binding.dart';
 import '../modules/parameters/parameters_page.dart';
+import '../modules/recipes/recipe/recipe_binding.dart';
+import '../modules/recipes/recipe/recipe_page.dart';
 import '../modules/recipes/recipes_binding.dart';
-import '../modules/recipes/recipes_pages.dart';
+import '../modules/recipes/recipes_page.dart';
 import 'routes.dart';
 
 List<GetPage> pages = [
   GetPage(
-    name: aliments,
+    name: Routes.aliments,
     page: () => const AlimentsPage(),
     binding: AlimentsBinding(),
     children: [
       GetPage(
-        name: aliment,
+        name: Routes.aliment,
         page: () => const AlimentPage(),
         binding: AlimentBinding(),
       ),
     ],
   ),
   GetPage(
-    name: recipes,
+    name: Routes.recipes,
     page: () => const RecipesPage(),
     binding: RecipesBinding(),
+    children: [
+      GetPage(
+        name: Routes.recipe,
+        page: () => const RecipePage(),
+        binding: RecipeBinding(),
+      ),
+    ],
   ),
   GetPage(
-    name: journal,
+    name: Routes.journal,
     page: () => const JournalPage(),
     binding: JournalBinding(),
     children: [
       GetPage(
-        name: weighings,
+        name: Routes.weighings,
         page: () => const WeighingsPage(),
         binding: WeighingsBinding(),
       ),
     ],
   ),
   GetPage(
-    name: parameters,
+    name: Routes.parameters,
     page: () => const ParametersPage(),
     binding: ParametersBinding(),
     children: [
       GetPage(
-        name: objectives,
+        name: Routes.objectives,
         page: () => const ObjectivesPage(),
         binding: ObjectivesBinding(),
       ),

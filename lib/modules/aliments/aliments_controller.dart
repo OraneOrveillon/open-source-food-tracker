@@ -51,16 +51,30 @@ class AlimentsController extends GetxController {
     }
   }
 
+  void addAlimentInList(Aliment aliment) {
+    pagingController.value.itemList?.insert(0, aliment);
+    _fetchPage(0);
+  }
+
+  void updateAlimentInList(Aliment aliment) {
+    pagingController.value.itemList?[pagingController.value.itemList!
+        .indexWhere((a) => a.id == aliment.id)] = aliment;
+    _fetchPage(0);
+  }
+
   // TODO vérifier si l'aliment a déjà été enregistré dans une recette
   Future<void> deleteAliment(Aliment aliment) async {
     await _service.deleteAliment(aliment);
 
     pagingController.value.itemList
-        ?.removeWhere((Aliment w) => w.id == aliment.id);
+        ?.removeWhere((Aliment a) => a.id == aliment.id);
     _fetchPage(0);
   }
 
-  void goToAliment() => Get.toNamed(aliments + aliment);
+  void goToAddAliment() => Get.toNamed(Routes.aliments + Routes.aliment);
+
+  void goToEditAliment(Aliment aliment) =>
+      Get.toNamed(Routes.aliments + Routes.aliment, arguments: aliment);
 
   @override
   void onClose() {

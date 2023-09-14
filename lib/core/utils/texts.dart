@@ -1,6 +1,7 @@
 abstract class AppBarTexts {
   static const String aliments = 'Aliments';
   static const String weighings = 'Weighings';
+  static const String recipes = 'Recipes';
 }
 
 abstract class ButtonTexts {
@@ -23,6 +24,9 @@ abstract class InputTexts {
   static const String nutriscore = 'Nutriscore';
   static const String unit = 'Unit';
   static const String servingQuantity = 'Serving quantity';
+
+  static const String portions = 'Number of portions';
+  static const String description = 'Description';
 }
 
 abstract class DialogTexts {

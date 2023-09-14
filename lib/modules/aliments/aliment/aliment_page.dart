@@ -94,9 +94,9 @@ class AlimentPage extends StatelessWidget {
                                     child: Text(value),
                                   ))
                               .toList(),
-                          value: cAliment.nutriscoreValue.value,
+                          value: cAliment.nutriscoreValue,
                           onChanged: (value) =>
-                              cAliment.nutriscoreValue.value = value,
+                              cAliment.nutriscoreValue = value,
                           validator: null,
                         ),
                         // TODO image
@@ -110,9 +110,8 @@ class AlimentPage extends StatelessWidget {
                                     child: Text(value),
                                   ))
                               .toList(),
-                          value: cAliment.unitValue.value,
-                          onChanged: (value) =>
-                              cAliment.unitValue.value = value,
+                          value: cAliment.unitValue,
+                          onChanged: (value) => cAliment.unitValue = value,
                           validator: (value) => Validators.required(value),
                         ),
                         TextFormField(
@@ -177,6 +176,7 @@ class AlimentPage extends StatelessWidget {
                           validator: (value) =>
                               Validators.requiredDouble(value),
                         ),
+                        // TODO doses
                       ],
                     ),
                   ),

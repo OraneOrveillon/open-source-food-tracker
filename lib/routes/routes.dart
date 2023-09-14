@@ -1,8 +1,11 @@
-const String aliments = "/aliments";
-const String aliment = "/aliment";
-const String recipes = "/recipes";
-const String journal = "/journal";
-const String weighings = "/weighings";
-const String statistics = "/statistics";
-const String parameters = "/parameters";
-const String objectives = "/objectives";
+abstract class Routes {
+  static const String aliments = "/aliments";
+  static const String aliment = "/aliment";
+  static const String recipes = "/recipes";
+  static const String recipe = "/recipe";
+  static const String journal = "/journal";
+  static const String weighings = "/weighings";
+  static const String statistics = "/statistics";
+  static const String parameters = "/parameters";
+  static const String objectives = "/objectives";
+}
