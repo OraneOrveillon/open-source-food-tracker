@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_template/data/services/objective_service.dart';
 import 'package:get/get.dart';
 
@@ -11,14 +12,7 @@ class ObjectivesController extends GetxController {
 
   Objective? lastObjective;
 
-  final GlobalKey<FormState> formKey = GlobalKey();
-
-  final caloriesTEC = TextEditingController();
-  final proteinsTEC = TextEditingController();
-  final carbohydratesTEC = TextEditingController();
-  final sugarsTEC = TextEditingController();
-  final lipidsTEC = TextEditingController();
-  final saturatedFatsTEC = TextEditingController();
+  final GlobalKey<FormBuilderState> formKey = GlobalKey();
 
   @override
   Future<void> onInit() async {
@@ -26,40 +20,42 @@ class ObjectivesController extends GetxController {
     lastObjective = await _service.getLastObjective();
 
     if (lastObjective != null) {
-      caloriesTEC.text = lastObjective!.calories!.toString();
-      proteinsTEC.text = lastObjective!.proteins!.toString();
-      carbohydratesTEC.text = lastObjective!.carbohydrates.toString();
-      sugarsTEC.text = lastObjective!.sugars!.toString();
-      lipidsTEC.text = lastObjective!.lipids!.toString();
-      saturatedFatsTEC.text = lastObjective!.saturatedFats!.toString();
+      formKey.currentState!.patchValue({
+        FormKeys.calories: lastObjective!.calories!.toString(),
+        FormKeys.proteins: lastObjective!.proteins!.toString(),
+        FormKeys.carbohydrates: lastObjective!.carbohydrates!.toString(),
+        FormKeys.sugars: lastObjective!.sugars!.toString(),
+        FormKeys.lipids: lastObjective!.lipids!.toString(),
+        FormKeys.saturatedFats: lastObjective!.saturatedFats!.toString(),
+      });
     }
   }
 
   void onValidateClick() async {
-    if (formKey.currentState!.validate()) {
+    if (formKey.currentState!.saveAndValidate()) {
+      final formValues = formKey.currentState!.value;
+
       final Objective objective = Objective()
         ..creationDate = DateTime.now()
-        ..calories = int.parse(caloriesTEC.text)
-        ..proteins = int.parse(proteinsTEC.text)
-        ..carbohydrates = int.parse(carbohydratesTEC.text)
-        ..sugars = int.parse(sugarsTEC.text)
-        ..lipids = int.parse(lipidsTEC.text)
-        ..saturatedFats = int.parse(saturatedFatsTEC.text);
+        ..calories = formValues[FormKeys.calories]
+        ..proteins = formValues[FormKeys.proteins]
+        ..carbohydrates = formValues[FormKeys.carbohydrates]
+        ..sugars = formValues[FormKeys.sugars]
+        ..lipids = formValues[FormKeys.lipids]
+        ..saturatedFats = formValues[FormKeys.saturatedFats];
 
       await _service.putObjective(objective);
 
       Get.back();
     }
   }
+}
 
-  @override
-  void onClose() {
-    super.onClose();
-    caloriesTEC.dispose();
-    proteinsTEC.dispose();
-    carbohydratesTEC.dispose();
-    sugarsTEC.dispose();
-    lipidsTEC.dispose();
-    saturatedFatsTEC.dispose();
-  }
+abstract class FormKeys {
+  static const String calories = 'calories';
+  static const String proteins = 'proteins';
+  static const String carbohydrates = 'carbohydrates';
+  static const String sugars = 'sugars';
+  static const String lipids = 'lipids';
+  static const String saturatedFats = 'saturatedFats';
 }
