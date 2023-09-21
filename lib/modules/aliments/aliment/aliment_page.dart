@@ -59,8 +59,12 @@ class AlimentPage extends StatelessWidget {
                     FormBuilderDropdown(
                       name: FormKeys.nutriscore,
                       initialValue: cAliment.initialNutriscore,
-                      decoration: const InputDecoration(
-                        label: Text(InputTexts.nutriscore),
+                      decoration: InputDecoration(
+                        label: const Text(InputTexts.nutriscore),
+                        suffixIcon: IconButton(
+                          onPressed: () => cAliment.clearNutriment(),
+                          icon: const Icon(Icons.clear),
+                        ),
                       ),
                       items: DropdownValues.nutriscores
                           .map((String value) => DropdownMenuItem(

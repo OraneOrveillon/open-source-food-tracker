@@ -103,6 +103,9 @@ class AlimentController extends GetxController {
     }
   }
 
+  void clearNutriment() =>
+      formKey.currentState!.fields[FormKeys.nutriscore]!.didChange('');
+
   void goBack() => Get.back();
 }
 
