@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 
 import '../../../core/utils/lists.dart';
 import '../../../core/utils/paddings.dart';
 import '../../../core/utils/texts.dart';
-import '../../../core/utils/validators.dart';
 import 'aliment_controller.dart';
 
 class AlimentPage extends StatelessWidget {
@@ -26,29 +27,38 @@ class AlimentPage extends StatelessWidget {
           body: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(Paddings.medium),
-              child: Form(
+              child: FormBuilder(
                 key: cAliment.formKey,
                 child: Column(
                   children: [
-                    TextFormField(
+                    FormBuilderTextField(
+                      name: FormKeys.name,
+                      initialValue: cAliment.initialName,
                       decoration: const InputDecoration(
                         label: Text(InputTexts.name),
                       ),
-                      controller: cAliment.nameTEC,
+                      validator: FormBuilderValidators.compose([
+                        FormBuilderValidators.required(),
+                      ]),
+                      valueTransformer: null,
                       keyboardType: TextInputType.text,
-                      validator: (value) => Validators.required(value),
                     ),
-                    TextFormField(
+                    FormBuilderTextField(
+                      name: FormKeys.barcode,
+                      initialValue: cAliment.initialBarcode,
                       decoration: const InputDecoration(
                         label: Text(InputTexts.barcode),
                       ),
-                      controller: cAliment.barcodeTEC,
-                      keyboardType: TextInputType.number,
                       validator: null,
+                      valueTransformer: null,
+                      keyboardType: TextInputType.number,
                     ),
                     // TODO brands
                     // TODO categories
-                    DropdownButtonFormField(
+                    // TODO rajouter clear button
+                    FormBuilderDropdown(
+                      name: FormKeys.nutriscore,
+                      initialValue: cAliment.initialNutriscore,
                       decoration: const InputDecoration(
                         label: Text(InputTexts.nutriscore),
                       ),
@@ -58,12 +68,12 @@ class AlimentPage extends StatelessWidget {
                                 child: Text(value),
                               ))
                           .toList(),
-                      value: cAliment.nutriscoreValue,
-                      onChanged: (value) => cAliment.nutriscoreValue = value,
                       validator: null,
                     ),
                     // TODO image
-                    DropdownButtonFormField(
+                    FormBuilderDropdown(
+                      name: FormKeys.unit,
+                      initialValue: cAliment.initialUnit,
                       decoration: const InputDecoration(
                         label: Text(InputTexts.unit),
                       ),
@@ -73,65 +83,103 @@ class AlimentPage extends StatelessWidget {
                                 child: Text(value),
                               ))
                           .toList(),
-                      value: cAliment.unitValue,
-                      onChanged: (value) => cAliment.unitValue = value,
-                      validator: (value) => Validators.required(value),
+                      validator: FormBuilderValidators.compose([
+                        FormBuilderValidators.required(),
+                      ]),
                     ),
-                    TextFormField(
+                    FormBuilderTextField(
+                      name: FormKeys.servingQuantity,
+                      initialValue: cAliment.initialServingQuantity,
                       decoration: const InputDecoration(
                         label: Text(InputTexts.servingQuantity),
                       ),
-                      controller: cAliment.servingQuantityTEC,
+                      validator: FormBuilderValidators.compose([
+                        FormBuilderValidators.numeric(),
+                      ]),
+                      valueTransformer: (value) {
+                        if (value != null) {
+                          return double.parse(value);
+                        }
+                      },
                       keyboardType: TextInputType.number,
-                      validator: (value) => Validators.optionalDouble(value),
                     ),
-                    TextFormField(
+                    FormBuilderTextField(
+                      name: FormKeys.calories,
+                      initialValue: cAliment.initialCalories,
                       decoration: const InputDecoration(
                         label: Text(InputTexts.calories),
                       ),
-                      controller: cAliment.caloriesTEC,
+                      validator: FormBuilderValidators.compose([
+                        FormBuilderValidators.required(),
+                        FormBuilderValidators.integer(),
+                      ]),
+                      valueTransformer: (value) => int.parse(value!),
                       keyboardType: TextInputType.number,
-                      validator: (value) => Validators.requiredInt(value),
                     ),
-                    TextFormField(
+                    FormBuilderTextField(
+                      name: FormKeys.proteins,
+                      initialValue: cAliment.initialProteins,
                       decoration: const InputDecoration(
                         label: Text(InputTexts.proteins),
                       ),
-                      controller: cAliment.proteinsTEC,
+                      validator: FormBuilderValidators.compose([
+                        FormBuilderValidators.required(),
+                        FormBuilderValidators.numeric(),
+                      ]),
+                      valueTransformer: (value) => double.parse(value!),
                       keyboardType: TextInputType.number,
-                      validator: (value) => Validators.requiredDouble(value),
                     ),
-                    TextFormField(
+                    FormBuilderTextField(
+                      name: FormKeys.carbohydrates,
+                      initialValue: cAliment.initialCarbohydrates,
                       decoration: const InputDecoration(
                         label: Text(InputTexts.carbohydrates),
                       ),
-                      controller: cAliment.carbohydratesTEC,
+                      validator: FormBuilderValidators.compose([
+                        FormBuilderValidators.required(),
+                        FormBuilderValidators.numeric(),
+                      ]),
+                      valueTransformer: (value) => double.parse(value!),
                       keyboardType: TextInputType.number,
-                      validator: (value) => Validators.requiredDouble(value),
                     ),
-                    TextFormField(
+                    FormBuilderTextField(
+                      name: FormKeys.sugars,
+                      initialValue: cAliment.initialSugars,
                       decoration: const InputDecoration(
                         label: Text(InputTexts.sugars),
                       ),
-                      controller: cAliment.sugarsTEC,
+                      validator: FormBuilderValidators.compose([
+                        FormBuilderValidators.required(),
+                        FormBuilderValidators.numeric(),
+                      ]),
+                      valueTransformer: (value) => double.parse(value!),
                       keyboardType: TextInputType.number,
-                      validator: (value) => Validators.requiredDouble(value),
                     ),
-                    TextFormField(
+                    FormBuilderTextField(
+                      name: FormKeys.lipids,
+                      initialValue: cAliment.initialLipids,
                       decoration: const InputDecoration(
                         label: Text(InputTexts.lipids),
                       ),
-                      controller: cAliment.lipidsTEC,
+                      validator: FormBuilderValidators.compose([
+                        FormBuilderValidators.required(),
+                        FormBuilderValidators.numeric(),
+                      ]),
+                      valueTransformer: (value) => double.parse(value!),
                       keyboardType: TextInputType.number,
-                      validator: (value) => Validators.requiredDouble(value),
                     ),
-                    TextFormField(
+                    FormBuilderTextField(
+                      name: FormKeys.saturatedFats,
+                      initialValue: cAliment.initialSaturatedFats,
                       decoration: const InputDecoration(
                         label: Text(InputTexts.saturatedFats),
                       ),
-                      controller: cAliment.saturatedFatsTEC,
+                      validator: FormBuilderValidators.compose([
+                        FormBuilderValidators.required(),
+                        FormBuilderValidators.numeric(),
+                      ]),
+                      valueTransformer: (value) => double.parse(value!),
                       keyboardType: TextInputType.number,
-                      validator: (value) => Validators.requiredDouble(value),
                     ),
                     // TODO doses
                   ],
