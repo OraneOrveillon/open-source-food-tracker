@@ -17,7 +17,7 @@ class AlimentController extends GetxController {
   String? initialName;
   String? initialBarcode;
   String? initialNutriscore;
-  String? initialUnit;
+  String? initialUnit = DropdownValues.units[0];
   String? initialServingQuantity;
   String? initialCalories;
   String? initialProteins;
@@ -42,8 +42,6 @@ class AlimentController extends GetxController {
       initialSugars = aliment!.sugars.toString();
       initialLipids = aliment!.lipids.toString();
       initialSaturatedFats = aliment!.saturatedFats.toString();
-    } else {
-      initialUnit = DropdownValues.units[0];
     }
   }
 
