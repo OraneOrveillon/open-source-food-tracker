@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
@@ -16,8 +17,8 @@ class WeighingsController extends GetxController {
   final PagingController<int, Weighing> pagingController =
       PagingController(firstPageKey: 0);
 
-  final GlobalKey<FormState> formKey = GlobalKey();
-  final valueTEC = TextEditingController();
+  final GlobalKey<FormBuilderState> formKey = GlobalKey();
+  String? initialValue;
 
   @override
   Future<void> onInit() async {
@@ -32,7 +33,7 @@ class WeighingsController extends GetxController {
     required Weighing? weighing,
     required Widget dialog,
   }) {
-    valueTEC.text = weighing?.value.toString() ?? '';
+    initialValue = weighing?.value.toString() ?? '';
 
     Get.dialog(dialog);
   }
@@ -67,10 +68,10 @@ class WeighingsController extends GetxController {
   }
 
   Future<void> addWeighing() async {
-    if (formKey.currentState!.validate()) {
+    if (formKey.currentState!.saveAndValidate()) {
       final Weighing weighing = Weighing()
         ..date = DateTime.now()
-        ..value = double.parse(valueTEC.text);
+        ..value = formKey.currentState?.value[FormKeys.value];
 
       await _service.putWeighing(weighing);
 
@@ -82,8 +83,8 @@ class WeighingsController extends GetxController {
   }
 
   Future<void> updateWeighing(Weighing weighing) async {
-    if (formKey.currentState!.validate()) {
-      final newValue = double.parse(valueTEC.text);
+    if (formKey.currentState!.saveAndValidate()) {
+      final newValue = formKey.currentState?.value[FormKeys.value];
 
       if (weighing.value != newValue) {
         weighing.value = newValue;
@@ -111,6 +112,9 @@ class WeighingsController extends GetxController {
   void onClose() {
     super.onClose();
     pagingController.dispose();
-    valueTEC.dispose();
   }
+}
+
+abstract class FormKeys {
+  static const String value = 'value';
 }

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 
 import '../../../core/utils/paddings.dart';
 import '../../../core/utils/texts.dart';
-import '../../../core/utils/validators.dart';
 import 'recipe_controller.dart';
 
 class RecipePage extends StatelessWidget {
@@ -25,35 +26,46 @@ class RecipePage extends StatelessWidget {
           body: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(Paddings.medium),
-              child: Form(
+              child: FormBuilder(
                 key: cRecipe.formKey,
                 child: Column(
                   children: [
-                    TextFormField(
+                    FormBuilderTextField(
+                      name: FormKeys.name,
+                      initialValue: cRecipe.initialName,
                       decoration: const InputDecoration(
                         label: Text(InputTexts.name),
                       ),
-                      controller: cRecipe.nameTEC,
+                      validator: FormBuilderValidators.compose([
+                        FormBuilderValidators.required(),
+                      ]),
+                      valueTransformer: null,
                       keyboardType: TextInputType.text,
-                      validator: (value) => Validators.required(value),
                     ),
                     // TODO tags
-                    TextFormField(
+                    FormBuilderTextField(
+                      name: FormKeys.portions,
+                      initialValue: cRecipe.initialPortions,
                       decoration: const InputDecoration(
                         label: Text(InputTexts.portions),
                       ),
-                      controller: cRecipe.portionsTEC,
+                      validator: FormBuilderValidators.compose([
+                        FormBuilderValidators.required(),
+                        FormBuilderValidators.integer(),
+                      ]),
+                      valueTransformer: (value) => int.parse(value!),
                       keyboardType: TextInputType.number,
-                      validator: (value) => Validators.requiredInt(value),
                     ),
-                    TextFormField(
+                    FormBuilderTextField(
+                      name: FormKeys.description,
+                      initialValue: cRecipe.initialDescription,
                       decoration: const InputDecoration(
                         label: Text(InputTexts.description),
                       ),
-                      controller: cRecipe.descriptionTEC,
+                      validator: null,
+                      valueTransformer: null,
                       keyboardType: TextInputType.multiline,
-                      maxLines: null,
-                      validator: (value) => null,
+                      maxLines: 5,
                     ),
                     // TODO aliments
                   ],

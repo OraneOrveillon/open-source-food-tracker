@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 
 import '../../../core/utils/lists.dart';
@@ -12,37 +13,36 @@ class AlimentController extends GetxController {
   final AlimentsController cAliments = Get.find<AlimentsController>();
   Aliment? aliment = Get.arguments;
 
-  final GlobalKey<FormState> formKey = GlobalKey();
+  final GlobalKey<FormBuilderState> formKey = GlobalKey();
 
-  final nameTEC = TextEditingController();
-  final barcodeTEC = TextEditingController();
-  final servingQuantityTEC = TextEditingController();
-  final caloriesTEC = TextEditingController();
-  final proteinsTEC = TextEditingController();
-  final carbohydratesTEC = TextEditingController();
-  final sugarsTEC = TextEditingController();
-  final lipidsTEC = TextEditingController();
-  final saturatedFatsTEC = TextEditingController();
-
-  String? nutriscoreValue;
-  String? unitValue = DropdownValues.units[0];
+  String? initialName;
+  String? initialBarcode;
+  String? initialNutriscore;
+  String? initialUnit = DropdownValues.units[0];
+  String? initialServingQuantity;
+  String? initialCalories;
+  String? initialProteins;
+  String? initialCarbohydrates;
+  String? initialSugars;
+  String? initialLipids;
+  String? initialSaturatedFats;
 
   @override
   void onInit() {
     super.onInit();
-    if (aliment != null) {
-      nameTEC.text = aliment!.name!;
-      barcodeTEC.text = aliment!.barcode!;
-      servingQuantityTEC.text = aliment!.servingQuantity!.toString();
-      caloriesTEC.text = aliment!.calories!.toString();
-      proteinsTEC.text = aliment!.proteins!.toString();
-      carbohydratesTEC.text = aliment!.carbohydrates.toString();
-      sugarsTEC.text = aliment!.sugars!.toString();
-      lipidsTEC.text = aliment!.lipids!.toString();
-      saturatedFatsTEC.text = aliment!.saturatedFats!.toString();
 
-      nutriscoreValue = aliment!.nutriscore;
-      unitValue = aliment!.unit;
+    if (aliment != null) {
+      initialName = aliment!.name;
+      initialBarcode = aliment!.barcode;
+      initialNutriscore = aliment!.nutriscore;
+      initialUnit = aliment!.unit;
+      initialServingQuantity = aliment!.servingQuantity.toString();
+      initialCalories = aliment!.calories.toString();
+      initialProteins = aliment!.proteins.toString();
+      initialCarbohydrates = aliment!.carbohydrates.toString();
+      initialSugars = aliment!.sugars.toString();
+      initialLipids = aliment!.lipids.toString();
+      initialSaturatedFats = aliment!.saturatedFats.toString();
     }
   }
 
@@ -53,20 +53,22 @@ class AlimentController extends GetxController {
   void onValidateClick() => aliment == null ? addAliment() : updateAliment();
 
   Future<void> addAliment() async {
-    if (formKey.currentState!.validate()) {
+    if (formKey.currentState!.saveAndValidate()) {
+      final formValues = formKey.currentState!.value;
+
       final Aliment aliment = Aliment()
         ..creationDate = DateTime.now()
-        ..name = nameTEC.text
-        ..barcode = barcodeTEC.text
-        ..nutriscore = nutriscoreValue
-        ..unit = unitValue
-        ..servingQuantity = double.parse(servingQuantityTEC.text)
-        ..calories = int.parse(caloriesTEC.text)
-        ..proteins = double.parse(proteinsTEC.text)
-        ..carbohydrates = double.parse(carbohydratesTEC.text)
-        ..sugars = double.parse(sugarsTEC.text)
-        ..lipids = double.parse(lipidsTEC.text)
-        ..saturatedFats = double.parse(saturatedFatsTEC.text)
+        ..name = formValues[FormKeys.name]
+        ..barcode = formValues[FormKeys.barcode]
+        ..nutriscore = formValues[FormKeys.nutriscore]
+        ..unit = formValues[FormKeys.unit]
+        ..servingQuantity = formValues[FormKeys.servingQuantity]
+        ..calories = formValues[FormKeys.calories]
+        ..proteins = formValues[FormKeys.proteins]
+        ..carbohydrates = formValues[FormKeys.carbohydrates]
+        ..sugars = formValues[FormKeys.sugars]
+        ..lipids = formValues[FormKeys.lipids]
+        ..saturatedFats = formValues[FormKeys.saturatedFats]
         ..deleted = false;
 
       await _service.putAliment(aliment);
@@ -79,19 +81,21 @@ class AlimentController extends GetxController {
 
   // TODO mettre à jour les macros des recettes si l'aliment a déjà été enregistré dans une recette
   Future<void> updateAliment() async {
-    if (formKey.currentState!.validate()) {
+    if (formKey.currentState!.saveAndValidate()) {
+      final formValues = formKey.currentState!.value;
+
       final Aliment newAliment = aliment!.copyWith(
-        name: nameTEC.text,
-        barcode: barcodeTEC.text,
-        nutriscore: nutriscoreValue,
-        unit: unitValue,
-        servingQuantity: double.parse(servingQuantityTEC.text),
-        calories: int.parse(caloriesTEC.text),
-        proteins: double.parse(proteinsTEC.text),
-        carbohydrates: double.parse(carbohydratesTEC.text),
-        sugars: double.parse(sugarsTEC.text),
-        lipids: double.parse(lipidsTEC.text),
-        saturatedFats: double.parse(saturatedFatsTEC.text),
+        name: formValues[FormKeys.name],
+        barcode: formValues[FormKeys.barcode],
+        nutriscore: formValues[FormKeys.nutriscore],
+        unit: formValues[FormKeys.unit],
+        servingQuantity: formValues[FormKeys.servingQuantity],
+        calories: formValues[FormKeys.calories],
+        proteins: formValues[FormKeys.proteins],
+        carbohydrates: formValues[FormKeys.carbohydrates],
+        sugars: formValues[FormKeys.sugars],
+        lipids: formValues[FormKeys.lipids],
+        saturatedFats: formValues[FormKeys.saturatedFats],
       );
 
       if (newAliment != aliment) {
@@ -104,19 +108,22 @@ class AlimentController extends GetxController {
     }
   }
 
-  void goBack() => Get.back();
+  void clearNutriment() =>
+      formKey.currentState!.fields[FormKeys.nutriscore]!.didChange('');
 
-  @override
-  void onClose() {
-    super.onClose();
-    nameTEC.dispose();
-    barcodeTEC.dispose();
-    servingQuantityTEC.dispose();
-    caloriesTEC.dispose();
-    proteinsTEC.dispose();
-    carbohydratesTEC.dispose();
-    sugarsTEC.dispose();
-    lipidsTEC.dispose();
-    saturatedFatsTEC.dispose();
-  }
+  void goBack() => Get.back();
+}
+
+abstract class FormKeys {
+  static const String name = 'name';
+  static const String barcode = 'barcode';
+  static const String nutriscore = 'nutriscore';
+  static const String unit = 'unit';
+  static const String servingQuantity = 'servingQuantity';
+  static const String calories = 'calories';
+  static const String proteins = 'proteins';
+  static const String carbohydrates = 'carbohydrates';
+  static const String sugars = 'sugars';
+  static const String lipids = 'lipids';
+  static const String saturatedFats = 'saturatedFats';
 }

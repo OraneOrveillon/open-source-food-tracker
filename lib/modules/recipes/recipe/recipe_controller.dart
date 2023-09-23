@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 
 import '../../../data/models/recipe_model.dart';
@@ -10,19 +11,20 @@ class RecipeController extends GetxController {
   final RecipesController cRecipes = Get.find<RecipesController>();
   Recipe? recipe = Get.arguments;
 
-  final GlobalKey<FormState> formKey = GlobalKey();
+  final GlobalKey<FormBuilderState> formKey = GlobalKey();
 
-  final nameTEC = TextEditingController();
-  final portionsTEC = TextEditingController(text: '1');
-  final descriptionTEC = TextEditingController();
+  String? initialName;
+  String? initialPortions = '1';
+  String? initialDescription;
 
   @override
   void onInit() {
     super.onInit();
+
     if (recipe != null) {
-      nameTEC.text = recipe!.name!;
-      portionsTEC.text = recipe!.portions!.toString();
-      descriptionTEC.text = recipe!.description!;
+      initialName = recipe!.name;
+      initialPortions = recipe!.portions.toString();
+      initialDescription = recipe!.description;
     }
   }
 
@@ -30,12 +32,14 @@ class RecipeController extends GetxController {
 
   // TODO calcul automatique des macros
   Future<void> addRecipe() async {
-    if (formKey.currentState!.validate()) {
+    if (formKey.currentState!.saveAndValidate()) {
+      final formValues = formKey.currentState!.value;
+
       final Recipe recipe = Recipe()
         ..creationDate = DateTime.now()
-        ..name = nameTEC.text
-        ..portions = int.parse(portionsTEC.text)
-        ..description = descriptionTEC.text
+        ..name = formValues[FormKeys.name]
+        ..portions = formValues[FormKeys.portions]
+        ..description = formValues[FormKeys.description]
         ..deleted = false;
 
       await _service.putRecipe(recipe);
@@ -65,12 +69,10 @@ class RecipeController extends GetxController {
   }
 
   void goBack() => Get.back();
+}
 
-  @override
-  void onClose() {
-    super.onClose();
-    nameTEC.dispose();
-    portionsTEC.dispose();
-    descriptionTEC.dispose();
-  }
+abstract class FormKeys {
+  static const String name = 'name';
+  static const String portions = 'portions';
+  static const String description = 'description';
 }

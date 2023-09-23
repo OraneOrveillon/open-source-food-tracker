@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 
 import '../../../core/utils/paddings.dart';
 import '../../../core/utils/texts.dart';
-import '../../../core/utils/validators.dart';
 import 'objectives_controller.dart';
 
 class ObjectivesPage extends StatelessWidget {
@@ -26,57 +27,81 @@ class ObjectivesPage extends StatelessWidget {
           body: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(Paddings.medium),
-              child: Form(
+              child: FormBuilder(
                 key: cObjectives.formKey,
                 child: Column(
                   children: [
-                    TextFormField(
+                    FormBuilderTextField(
+                      name: FormKeys.calories,
                       decoration: const InputDecoration(
                         label: Text(InputTexts.calories),
                       ),
-                      controller: cObjectives.caloriesTEC,
+                      validator: FormBuilderValidators.compose([
+                        FormBuilderValidators.required(),
+                        FormBuilderValidators.integer(),
+                      ]),
+                      valueTransformer: (value) => int.parse(value!),
                       keyboardType: TextInputType.number,
-                      validator: (value) => Validators.requiredInt(value),
                     ),
-                    TextFormField(
+                    FormBuilderTextField(
+                      name: FormKeys.proteins,
                       decoration: const InputDecoration(
                         label: Text(InputTexts.proteins),
                       ),
-                      controller: cObjectives.proteinsTEC,
+                      validator: FormBuilderValidators.compose([
+                        FormBuilderValidators.required(),
+                        FormBuilderValidators.integer(),
+                      ]),
+                      valueTransformer: (value) => int.parse(value!),
                       keyboardType: TextInputType.number,
-                      validator: (value) => Validators.requiredInt(value),
                     ),
-                    TextFormField(
+                    FormBuilderTextField(
+                      name: FormKeys.carbohydrates,
                       decoration: const InputDecoration(
                         label: Text(InputTexts.carbohydrates),
                       ),
-                      controller: cObjectives.carbohydratesTEC,
+                      validator: FormBuilderValidators.compose([
+                        FormBuilderValidators.required(),
+                        FormBuilderValidators.integer(),
+                      ]),
+                      valueTransformer: (value) => int.parse(value!),
                       keyboardType: TextInputType.number,
-                      validator: (value) => Validators.requiredInt(value),
                     ),
-                    TextFormField(
+                    FormBuilderTextField(
+                      name: FormKeys.sugars,
                       decoration: const InputDecoration(
                         label: Text(InputTexts.sugars),
                       ),
-                      controller: cObjectives.sugarsTEC,
+                      validator: FormBuilderValidators.compose([
+                        FormBuilderValidators.required(),
+                        FormBuilderValidators.integer(),
+                      ]),
+                      valueTransformer: (value) => int.parse(value!),
                       keyboardType: TextInputType.number,
-                      validator: (value) => Validators.requiredInt(value),
                     ),
-                    TextFormField(
+                    FormBuilderTextField(
+                      name: FormKeys.lipids,
                       decoration: const InputDecoration(
                         label: Text(InputTexts.lipids),
                       ),
-                      controller: cObjectives.lipidsTEC,
+                      validator: FormBuilderValidators.compose([
+                        FormBuilderValidators.required(),
+                        FormBuilderValidators.integer(),
+                      ]),
+                      valueTransformer: (value) => int.parse(value!),
                       keyboardType: TextInputType.number,
-                      validator: (value) => Validators.requiredInt(value),
                     ),
-                    TextFormField(
+                    FormBuilderTextField(
+                      name: FormKeys.saturatedFats,
                       decoration: const InputDecoration(
                         label: Text(InputTexts.saturatedFats),
                       ),
-                      controller: cObjectives.saturatedFatsTEC,
+                      validator: FormBuilderValidators.compose([
+                        FormBuilderValidators.required(),
+                        FormBuilderValidators.integer(),
+                      ]),
+                      valueTransformer: (value) => int.parse(value!),
                       keyboardType: TextInputType.number,
-                      validator: (value) => Validators.requiredInt(value),
                     ),
                   ],
                 ),

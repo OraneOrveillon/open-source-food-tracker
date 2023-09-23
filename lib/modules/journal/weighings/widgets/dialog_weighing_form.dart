@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/utils/texts.dart';
-import '../../../../core/utils/validators.dart';
 import '../weighings_controller.dart';
 
 class DialogWeighingForm extends StatelessWidget {
@@ -22,12 +23,17 @@ class DialogWeighingForm extends StatelessWidget {
     return AlertDialog(
       title: Text(title),
       content: GetBuilder<WeighingsController>(builder: (cWeighings) {
-        return Form(
+        return FormBuilder(
           key: cWeighings.formKey,
-          child: TextFormField(
-            controller: cWeighings.valueTEC,
+          child: FormBuilderTextField(
+            name: FormKeys.value,
+            initialValue: cWeighings.initialValue,
+            validator: FormBuilderValidators.compose([
+              FormBuilderValidators.required(),
+              FormBuilderValidators.numeric(),
+            ]),
+            valueTransformer: (value) => double.parse(value!),
             keyboardType: TextInputType.number,
-            validator: (value) => Validators.requiredDouble(value),
           ),
         );
       }),
