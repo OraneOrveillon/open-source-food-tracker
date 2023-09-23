@@ -57,7 +57,7 @@ class AlimentPage extends StatelessWidget {
                     // TODO brands
                     Builder(
                       builder: (_) {
-                        String brandsString = '';
+                        String brandsString = ContentTexts.noBrands;
                         if (cAliment.aliment?.brands != null) {
                           brandsString = cAliment.aliment!.brands!.join(', ');
                         }

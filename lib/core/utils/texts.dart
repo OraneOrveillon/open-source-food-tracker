@@ -34,3 +34,7 @@ abstract class DialogTexts {
   static const String edit = 'Edit';
   static const String add = 'Add';
 }
+
+abstract class ContentTexts {
+  static const String noBrands = 'No brand added';
+}

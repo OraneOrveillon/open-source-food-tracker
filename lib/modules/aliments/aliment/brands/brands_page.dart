@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/utils/texts.dart';
@@ -15,12 +16,18 @@ class BrandsPage extends StatelessWidget {
       ),
       body: GetX<BrandsController>(
         builder: (cBrands) {
-          return ListView.builder(
-            itemCount: cBrands.brands.value.length,
-            itemBuilder: (context, index) => CheckboxListTile(
-              title: Text(cBrands.brands.value[index]),
-              value: false,
-              onChanged: (value) {},
+          return FormBuilder(
+            key: cBrands.formKey,
+            child: FormBuilderCheckboxGroup(
+              name: FormKeys.brands,
+              initialValue: cBrands.cAliment.aliment?.brands,
+              orientation: OptionsOrientation.vertical,
+              options: [
+                for (final brand in cBrands.brands.value)
+                  FormBuilderFieldOption(
+                    value: brand,
+                  ),
+              ],
             ),
           );
         },
