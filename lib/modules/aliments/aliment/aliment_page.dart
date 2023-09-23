@@ -11,13 +11,6 @@ import 'aliment_controller.dart';
 class AlimentPage extends StatelessWidget {
   const AlimentPage({Key? key}) : super(key: key);
 
-  // TODO remove
-  // static const List<String> _kOptions = <String>[
-  //   'aardvark',
-  //   'bobcat',
-  //   'chameleon',
-  // ];
-
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AlimentController>(
@@ -62,43 +55,23 @@ class AlimentPage extends StatelessWidget {
                       keyboardType: TextInputType.number,
                     ),
                     // TODO brands
-                    ElevatedButton.icon(
-                      icon: const Icon(Icons.add),
-                      label: const Text(InputTexts.brands),
-                      onPressed: () => cAliment.goToBrands(),
+                    Builder(
+                      builder: (_) {
+                        String brandsString = '';
+                        if (cAliment.aliment?.brands != null) {
+                          brandsString = cAliment.aliment!.brands!.join(', ');
+                        }
+
+                        return ListTile(
+                          title: const Text(InputTexts.brands),
+                          subtitle: Text(brandsString),
+                          trailing: const Icon(
+                            Icons.chevron_right,
+                          ),
+                          onTap: () => cAliment.goToBrands(),
+                        );
+                      },
                     ),
-                    // Autocomplete<String>(
-                    //   fieldViewBuilder: (
-                    //     context,
-                    //     textEditingController,
-                    //     focusNode,
-                    //     function,
-                    //   ) =>
-                    //       TextFormField(
-                    //     onFieldSubmitted: (value) => {
-                    //       // TODO ajouter la chip
-                    //     },
-                    //     decoration: const InputDecoration(
-                    //       label: Text(InputTexts.brands),
-                    //     ),
-                    //     controller: textEditingController,
-                    //     focusNode: focusNode,
-                    //     validator: null,
-                    //   ),
-                    //   optionsBuilder: (TextEditingValue textEditingValue) {
-                    //     if (textEditingValue.text == '') {
-                    //       return const Iterable<String>.empty();
-                    //     }
-                    //     return _kOptions.where((String option) {
-                    //       return option
-                    //           .contains(textEditingValue.text.toLowerCase());
-                    //     });
-                    //   },
-                    //   onSelected: (String selection) {
-                    //     // TODO ajouter la chip
-                    //     debugPrint('You just selected $selection');
-                    //   },
-                    // ),
                     // TODO categories
                     // TODO rajouter clear button
                     FormBuilderDropdown(
