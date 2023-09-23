@@ -26,13 +26,16 @@ class AlimentService {
         .brandsProperty()
         .findAll();
 
-    final Set<String> brands = {};
+    final Set<String> brandsSet = {};
 
     for (List<String>? brandsList in result) {
-      if (brandsList != null) brands.addAll(brandsList);
+      if (brandsList != null) brandsSet.addAll(brandsList);
     }
 
-    return brands.toList();
+    final List<String> brandsList = brandsSet.toList();
+    brandsList.sort();
+
+    return brandsList;
   }
 
   Future<void> putAliment(Aliment aliment) async {
