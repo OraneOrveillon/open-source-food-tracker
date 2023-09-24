@@ -47,8 +47,7 @@ class AlimentController extends GetxController {
   }
 
   void goToBrands() =>
-      Get.toNamed(Routes.aliments + Routes.aliment + Routes.brands,
-          arguments: aliment);
+      Get.toNamed(Routes.aliments + Routes.aliment + Routes.brands);
 
   void onValidateClick() => aliment == null ? addAliment() : updateAliment();
 
