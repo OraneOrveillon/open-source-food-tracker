@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 
-import '../../../../core/utils/texts.dart';
-import '../aliment_controller.dart';
+import '../../../core/utils/texts.dart';
+import 'aliment_controller.dart';
 
 class BrandsPage extends StatelessWidget {
   const BrandsPage({Key? key}) : super(key: key);

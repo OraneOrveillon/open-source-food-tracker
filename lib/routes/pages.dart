@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 
 import '../modules/aliments/aliment/aliment_binding.dart';
 import '../modules/aliments/aliment/aliment_page.dart';
-import '../modules/aliments/aliment/brands/brands_page.dart';
+import '../modules/aliments/aliment/brands_page.dart';
 import '../modules/aliments/aliments_binding.dart';
 import '../modules/aliments/aliments_page.dart';
 import '../modules/journal/journal_binding.dart';
