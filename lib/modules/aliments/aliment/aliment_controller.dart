@@ -31,7 +31,16 @@ class AlimentController extends GetxController {
   // TODO tenter d'enlever le rx
   final brands = Rx<List<String>>([]);
   // TODO tenter d'enlever le rx
-  final selectedBrands = Rx<List<String>?>([]);
+  final _selectedBrands = Rx<List<String>?>(null);
+
+  List<String>? get selectedBrands {
+    if (_selectedBrands.value != null) {
+      List<String> brands = _selectedBrands.value!;
+      brands.sort();
+      return brands;
+    }
+    return null;
+  }
 
   @override
   Future<void> onInit() async {
@@ -50,7 +59,7 @@ class AlimentController extends GetxController {
       initialLipids = aliment!.lipids.toString();
       initialSaturatedFats = aliment!.saturatedFats.toString();
 
-      selectedBrands.value = aliment!.brands;
+      _selectedBrands.value = aliment!.brands;
     }
 
     brands.value = await _service.getAllBrandsDistinct();
@@ -69,6 +78,7 @@ class AlimentController extends GetxController {
         ..creationDate = DateTime.now()
         ..name = formValues[FormKeys.name]
         ..barcode = formValues[FormKeys.barcode]
+        ..brands = _selectedBrands.value
         ..nutriscore = formValues[FormKeys.nutriscore]
         ..unit = formValues[FormKeys.unit]
         ..servingQuantity = formValues[FormKeys.servingQuantity]
@@ -96,7 +106,10 @@ class AlimentController extends GetxController {
       final Aliment newAliment = aliment!.copyWith(
         name: formValues[FormKeys.name],
         barcode: formValues[FormKeys.barcode],
+        brands: _selectedBrands.value,
+        categories: null,
         nutriscore: formValues[FormKeys.nutriscore],
+        image: null,
         unit: formValues[FormKeys.unit],
         servingQuantity: formValues[FormKeys.servingQuantity],
         calories: formValues[FormKeys.calories],
@@ -105,6 +118,7 @@ class AlimentController extends GetxController {
         sugars: formValues[FormKeys.sugars],
         lipids: formValues[FormKeys.lipids],
         saturatedFats: formValues[FormKeys.saturatedFats],
+        doses: null,
       );
 
       if (newAliment != aliment) {
@@ -119,14 +133,14 @@ class AlimentController extends GetxController {
 
   void updateBrands() {
     if (brandsFormKey.currentState!.saveAndValidate()) {
-      final List<String> newBrands =
+      final List<String>? newBrands =
           brandsFormKey.currentState!.value[FormKeys.brands];
 
-      if (newBrands != selectedBrands.value) {
-        if (newBrands.isEmpty) {
-          selectedBrands.value = null;
+      if (newBrands != _selectedBrands.value) {
+        if (newBrands == null || newBrands.isEmpty) {
+          _selectedBrands.value = null;
         } else {
-          selectedBrands.value = newBrands;
+          _selectedBrands.value = newBrands;
         }
       }
 

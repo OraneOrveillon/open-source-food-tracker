@@ -23,7 +23,7 @@ class BrandsPage extends StatelessWidget {
             key: cAliment.brandsFormKey,
             child: FormBuilderCheckboxGroup(
               name: FormKeys.brands,
-              initialValue: cAliment.selectedBrands.value,
+              initialValue: cAliment.selectedBrands,
               orientation: OptionsOrientation.vertical,
               options: [
                 for (final brand in cAliment.brands.value)

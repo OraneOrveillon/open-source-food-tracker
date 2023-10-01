@@ -57,9 +57,8 @@ class AlimentPage extends StatelessWidget {
                     Obx(
                       () {
                         String brandsString = ContentTexts.noBrands;
-                        if (cAliment.selectedBrands.value != null) {
-                          brandsString =
-                              cAliment.selectedBrands.value!.join(', ');
+                        if (cAliment.selectedBrands != null) {
+                          brandsString = cAliment.selectedBrands!.join(', ');
                         }
 
                         return ListTile(

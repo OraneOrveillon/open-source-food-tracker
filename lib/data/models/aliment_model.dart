@@ -8,6 +8,7 @@ class Aliment with EquatableMixin {
   Id id = Isar.autoIncrement;
   DateTime? creationDate;
   DateTime? updateDate;
+  bool? deleted;
   String? name;
   String? barcode;
   List<String>? brands;
@@ -22,7 +23,6 @@ class Aliment with EquatableMixin {
   double? sugars;
   double? lipids;
   double? saturatedFats;
-  bool? deleted;
   List<Dose>? doses;
 
   @override
@@ -45,45 +45,42 @@ class Aliment with EquatableMixin {
       ];
 
   Aliment copyWith({
-    DateTime? creationDate,
-    DateTime? updateDate,
-    String? name,
-    String? barcode,
-    List<String>? brands,
-    List<String>? categories,
-    String? nutriscore,
-    String? image,
-    String? unit,
-    double? servingQuantity,
-    int? calories,
-    double? proteins,
-    double? carbohydrates,
-    double? sugars,
-    double? lipids,
-    double? saturatedFats,
-    bool? deleted,
-    List<Dose>? doses,
+    required String? name,
+    required String? barcode,
+    required List<String>? brands,
+    required List<String>? categories,
+    required String? nutriscore,
+    required String? image,
+    required String? unit,
+    required double? servingQuantity,
+    required int? calories,
+    required double? proteins,
+    required double? carbohydrates,
+    required double? sugars,
+    required double? lipids,
+    required double? saturatedFats,
+    required List<Dose>? doses,
   }) =>
       Aliment()
         ..id = id
-        ..creationDate = creationDate ?? this.creationDate
-        ..updateDate = updateDate ?? this.updateDate
-        ..name = name ?? this.name
-        ..barcode = barcode ?? this.barcode
-        ..brands = brands ?? this.brands
-        ..categories = categories ?? this.categories
-        ..nutriscore = nutriscore ?? this.nutriscore
-        ..image = image ?? this.image
-        ..unit = unit ?? this.unit
-        ..servingQuantity = servingQuantity ?? this.servingQuantity
-        ..calories = calories ?? this.calories
-        ..proteins = proteins ?? this.proteins
-        ..carbohydrates = carbohydrates ?? this.carbohydrates
-        ..sugars = sugars ?? this.sugars
-        ..lipids = lipids ?? this.lipids
-        ..saturatedFats = saturatedFats ?? this.saturatedFats
-        ..deleted = deleted ?? this.deleted
-        ..doses = doses ?? this.doses;
+        ..creationDate = creationDate
+        ..updateDate = updateDate
+        ..deleted = deleted
+        ..name = name
+        ..barcode = barcode
+        ..brands = brands
+        ..categories = categories
+        ..nutriscore = nutriscore
+        ..image = image
+        ..unit = unit
+        ..servingQuantity = servingQuantity
+        ..calories = calories
+        ..proteins = proteins
+        ..carbohydrates = carbohydrates
+        ..sugars = sugars
+        ..lipids = lipids
+        ..saturatedFats = saturatedFats
+        ..doses = doses;
 }
 
 @Embedded()
