@@ -10,10 +10,11 @@ import '../aliments_controller.dart';
 
 class AlimentController extends GetxController {
   final AlimentService _service = AlimentService();
-  final AlimentsController cAliments = Get.find<AlimentsController>();
+  final AlimentsController _cAliments = Get.find<AlimentsController>();
   Aliment? aliment = Get.arguments;
 
   final GlobalKey<FormBuilderState> formKey = GlobalKey();
+  final GlobalKey<FormBuilderState> brandsFormKey = GlobalKey();
 
   String? initialName;
   String? initialBarcode;
@@ -27,8 +28,13 @@ class AlimentController extends GetxController {
   String? initialLipids;
   String? initialSaturatedFats;
 
+  // TODO tenter d'enlever le rx
+  final brands = Rx<List<String>>([]);
+  // TODO tenter d'enlever le rx
+  final selectedBrands = Rx<List<String>?>([]);
+
   @override
-  void onInit() {
+  Future<void> onInit() async {
     super.onInit();
 
     if (aliment != null) {
@@ -43,7 +49,11 @@ class AlimentController extends GetxController {
       initialSugars = aliment!.sugars.toString();
       initialLipids = aliment!.lipids.toString();
       initialSaturatedFats = aliment!.saturatedFats.toString();
+
+      selectedBrands.value = aliment!.brands;
     }
+
+    brands.value = await _service.getAllBrandsDistinct();
   }
 
   void goToBrands() =>
@@ -72,7 +82,7 @@ class AlimentController extends GetxController {
 
       await _service.putAliment(aliment);
 
-      cAliments.addAlimentInList(aliment);
+      _cAliments.addAlimentInList(aliment);
 
       goBack();
     }
@@ -101,9 +111,26 @@ class AlimentController extends GetxController {
         await _service.putAliment(newAliment..updateDate = DateTime.now());
       }
 
-      cAliments.updateAlimentInList(newAliment);
+      _cAliments.updateAlimentInList(newAliment);
 
       goBack();
+    }
+  }
+
+  void updateBrands() {
+    if (brandsFormKey.currentState!.saveAndValidate()) {
+      final List<String> newBrands =
+          brandsFormKey.currentState!.value[FormKeys.brands];
+
+      if (newBrands != selectedBrands.value) {
+        if (newBrands.isEmpty) {
+          selectedBrands.value = null;
+        } else {
+          selectedBrands.value = newBrands;
+        }
+      }
+
+      Get.back();
     }
   }
 
@@ -116,6 +143,7 @@ class AlimentController extends GetxController {
 abstract class FormKeys {
   static const String name = 'name';
   static const String barcode = 'barcode';
+  static const String brands = 'brands';
   static const String nutriscore = 'nutriscore';
   static const String unit = 'unit';
   static const String servingQuantity = 'servingQuantity';

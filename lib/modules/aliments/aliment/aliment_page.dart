@@ -54,12 +54,12 @@ class AlimentPage extends StatelessWidget {
                       valueTransformer: null,
                       keyboardType: TextInputType.number,
                     ),
-                    // TODO brands
-                    Builder(
-                      builder: (_) {
+                    Obx(
+                      () {
                         String brandsString = ContentTexts.noBrands;
-                        if (cAliment.aliment?.brands != null) {
-                          brandsString = cAliment.aliment!.brands!.join(', ');
+                        if (cAliment.selectedBrands.value != null) {
+                          brandsString =
+                              cAliment.selectedBrands.value!.join(', ');
                         }
 
                         return ListTile(
