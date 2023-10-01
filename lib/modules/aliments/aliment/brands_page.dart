@@ -10,7 +10,7 @@ class BrandsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetX<AlimentController>(
+    return GetBuilder<AlimentController>(
       builder: (cAliment) {
         return Scaffold(
           appBar: AppBar(
@@ -26,7 +26,7 @@ class BrandsPage extends StatelessWidget {
               initialValue: cAliment.selectedBrands,
               orientation: OptionsOrientation.vertical,
               options: [
-                for (final brand in cAliment.brands.value)
+                for (final brand in cAliment.brands)
                   FormBuilderFieldOption(
                     value: brand,
                   ),

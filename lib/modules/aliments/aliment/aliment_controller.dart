@@ -28,19 +28,8 @@ class AlimentController extends GetxController {
   String? initialLipids;
   String? initialSaturatedFats;
 
-  // TODO tenter d'enlever le rx
-  final brands = Rx<List<String>>([]);
-  // TODO tenter d'enlever le rx
+  List<String> brands = [];
   final _selectedBrands = Rx<List<String>?>(null);
-
-  List<String>? get selectedBrands {
-    if (_selectedBrands.value != null) {
-      List<String> brands = _selectedBrands.value!;
-      brands.sort();
-      return brands;
-    }
-    return null;
-  }
 
   @override
   Future<void> onInit() async {
@@ -62,7 +51,7 @@ class AlimentController extends GetxController {
       _selectedBrands.value = aliment!.brands;
     }
 
-    brands.value = await _service.getAllBrandsDistinct();
+    brands = await _service.getAllBrandsDistinct();
   }
 
   void goToBrands() =>
@@ -152,6 +141,15 @@ class AlimentController extends GetxController {
       formKey.currentState!.fields[FormKeys.nutriscore]!.didChange('');
 
   void goBack() => Get.back();
+
+  List<String>? get selectedBrands {
+    if (_selectedBrands.value != null) {
+      List<String> brands = _selectedBrands.value!;
+      brands.sort();
+      return brands;
+    }
+    return null;
+  }
 }
 
 abstract class FormKeys {
