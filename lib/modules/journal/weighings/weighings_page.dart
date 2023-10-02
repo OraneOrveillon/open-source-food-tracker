@@ -24,7 +24,7 @@ class WeighingsPage extends StatelessWidget {
               onTap: () => cWeighings.openDialog(
                 weighing: weighing,
                 dialog: DialogWeighingForm(
-                  title: DialogTexts.edit,
+                  title: DialogTexts.editWeighing,
                   onCancelClick: () => cWeighings.closeDialog(),
                   onOKClick: () => cWeighings.updateWeighing(weighing),
                 ),
@@ -46,7 +46,7 @@ class WeighingsPage extends StatelessWidget {
           onPressed: () => cWeighings.openDialog(
             weighing: null,
             dialog: DialogWeighingForm(
-              title: DialogTexts.add,
+              title: DialogTexts.addWeighing,
               onCancelClick: () => cWeighings.closeDialog(),
               onOKClick: () => cWeighings.addWeighing(),
             ),

@@ -31,8 +31,10 @@ abstract class InputTexts {
 }
 
 abstract class DialogTexts {
-  static const String edit = 'Edit';
-  static const String add = 'Add';
+  static const String addBrand = 'Add a brand';
+  static const String editBrand = 'Edit a brand';
+  static const String addWeighing = 'Add a weighing';
+  static const String editWeighing = 'Edit a weighing';
 }
 
 abstract class ContentTexts {

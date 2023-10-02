@@ -7,6 +7,7 @@ import '../../../data/models/aliment_model.dart';
 import '../../../data/services/aliment_service.dart';
 import '../../../routes/routes.dart';
 import '../aliments_controller.dart';
+import 'brands_page.dart';
 
 class AlimentController extends GetxController {
   final AlimentService _service = AlimentService();
@@ -15,6 +16,7 @@ class AlimentController extends GetxController {
 
   final GlobalKey<FormBuilderState> formKey = GlobalKey();
   final GlobalKey<FormBuilderState> brandsFormKey = GlobalKey();
+  final GlobalKey<FormBuilderState> newBrandFormKey = GlobalKey();
 
   String? initialName;
   String? initialBarcode;
@@ -28,7 +30,7 @@ class AlimentController extends GetxController {
   String? initialLipids;
   String? initialSaturatedFats;
 
-  List<String> brands = [];
+  final brands = Rx<List<String>>([]);
   final _selectedBrands = Rx<List<String>?>(null);
 
   @override
@@ -51,7 +53,7 @@ class AlimentController extends GetxController {
       _selectedBrands.value = aliment!.brands;
     }
 
-    brands = await _service.getAllBrandsDistinct();
+    brands.value = await _service.getAllBrandsDistinct();
   }
 
   void goToBrands() =>
@@ -140,8 +142,53 @@ class AlimentController extends GetxController {
   void clearNutriment() =>
       formKey.currentState!.fields[FormKeys.nutriscore]!.didChange('');
 
+  void openDialogAddBrand({required Widget dialog}) {
+    Get.dialog(dialog);
+  }
+
+  /// Adds a new brand in [BrandsPage].
+  ///
+  /// - Saves and validates the form, then gets the new value with [newBrandFormKey].
+  /// - If the brand does not already exists :
+  ///   - Saves and validates the other form with [brandsFormKey].
+  ///   - Adds the brand to the total brands list.
+  ///   - Gets selected brands from the form.
+  ///   - Adds the new one.
+  ///   - Update the form and [_selectedBrands].
+  void addBrand() {
+    if (newBrandFormKey.currentState!.saveAndValidate()) {
+      final String newBrand =
+          newBrandFormKey.currentState?.value[FormKeys.brands];
+
+      if (!brands.value.contains(newBrand)) {
+        if (brandsFormKey.currentState!.saveAndValidate()) {
+          brands.value.insert(0, newBrand);
+
+          List<String>? newSelectedBrands =
+              brandsFormKey.currentState!.value[FormKeys.brands];
+
+          if (newSelectedBrands == null) {
+            newSelectedBrands = [newBrand];
+          } else {
+            newSelectedBrands.add(newBrand);
+          }
+
+          _selectedBrands.value = newSelectedBrands;
+          brandsFormKey.currentState!
+              .patchValue({FormKeys.brands: newSelectedBrands});
+
+          goBack();
+        }
+      } else {
+        goBack();
+        Get.snackbar('Info', 'The $newBrand brand already exists.');
+      }
+    }
+  }
+
   void goBack() => Get.back();
 
+  /// Returns sorted [_selectedBrands].
   List<String>? get selectedBrands {
     if (_selectedBrands.value != null) {
       List<String> brands = _selectedBrands.value!;
