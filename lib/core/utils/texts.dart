@@ -22,6 +22,7 @@ abstract class InputTexts {
   static const String name = 'Name';
   static const String barcode = 'Barcode';
   static const String brands = 'Brands';
+  static const String categories = 'Categories';
   static const String nutriscore = 'Nutriscore';
   static const String unit = 'Unit';
   static const String servingQuantity = 'Serving quantity';
@@ -33,6 +34,8 @@ abstract class InputTexts {
 abstract class DialogTexts {
   static const String addBrand = 'Add a brand';
   static const String editBrand = 'Edit a brand';
+  static const String addCategory = 'Add a category';
+  static const String editCategory = 'Edit a category';
   static const String addWeighing = 'Add a weighing';
   static const String editWeighing = 'Edit a weighing';
 }

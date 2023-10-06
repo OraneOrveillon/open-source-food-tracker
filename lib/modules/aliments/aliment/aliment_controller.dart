@@ -16,12 +16,16 @@ class AlimentController extends GetxController {
 
   final GlobalKey<FormBuilderState> formKey = GlobalKey();
   final GlobalKey<FormBuilderState> newBrandFormKey = GlobalKey();
+  final GlobalKey<FormBuilderState> newCategoryFormKey = GlobalKey();
 
-  final GlobalKey<DropdownSearchState<String>> dropdownKey = GlobalKey();
+  final GlobalKey<DropdownSearchState<String>> brandsDropdownKey = GlobalKey();
+  final GlobalKey<DropdownSearchState<String>> categoriesDropdownKey =
+      GlobalKey();
 
   String? initialName;
   String? initialBarcode;
   List<String>? initialBrands = [];
+  List<String>? initialCategories = [];
   String? initialNutriscore;
   String? initialUnit = DropdownValues.units[0];
   String? initialServingQuantity;
@@ -35,6 +39,9 @@ class AlimentController extends GetxController {
   final brands = Rx<List<String>>([]);
   final _selectedBrands = Rx<List<String>>([]);
 
+  final categories = Rx<List<String>>([]);
+  final _selectedCategories = Rx<List<String>>([]);
+
   @override
   Future<void> onInit() async {
     super.onInit();
@@ -43,6 +50,7 @@ class AlimentController extends GetxController {
       initialName = aliment!.name;
       initialBarcode = aliment!.barcode;
       initialBrands = aliment!.brands;
+      initialCategories = aliment!.categories;
       initialNutriscore = aliment!.nutriscore;
       initialUnit = aliment!.unit;
       initialServingQuantity = aliment!.servingQuantity.toString();
@@ -54,9 +62,11 @@ class AlimentController extends GetxController {
       initialSaturatedFats = aliment!.saturatedFats.toString();
 
       _selectedBrands.value = aliment!.brands ?? [];
+      _selectedCategories.value = aliment!.categories ?? [];
     }
 
     brands.value = await _service.getAllBrandsDistinct();
+    categories.value = await _service.getAllCategoriesDistinct();
   }
 
   void goToBrands() =>
@@ -73,6 +83,7 @@ class AlimentController extends GetxController {
         ..name = formValues[FormKeys.name]
         ..barcode = formValues[FormKeys.barcode]
         ..brands = formValues[FormKeys.brands]
+        ..categories = formValues[FormKeys.categories]
         ..nutriscore = formValues[FormKeys.nutriscore]
         ..unit = formValues[FormKeys.unit]
         ..servingQuantity = formValues[FormKeys.servingQuantity]
@@ -101,7 +112,7 @@ class AlimentController extends GetxController {
         name: formValues[FormKeys.name],
         barcode: formValues[FormKeys.barcode],
         brands: formValues[FormKeys.brands],
-        categories: null,
+        categories: formValues[FormKeys.categories],
         nutriscore: formValues[FormKeys.nutriscore],
         image: null,
         unit: formValues[FormKeys.unit],
@@ -125,12 +136,18 @@ class AlimentController extends GetxController {
     }
   }
 
-  void clearNutriment() =>
+  void clearNutriscore() =>
       formKey.currentState!.fields[FormKeys.nutriscore]!.didChange('');
 
   void updateBrands() {
     _selectedBrands.value = _selectedBrandsInPopup;
     formKey.currentState!.patchValue({FormKeys.brands: _selectedBrandsInPopup});
+  }
+
+  void updateCategories() {
+    _selectedCategories.value = _selectedCategoriesInPopup;
+    formKey.currentState!
+        .patchValue({FormKeys.categories: _selectedCategoriesInPopup});
   }
 
   void addNewBrand() {
@@ -140,7 +157,23 @@ class AlimentController extends GetxController {
 
       if (!brands.value.contains(newBrand)) {
         brands.value.insert(0, newBrand);
-        dropdownKey.currentState!.getPopupState!.selectItems([newBrand]);
+        brandsDropdownKey.currentState!.getPopupState!.selectItems([newBrand]);
+
+        goBack();
+        goBack();
+      }
+    }
+  }
+
+  void addNewCategory() {
+    if (newCategoryFormKey.currentState!.saveAndValidate()) {
+      final String newCategory =
+          newCategoryFormKey.currentState?.value[FormKeys.categories];
+
+      if (!categories.value.contains(newCategory)) {
+        categories.value.insert(0, newCategory);
+        categoriesDropdownKey.currentState!.getPopupState!
+            .selectItems([newCategory]);
 
         goBack();
         goBack();
@@ -157,9 +190,21 @@ class AlimentController extends GetxController {
     return brands;
   }
 
+  /// Returns sorted [_selectedCategories].
+  List<String> get selectedCategories {
+    List<String> categories = _selectedCategories.value;
+    categories.sort();
+    return categories;
+  }
+
   /// Returns currently selected items in the brands popup.
   List<String> get _selectedBrandsInPopup {
-    return dropdownKey.currentState!.getPopupState!.getSelectedItem;
+    return brandsDropdownKey.currentState!.getPopupState!.getSelectedItem;
+  }
+
+  /// Returns currently selected items in the categories popup.
+  List<String> get _selectedCategoriesInPopup {
+    return categoriesDropdownKey.currentState!.getPopupState!.getSelectedItem;
   }
 }
 
@@ -167,6 +212,7 @@ abstract class FormKeys {
   static const String name = 'name';
   static const String barcode = 'barcode';
   static const String brands = 'brands';
+  static const String categories = 'categories';
   static const String nutriscore = 'nutriscore';
   static const String unit = 'unit';
   static const String servingQuantity = 'servingQuantity';

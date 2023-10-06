@@ -38,6 +38,25 @@ class AlimentService {
     return brandsList;
   }
 
+  Future<List<String>> getAllCategoriesDistinct() async {
+    final result = await _db.aliments
+        .where()
+        .distinctByCategories()
+        .categoriesProperty()
+        .findAll();
+
+    final Set<String> categoriesSet = {};
+
+    for (List<String>? categoriesList in result) {
+      if (categoriesList != null) categoriesSet.addAll(categoriesList);
+    }
+
+    final List<String> categoriesList = categoriesSet.toList();
+    categoriesList.sort();
+
+    return categoriesList;
+  }
+
   Future<void> putAliment(Aliment aliment) async {
     _db.writeTxn(() async {
       await _db.aliments.put(aliment);

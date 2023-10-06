@@ -61,7 +61,7 @@ class AlimentPage extends StatelessWidget {
                       () => DropdownSearchBrandsAndCategories(
                         inputName: FormKeys.brands,
                         initialValue: cAliment.initialBrands,
-                        dropdownKey: cAliment.dropdownKey,
+                        dropdownKey: cAliment.brandsDropdownKey,
                         label: InputTexts.brands,
                         items: cAliment.brands.value,
                         selectedItems: cAliment.selectedBrands,
@@ -72,14 +72,29 @@ class AlimentPage extends StatelessWidget {
                         onOKClick: () => cAliment.addNewBrand(),
                       ),
                     ),
-                    // TODO categories
+                    Obx(
+                      () => DropdownSearchBrandsAndCategories(
+                        inputName: FormKeys.categories,
+                        initialValue: cAliment.initialCategories,
+                        dropdownKey: cAliment.categoriesDropdownKey,
+                        label: InputTexts.categories,
+                        items: cAliment.categories.value,
+                        selectedItems: cAliment.selectedCategories,
+                        updateFunction: () => cAliment.updateCategories(),
+                        dialogTitle: DialogTexts.addCategory,
+                        dialogFormKey: cAliment.newCategoryFormKey,
+                        dialogAlreadyExistsErrorText:
+                            Errors.categoryAlreadyExists,
+                        onOKClick: () => cAliment.addNewCategory(),
+                      ),
+                    ),
                     FormBuilderDropdown(
                       name: FormKeys.nutriscore,
                       initialValue: cAliment.initialNutriscore,
                       decoration: InputDecoration(
                         label: const Text(InputTexts.nutriscore),
                         suffixIcon: IconButton(
-                          onPressed: () => cAliment.clearNutriment(),
+                          onPressed: () => cAliment.clearNutriscore(),
                           icon: const Icon(Icons.clear),
                         ),
                       ),
