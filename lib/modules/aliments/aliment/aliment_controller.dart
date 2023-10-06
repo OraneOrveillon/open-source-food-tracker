@@ -146,14 +146,6 @@ class AlimentController extends GetxController {
 
         goBack();
         goBack();
-      } else {
-        goBack();
-        // TODO remplacer par un validateur qui vérifie si la valeur existe déjà
-        Get.snackbar(
-          'Info',
-          'The $newBrand brand already exists.',
-          snackPosition: SnackPosition.BOTTOM,
-        );
       }
     }
   }

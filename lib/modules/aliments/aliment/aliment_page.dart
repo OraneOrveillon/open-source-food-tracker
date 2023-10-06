@@ -4,6 +4,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 
+import '../../../core/utils/errors.dart';
 import '../../../core/utils/lists.dart';
 import '../../../core/utils/paddings.dart';
 import '../../../core/utils/texts.dart';
@@ -88,6 +89,14 @@ class AlimentPage extends StatelessWidget {
                                       initialValue: null,
                                       validator: FormBuilderValidators.compose([
                                         FormBuilderValidators.required(),
+                                        ...cAliment.brands.value
+                                            .map((brand) =>
+                                                FormBuilderValidators.notEqual(
+                                                  brand,
+                                                  errorText:
+                                                      Errors.brandAlreadyExists,
+                                                ))
+                                            .toList(),
                                       ]),
                                       valueTransformer: null,
                                       keyboardType: TextInputType.text,
