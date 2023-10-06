@@ -8,6 +8,7 @@ import '../../../core/utils/errors.dart';
 import '../../../core/utils/lists.dart';
 import '../../../core/utils/paddings.dart';
 import '../../../core/utils/texts.dart';
+import '../../../core/utils/value_transformers.dart';
 import '../../../widgets/dialog_single_input_form.dart';
 import 'aliment_controller.dart';
 
@@ -162,11 +163,7 @@ class AlimentPage extends StatelessWidget {
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.numeric(),
                       ]),
-                      valueTransformer: (value) {
-                        if (value != null) {
-                          return double.parse(value);
-                        }
-                      },
+                      valueTransformer: ValueTransformers.doubleValue,
                       keyboardType: TextInputType.number,
                     ),
                     FormBuilderTextField(
@@ -179,7 +176,7 @@ class AlimentPage extends StatelessWidget {
                         FormBuilderValidators.required(),
                         FormBuilderValidators.integer(),
                       ]),
-                      valueTransformer: (value) => int.parse(value!),
+                      valueTransformer: ValueTransformers.intValue,
                       keyboardType: TextInputType.number,
                     ),
                     FormBuilderTextField(
@@ -192,7 +189,7 @@ class AlimentPage extends StatelessWidget {
                         FormBuilderValidators.required(),
                         FormBuilderValidators.numeric(),
                       ]),
-                      valueTransformer: (value) => double.parse(value!),
+                      valueTransformer: ValueTransformers.doubleValue,
                       keyboardType: TextInputType.number,
                     ),
                     FormBuilderTextField(
@@ -205,7 +202,7 @@ class AlimentPage extends StatelessWidget {
                         FormBuilderValidators.required(),
                         FormBuilderValidators.numeric(),
                       ]),
-                      valueTransformer: (value) => double.parse(value!),
+                      valueTransformer: ValueTransformers.doubleValue,
                       keyboardType: TextInputType.number,
                     ),
                     FormBuilderTextField(
@@ -218,7 +215,7 @@ class AlimentPage extends StatelessWidget {
                         FormBuilderValidators.required(),
                         FormBuilderValidators.numeric(),
                       ]),
-                      valueTransformer: (value) => double.parse(value!),
+                      valueTransformer: ValueTransformers.doubleValue,
                       keyboardType: TextInputType.number,
                     ),
                     FormBuilderTextField(
@@ -231,7 +228,7 @@ class AlimentPage extends StatelessWidget {
                         FormBuilderValidators.required(),
                         FormBuilderValidators.numeric(),
                       ]),
-                      valueTransformer: (value) => double.parse(value!),
+                      valueTransformer: ValueTransformers.doubleValue,
                       keyboardType: TextInputType.number,
                     ),
                     FormBuilderTextField(
@@ -244,7 +241,7 @@ class AlimentPage extends StatelessWidget {
                         FormBuilderValidators.required(),
                         FormBuilderValidators.numeric(),
                       ]),
-                      valueTransformer: (value) => double.parse(value!),
+                      valueTransformer: ValueTransformers.doubleValue,
                       keyboardType: TextInputType.number,
                     ),
                     // TODO doses

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 import '../../../core/utils/paddings.dart';
 import '../../../core/utils/texts.dart';
+import '../../../core/utils/value_transformers.dart';
 import 'objectives_controller.dart';
 
 class ObjectivesPage extends StatelessWidget {
@@ -40,7 +41,7 @@ class ObjectivesPage extends StatelessWidget {
                         FormBuilderValidators.required(),
                         FormBuilderValidators.integer(),
                       ]),
-                      valueTransformer: (value) => int.parse(value!),
+                      valueTransformer: ValueTransformers.intValue,
                       keyboardType: TextInputType.number,
                     ),
                     FormBuilderTextField(
@@ -52,7 +53,7 @@ class ObjectivesPage extends StatelessWidget {
                         FormBuilderValidators.required(),
                         FormBuilderValidators.integer(),
                       ]),
-                      valueTransformer: (value) => int.parse(value!),
+                      valueTransformer: ValueTransformers.intValue,
                       keyboardType: TextInputType.number,
                     ),
                     FormBuilderTextField(
@@ -64,7 +65,7 @@ class ObjectivesPage extends StatelessWidget {
                         FormBuilderValidators.required(),
                         FormBuilderValidators.integer(),
                       ]),
-                      valueTransformer: (value) => int.parse(value!),
+                      valueTransformer: ValueTransformers.intValue,
                       keyboardType: TextInputType.number,
                     ),
                     FormBuilderTextField(
@@ -76,7 +77,7 @@ class ObjectivesPage extends StatelessWidget {
                         FormBuilderValidators.required(),
                         FormBuilderValidators.integer(),
                       ]),
-                      valueTransformer: (value) => int.parse(value!),
+                      valueTransformer: ValueTransformers.intValue,
                       keyboardType: TextInputType.number,
                     ),
                     FormBuilderTextField(
@@ -88,7 +89,7 @@ class ObjectivesPage extends StatelessWidget {
                         FormBuilderValidators.required(),
                         FormBuilderValidators.integer(),
                       ]),
-                      valueTransformer: (value) => int.parse(value!),
+                      valueTransformer: ValueTransformers.intValue,
                       keyboardType: TextInputType.number,
                     ),
                     FormBuilderTextField(
@@ -100,7 +101,7 @@ class ObjectivesPage extends StatelessWidget {
                         FormBuilderValidators.required(),
                         FormBuilderValidators.integer(),
                       ]),
-                      valueTransformer: (value) => int.parse(value!),
+                      valueTransformer: ValueTransformers.intValue,
                       keyboardType: TextInputType.number,
                     ),
                   ],
