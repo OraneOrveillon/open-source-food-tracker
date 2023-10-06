@@ -21,6 +21,7 @@ class AlimentController extends GetxController {
 
   String? initialName;
   String? initialBarcode;
+  List<String>? initialBrands = [];
   String? initialNutriscore;
   String? initialUnit = DropdownValues.units[0];
   String? initialServingQuantity;
@@ -41,6 +42,7 @@ class AlimentController extends GetxController {
     if (aliment != null) {
       initialName = aliment!.name;
       initialBarcode = aliment!.barcode;
+      initialBrands = aliment!.brands;
       initialNutriscore = aliment!.nutriscore;
       initialUnit = aliment!.unit;
       initialServingQuantity = aliment!.servingQuantity.toString();
@@ -51,7 +53,7 @@ class AlimentController extends GetxController {
       initialLipids = aliment!.lipids.toString();
       initialSaturatedFats = aliment!.saturatedFats.toString();
 
-      _selectedBrands.value = List.of(aliment!.brands ?? []);
+      _selectedBrands.value = aliment!.brands ?? [];
     }
 
     brands.value = await _service.getAllBrandsDistinct();

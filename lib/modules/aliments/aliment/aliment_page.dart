@@ -60,6 +60,7 @@ class AlimentPage extends StatelessWidget {
                     Obx(
                       () => DropdownSearchBrandsAndCategories(
                         inputName: FormKeys.brands,
+                        initialValue: cAliment.initialBrands,
                         dropdownKey: cAliment.dropdownKey,
                         label: InputTexts.brands,
                         items: cAliment.brands.value,

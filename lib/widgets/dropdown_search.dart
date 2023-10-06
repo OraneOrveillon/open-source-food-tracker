@@ -6,6 +6,7 @@ class CustomDropDownSearch extends StatelessWidget {
   const CustomDropDownSearch({
     super.key,
     required this.inputName,
+    required this.initialValue,
     required this.dropdownKey,
     required this.label,
     required this.items,
@@ -15,6 +16,7 @@ class CustomDropDownSearch extends StatelessWidget {
   });
 
   final String inputName;
+  final List<String>? initialValue;
   final GlobalKey<DropdownSearchState<String>> dropdownKey;
   final String label;
   final List<String> items;
@@ -26,6 +28,7 @@ class CustomDropDownSearch extends StatelessWidget {
   Widget build(BuildContext context) {
     return FormBuilderField(
       name: inputName,
+      initialValue: initialValue,
       validator: null,
       valueTransformer: null,
       builder: (field) => DropdownSearch<String>.multiSelection(

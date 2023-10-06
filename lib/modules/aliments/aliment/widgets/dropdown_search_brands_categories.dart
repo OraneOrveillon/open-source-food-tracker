@@ -11,6 +11,7 @@ class DropdownSearchBrandsAndCategories extends StatelessWidget {
   const DropdownSearchBrandsAndCategories({
     Key? key,
     required this.inputName,
+    required this.initialValue,
     required this.dropdownKey,
     required this.label,
     required this.items,
@@ -23,6 +24,7 @@ class DropdownSearchBrandsAndCategories extends StatelessWidget {
   }) : super(key: key);
 
   final String inputName;
+  final List<String>? initialValue;
   final GlobalKey<DropdownSearchState<String>> dropdownKey;
   final String label;
   final List<String> items;
@@ -37,6 +39,7 @@ class DropdownSearchBrandsAndCategories extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomDropDownSearch(
       inputName: inputName,
+      initialValue: initialValue,
       dropdownKey: dropdownKey,
       label: label,
       items: items,
