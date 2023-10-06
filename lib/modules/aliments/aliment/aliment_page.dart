@@ -1,4 +1,3 @@
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -9,8 +8,8 @@ import '../../../core/utils/lists.dart';
 import '../../../core/utils/paddings.dart';
 import '../../../core/utils/texts.dart';
 import '../../../core/utils/value_transformers.dart';
-import '../../../widgets/dialog_single_input_form.dart';
 import 'aliment_controller.dart';
+import 'widgets/dropdown_search_brands_categories.dart';
 
 class AlimentPage extends StatelessWidget {
   const AlimentPage({Key? key}) : super(key: key);
@@ -63,58 +62,18 @@ class AlimentPage extends StatelessWidget {
                       validator: null,
                       valueTransformer: null,
                       builder: (field) => Obx(
-                        () => DropdownSearch<String>.multiSelection(
-                          key: cAliment.dropdownKey,
+                        () => DropdownSearchBrandsAndCategories(
+                          dropdownKey: cAliment.dropdownKey,
+                          label: InputTexts.brands,
                           items: cAliment.brands.value,
                           selectedItems: cAliment.selectedBrands,
-                          dropdownBuilder: (_, selectedItems) =>
-                              Text(selectedItems.join(', ')),
-                          popupProps: PopupPropsMultiSelection.modalBottomSheet(
-                            showSelectedItems: true,
-                            showSearchBox: true,
-                            searchDelay: Duration.zero,
-                            validationWidgetBuilder: (_, __) =>
-                                const SizedBox.shrink(),
-                            onDismissed: () => cAliment.updateBrands(),
-                            searchFieldProps: TextFieldProps(
-                              keyboardType: TextInputType.text,
-                              decoration: InputDecoration(
-                                prefixIcon: const Icon(Icons.search),
-                                suffixIcon: IconButton(
-                                  onPressed: () =>
-                                      cAliment.openDialogAddNewBrand(
-                                    dialog: DialogSingleInputForm(
-                                      title: DialogTexts.addBrand,
-                                      formKey: cAliment.newBrandFormKey,
-                                      inputName: FormKeys.brands,
-                                      initialValue: null,
-                                      validator: FormBuilderValidators.compose([
-                                        FormBuilderValidators.required(),
-                                        ...cAliment.brands.value
-                                            .map((brand) =>
-                                                FormBuilderValidators.notEqual(
-                                                  brand,
-                                                  errorText:
-                                                      Errors.brandAlreadyExists,
-                                                ))
-                                            .toList(),
-                                      ]),
-                                      valueTransformer: null,
-                                      keyboardType: TextInputType.text,
-                                      onCancelClick: () => cAliment.goBack(),
-                                      onOKClick: () => cAliment.addNewBrand(),
-                                    ),
-                                  ),
-                                  icon: const Icon(Icons.add),
-                                ),
-                              ),
-                            ),
-                          ),
-                          dropdownDecoratorProps: const DropDownDecoratorProps(
-                            dropdownSearchDecoration: InputDecoration(
-                              labelText: InputTexts.brands,
-                            ),
-                          ),
+                          updateFunction: () => cAliment.updateBrands(),
+                          dialogTitle: DialogTexts.addBrand,
+                          dialogFormKey: cAliment.newBrandFormKey,
+                          dialogInputName: FormKeys.brands,
+                          dialogAlreadyExistsErrorText:
+                              Errors.brandAlreadyExists,
+                          onOKClick: () => cAliment.addNewBrand(),
                         ),
                       ),
                     ),

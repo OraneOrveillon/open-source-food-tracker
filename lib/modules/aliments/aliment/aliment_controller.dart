@@ -131,10 +131,6 @@ class AlimentController extends GetxController {
     formKey.currentState!.patchValue({FormKeys.brands: _selectedBrandsInPopup});
   }
 
-  void openDialogAddNewBrand({required Widget dialog}) {
-    Get.dialog(dialog);
-  }
-
   void addNewBrand() {
     if (newBrandFormKey.currentState!.saveAndValidate()) {
       final String newBrand =
