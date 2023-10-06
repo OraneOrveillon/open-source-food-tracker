@@ -57,24 +57,18 @@ class AlimentPage extends StatelessWidget {
                       valueTransformer: null,
                       keyboardType: TextInputType.number,
                     ),
-                    FormBuilderField(
-                      name: FormKeys.brands,
-                      validator: null,
-                      valueTransformer: null,
-                      builder: (field) => Obx(
-                        () => DropdownSearchBrandsAndCategories(
-                          dropdownKey: cAliment.dropdownKey,
-                          label: InputTexts.brands,
-                          items: cAliment.brands.value,
-                          selectedItems: cAliment.selectedBrands,
-                          updateFunction: () => cAliment.updateBrands(),
-                          dialogTitle: DialogTexts.addBrand,
-                          dialogFormKey: cAliment.newBrandFormKey,
-                          dialogInputName: FormKeys.brands,
-                          dialogAlreadyExistsErrorText:
-                              Errors.brandAlreadyExists,
-                          onOKClick: () => cAliment.addNewBrand(),
-                        ),
+                    Obx(
+                      () => DropdownSearchBrandsAndCategories(
+                        inputName: FormKeys.brands,
+                        dropdownKey: cAliment.dropdownKey,
+                        label: InputTexts.brands,
+                        items: cAliment.brands.value,
+                        selectedItems: cAliment.selectedBrands,
+                        updateFunction: () => cAliment.updateBrands(),
+                        dialogTitle: DialogTexts.addBrand,
+                        dialogFormKey: cAliment.newBrandFormKey,
+                        dialogAlreadyExistsErrorText: Errors.brandAlreadyExists,
+                        onOKClick: () => cAliment.addNewBrand(),
                       ),
                     ),
                     // TODO categories

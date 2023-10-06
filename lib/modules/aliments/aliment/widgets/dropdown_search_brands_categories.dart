@@ -10,6 +10,7 @@ import '../../../../widgets/dropdown_search.dart';
 class DropdownSearchBrandsAndCategories extends StatelessWidget {
   const DropdownSearchBrandsAndCategories({
     Key? key,
+    required this.inputName,
     required this.dropdownKey,
     required this.label,
     required this.items,
@@ -17,11 +18,11 @@ class DropdownSearchBrandsAndCategories extends StatelessWidget {
     required this.updateFunction,
     required this.dialogTitle,
     required this.dialogFormKey,
-    required this.dialogInputName,
     required this.dialogAlreadyExistsErrorText,
     required this.onOKClick,
   }) : super(key: key);
 
+  final String inputName;
   final GlobalKey<DropdownSearchState<String>> dropdownKey;
   final String label;
   final List<String> items;
@@ -29,13 +30,13 @@ class DropdownSearchBrandsAndCategories extends StatelessWidget {
   final void Function() updateFunction;
   final String dialogTitle;
   final GlobalKey<FormBuilderState> dialogFormKey;
-  final String dialogInputName;
   final String dialogAlreadyExistsErrorText;
   final void Function() onOKClick;
 
   @override
   Widget build(BuildContext context) {
     return CustomDropDownSearch(
+      inputName: inputName,
       dropdownKey: dropdownKey,
       label: label,
       items: items,
@@ -48,7 +49,7 @@ class DropdownSearchBrandsAndCategories extends StatelessWidget {
             DialogSingleInputForm(
               title: dialogTitle,
               formKey: dialogFormKey,
-              inputName: dialogInputName,
+              inputName: inputName,
               initialValue: null,
               validator: FormBuilderValidators.compose([
                 FormBuilderValidators.required(),
