@@ -1,3 +1,4 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
@@ -7,7 +8,6 @@ import '../../../data/models/aliment_model.dart';
 import '../../../data/services/aliment_service.dart';
 import '../../../routes/routes.dart';
 import '../aliments_controller.dart';
-import 'brands_page.dart';
 
 class AlimentController extends GetxController {
   final AlimentService _service = AlimentService();
@@ -15,8 +15,9 @@ class AlimentController extends GetxController {
   Aliment? aliment = Get.arguments;
 
   final GlobalKey<FormBuilderState> formKey = GlobalKey();
-  final GlobalKey<FormBuilderState> brandsFormKey = GlobalKey();
   final GlobalKey<FormBuilderState> newBrandFormKey = GlobalKey();
+
+  final GlobalKey<DropdownSearchState<String>> dropdownKey = GlobalKey();
 
   String? initialName;
   String? initialBarcode;
@@ -31,7 +32,7 @@ class AlimentController extends GetxController {
   String? initialSaturatedFats;
 
   final brands = Rx<List<String>>([]);
-  final _selectedBrands = Rx<List<String>?>(null);
+  final _selectedBrands = Rx<List<String>>([]);
 
   @override
   Future<void> onInit() async {
@@ -50,7 +51,7 @@ class AlimentController extends GetxController {
       initialLipids = aliment!.lipids.toString();
       initialSaturatedFats = aliment!.saturatedFats.toString();
 
-      _selectedBrands.value = aliment!.brands;
+      _selectedBrands.value = List.of(aliment!.brands ?? []);
     }
 
     brands.value = await _service.getAllBrandsDistinct();
@@ -69,7 +70,7 @@ class AlimentController extends GetxController {
         ..creationDate = DateTime.now()
         ..name = formValues[FormKeys.name]
         ..barcode = formValues[FormKeys.barcode]
-        ..brands = _selectedBrands.value
+        ..brands = formValues[FormKeys.brands]
         ..nutriscore = formValues[FormKeys.nutriscore]
         ..unit = formValues[FormKeys.unit]
         ..servingQuantity = formValues[FormKeys.servingQuantity]
@@ -97,7 +98,7 @@ class AlimentController extends GetxController {
       final Aliment newAliment = aliment!.copyWith(
         name: formValues[FormKeys.name],
         barcode: formValues[FormKeys.barcode],
-        brands: _selectedBrands.value,
+        brands: formValues[FormKeys.brands],
         categories: null,
         nutriscore: formValues[FormKeys.nutriscore],
         image: null,
@@ -122,66 +123,37 @@ class AlimentController extends GetxController {
     }
   }
 
-  void updateBrands() {
-    if (brandsFormKey.currentState!.saveAndValidate()) {
-      final List<String>? newBrands =
-          brandsFormKey.currentState!.value[FormKeys.brands];
-
-      if (newBrands != _selectedBrands.value) {
-        if (newBrands == null || newBrands.isEmpty) {
-          _selectedBrands.value = null;
-        } else {
-          _selectedBrands.value = newBrands;
-        }
-      }
-
-      Get.back();
-    }
-  }
-
   void clearNutriment() =>
       formKey.currentState!.fields[FormKeys.nutriscore]!.didChange('');
 
-  void openDialogAddBrand({required Widget dialog}) {
+  void updateBrands() {
+    _selectedBrands.value = _selectedBrandsInPopup;
+    formKey.currentState!.patchValue({FormKeys.brands: _selectedBrandsInPopup});
+  }
+
+  void openDialogAddNewBrand({required Widget dialog}) {
     Get.dialog(dialog);
   }
 
-  /// Adds a new brand in [BrandsPage].
-  ///
-  /// - Saves and validates the form, then gets the new value with [newBrandFormKey].
-  /// - If the brand does not already exists :
-  ///   - Saves and validates the other form with [brandsFormKey].
-  ///   - Adds the brand to the total brands list.
-  ///   - Gets selected brands from the form.
-  ///   - Adds the new one.
-  ///   - Update the form and [_selectedBrands].
-  void addBrand() {
+  void addNewBrand() {
     if (newBrandFormKey.currentState!.saveAndValidate()) {
       final String newBrand =
           newBrandFormKey.currentState?.value[FormKeys.brands];
 
       if (!brands.value.contains(newBrand)) {
-        if (brandsFormKey.currentState!.saveAndValidate()) {
-          brands.value.insert(0, newBrand);
+        brands.value.insert(0, newBrand);
+        dropdownKey.currentState!.getPopupState!.selectItems([newBrand]);
 
-          List<String>? newSelectedBrands =
-              brandsFormKey.currentState!.value[FormKeys.brands];
-
-          if (newSelectedBrands == null) {
-            newSelectedBrands = [newBrand];
-          } else {
-            newSelectedBrands.add(newBrand);
-          }
-
-          _selectedBrands.value = newSelectedBrands;
-          brandsFormKey.currentState!
-              .patchValue({FormKeys.brands: newSelectedBrands});
-
-          goBack();
-        }
+        goBack();
+        goBack();
       } else {
         goBack();
-        Get.snackbar('Info', 'The $newBrand brand already exists.');
+        // TODO remplacer par un validateur qui vérifie si la valeur existe déjà
+        Get.snackbar(
+          'Info',
+          'The $newBrand brand already exists.',
+          snackPosition: SnackPosition.BOTTOM,
+        );
       }
     }
   }
@@ -189,13 +161,15 @@ class AlimentController extends GetxController {
   void goBack() => Get.back();
 
   /// Returns sorted [_selectedBrands].
-  List<String>? get selectedBrands {
-    if (_selectedBrands.value != null) {
-      List<String> brands = _selectedBrands.value!;
-      brands.sort();
-      return brands;
-    }
-    return null;
+  List<String> get selectedBrands {
+    List<String> brands = _selectedBrands.value;
+    brands.sort();
+    return brands;
+  }
+
+  /// Returns currently selected items in the brands popup.
+  List<String> get _selectedBrandsInPopup {
+    return dropdownKey.currentState!.getPopupState!.getSelectedItem;
   }
 }
 

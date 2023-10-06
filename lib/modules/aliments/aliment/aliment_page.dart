@@ -1,3 +1,4 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -6,6 +7,7 @@ import 'package:get/get.dart';
 import '../../../core/utils/lists.dart';
 import '../../../core/utils/paddings.dart';
 import '../../../core/utils/texts.dart';
+import '../../../widgets/dialog_single_input_form.dart';
 import 'aliment_controller.dart';
 
 class AlimentPage extends StatelessWidget {
@@ -54,25 +56,59 @@ class AlimentPage extends StatelessWidget {
                       valueTransformer: null,
                       keyboardType: TextInputType.number,
                     ),
-                    Obx(
-                      () {
-                        String brandsString = ContentTexts.noBrands;
-                        if (cAliment.selectedBrands != null) {
-                          brandsString = cAliment.selectedBrands!.join(', ');
-                        }
-
-                        return ListTile(
-                          title: const Text(InputTexts.brands),
-                          subtitle: Text(brandsString),
-                          trailing: const Icon(
-                            Icons.chevron_right,
+                    FormBuilderField(
+                      name: FormKeys.brands,
+                      validator: null,
+                      valueTransformer: null,
+                      builder: (field) => Obx(
+                        () => DropdownSearch<String>.multiSelection(
+                          key: cAliment.dropdownKey,
+                          items: cAliment.brands.value,
+                          selectedItems: cAliment.selectedBrands,
+                          dropdownBuilder: (_, selectedItems) =>
+                              Text(selectedItems.join(', ')),
+                          popupProps: PopupPropsMultiSelection.modalBottomSheet(
+                            showSelectedItems: true,
+                            showSearchBox: true,
+                            searchDelay: Duration.zero,
+                            validationWidgetBuilder: (_, __) =>
+                                const SizedBox.shrink(),
+                            onDismissed: () => cAliment.updateBrands(),
+                            searchFieldProps: TextFieldProps(
+                              keyboardType: TextInputType.text,
+                              decoration: InputDecoration(
+                                prefixIcon: const Icon(Icons.search),
+                                suffixIcon: IconButton(
+                                  onPressed: () =>
+                                      cAliment.openDialogAddNewBrand(
+                                    dialog: DialogSingleInputForm(
+                                      title: DialogTexts.addBrand,
+                                      formKey: cAliment.newBrandFormKey,
+                                      inputName: FormKeys.brands,
+                                      initialValue: null,
+                                      validator: FormBuilderValidators.compose([
+                                        FormBuilderValidators.required(),
+                                      ]),
+                                      valueTransformer: null,
+                                      keyboardType: TextInputType.text,
+                                      onCancelClick: () => cAliment.goBack(),
+                                      onOKClick: () => cAliment.addNewBrand(),
+                                    ),
+                                  ),
+                                  icon: const Icon(Icons.add),
+                                ),
+                              ),
+                            ),
                           ),
-                          onTap: () => cAliment.goToBrands(),
-                        );
-                      },
+                          dropdownDecoratorProps: const DropDownDecoratorProps(
+                            dropdownSearchDecoration: InputDecoration(
+                              labelText: InputTexts.brands,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                     // TODO categories
-                    // TODO rajouter clear button
                     FormBuilderDropdown(
                       name: FormKeys.nutriscore,
                       initialValue: cAliment.initialNutriscore,
