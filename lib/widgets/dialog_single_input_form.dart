@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 import '../../../../core/utils/texts.dart';
+import 'text_field.dart';
 
 class DialogSingleInputForm extends StatelessWidget {
   const DialogSingleInputForm({
@@ -33,8 +34,9 @@ class DialogSingleInputForm extends StatelessWidget {
       title: Text(title),
       content: FormBuilder(
         key: formKey,
-        child: FormBuilderTextField(
+        child: CustomTextField(
           name: inputName,
+          label: null,
           initialValue: initialValue,
           validator: validator,
           valueTransformer: valueTransformer,

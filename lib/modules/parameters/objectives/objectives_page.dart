@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import '../../../core/utils/paddings.dart';
 import '../../../core/utils/texts.dart';
 import '../../../core/utils/value_transformers.dart';
+import '../../../widgets/text_field.dart';
 import 'objectives_controller.dart';
 
 class ObjectivesPage extends StatelessWidget {
@@ -32,11 +33,10 @@ class ObjectivesPage extends StatelessWidget {
                 key: cObjectives.formKey,
                 child: Column(
                   children: [
-                    FormBuilderTextField(
+                    CustomTextField(
                       name: FormKeys.calories,
-                      decoration: const InputDecoration(
-                        label: Text(InputTexts.calories),
-                      ),
+                      label: InputTexts.calories,
+                      initialValue: null,
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(),
                         FormBuilderValidators.integer(),
@@ -44,11 +44,10 @@ class ObjectivesPage extends StatelessWidget {
                       valueTransformer: ValueTransformers.intValue,
                       keyboardType: TextInputType.number,
                     ),
-                    FormBuilderTextField(
+                    CustomTextField(
                       name: FormKeys.proteins,
-                      decoration: const InputDecoration(
-                        label: Text(InputTexts.proteins),
-                      ),
+                      label: InputTexts.proteins,
+                      initialValue: null,
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(),
                         FormBuilderValidators.integer(),
@@ -56,11 +55,10 @@ class ObjectivesPage extends StatelessWidget {
                       valueTransformer: ValueTransformers.intValue,
                       keyboardType: TextInputType.number,
                     ),
-                    FormBuilderTextField(
+                    CustomTextField(
                       name: FormKeys.carbohydrates,
-                      decoration: const InputDecoration(
-                        label: Text(InputTexts.carbohydrates),
-                      ),
+                      label: InputTexts.carbohydrates,
+                      initialValue: null,
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(),
                         FormBuilderValidators.integer(),
@@ -68,11 +66,10 @@ class ObjectivesPage extends StatelessWidget {
                       valueTransformer: ValueTransformers.intValue,
                       keyboardType: TextInputType.number,
                     ),
-                    FormBuilderTextField(
+                    CustomTextField(
                       name: FormKeys.sugars,
-                      decoration: const InputDecoration(
-                        label: Text(InputTexts.sugars),
-                      ),
+                      label: InputTexts.sugars,
+                      initialValue: null,
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(),
                         FormBuilderValidators.integer(),
@@ -80,11 +77,10 @@ class ObjectivesPage extends StatelessWidget {
                       valueTransformer: ValueTransformers.intValue,
                       keyboardType: TextInputType.number,
                     ),
-                    FormBuilderTextField(
+                    CustomTextField(
                       name: FormKeys.lipids,
-                      decoration: const InputDecoration(
-                        label: Text(InputTexts.lipids),
-                      ),
+                      label: InputTexts.lipids,
+                      initialValue: null,
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(),
                         FormBuilderValidators.integer(),
@@ -92,11 +88,10 @@ class ObjectivesPage extends StatelessWidget {
                       valueTransformer: ValueTransformers.intValue,
                       keyboardType: TextInputType.number,
                     ),
-                    FormBuilderTextField(
+                    CustomTextField(
                       name: FormKeys.saturatedFats,
-                      decoration: const InputDecoration(
-                        label: Text(InputTexts.saturatedFats),
-                      ),
+                      label: InputTexts.saturatedFats,
+                      initialValue: null,
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(),
                         FormBuilderValidators.integer(),

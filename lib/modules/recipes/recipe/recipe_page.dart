@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import '../../../core/utils/paddings.dart';
 import '../../../core/utils/texts.dart';
 import '../../../core/utils/value_transformers.dart';
+import '../../../widgets/text_field.dart';
 import 'recipe_controller.dart';
 
 class RecipePage extends StatelessWidget {
@@ -31,12 +32,10 @@ class RecipePage extends StatelessWidget {
                 key: cRecipe.formKey,
                 child: Column(
                   children: [
-                    FormBuilderTextField(
+                    CustomTextField(
                       name: FormKeys.name,
+                      label: InputTexts.name,
                       initialValue: cRecipe.initialName,
-                      decoration: const InputDecoration(
-                        label: Text(InputTexts.name),
-                      ),
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(),
                       ]),
@@ -44,12 +43,10 @@ class RecipePage extends StatelessWidget {
                       keyboardType: TextInputType.text,
                     ),
                     // TODO tags
-                    FormBuilderTextField(
+                    CustomTextField(
                       name: FormKeys.portions,
+                      label: InputTexts.portions,
                       initialValue: cRecipe.initialPortions,
-                      decoration: const InputDecoration(
-                        label: Text(InputTexts.portions),
-                      ),
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(),
                         FormBuilderValidators.integer(),
@@ -57,12 +54,10 @@ class RecipePage extends StatelessWidget {
                       valueTransformer: ValueTransformers.intValue,
                       keyboardType: TextInputType.number,
                     ),
-                    FormBuilderTextField(
+                    CustomTextField(
                       name: FormKeys.description,
+                      label: InputTexts.description,
                       initialValue: cRecipe.initialDescription,
-                      decoration: const InputDecoration(
-                        label: Text(InputTexts.description),
-                      ),
                       validator: null,
                       valueTransformer: null,
                       keyboardType: TextInputType.multiline,

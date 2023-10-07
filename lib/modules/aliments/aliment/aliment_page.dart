@@ -8,6 +8,7 @@ import '../../../core/utils/lists.dart';
 import '../../../core/utils/paddings.dart';
 import '../../../core/utils/texts.dart';
 import '../../../core/utils/value_transformers.dart';
+import '../../../widgets/text_field.dart';
 import 'aliment_controller.dart';
 import 'widgets/dropdown_search_brands_categories.dart';
 
@@ -32,33 +33,29 @@ class AlimentPage extends StatelessWidget {
               padding: const EdgeInsets.all(Paddings.medium),
               child: FormBuilder(
                 key: cAliment.formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    FormBuilderTextField(
-                      name: FormKeys.name,
-                      initialValue: cAliment.initialName,
-                      decoration: const InputDecoration(
-                        label: Text(InputTexts.name),
+                child: Obx(() {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomTextField(
+                        name: FormKeys.name,
+                        initialValue: cAliment.initialName,
+                        label: InputTexts.name,
+                        validator: FormBuilderValidators.compose([
+                          FormBuilderValidators.required(),
+                        ]),
+                        valueTransformer: null,
+                        keyboardType: TextInputType.text,
                       ),
-                      validator: FormBuilderValidators.compose([
-                        FormBuilderValidators.required(),
-                      ]),
-                      valueTransformer: null,
-                      keyboardType: TextInputType.text,
-                    ),
-                    FormBuilderTextField(
-                      name: FormKeys.barcode,
-                      initialValue: cAliment.initialBarcode,
-                      decoration: const InputDecoration(
-                        label: Text(InputTexts.barcode),
+                      CustomTextField(
+                        name: FormKeys.barcode,
+                        initialValue: cAliment.initialBarcode,
+                        label: InputTexts.barcode,
+                        validator: null,
+                        valueTransformer: null,
+                        keyboardType: TextInputType.number,
                       ),
-                      validator: null,
-                      valueTransformer: null,
-                      keyboardType: TextInputType.number,
-                    ),
-                    Obx(
-                      () => DropdownSearchBrandsAndCategories(
+                      DropdownSearchBrandsAndCategories(
                         inputName: FormKeys.brands,
                         initialValue: cAliment.initialBrands,
                         dropdownKey: cAliment.brandsDropdownKey,
@@ -71,9 +68,7 @@ class AlimentPage extends StatelessWidget {
                         dialogAlreadyExistsErrorText: Errors.brandAlreadyExists,
                         onOKClick: () => cAliment.addNewBrand(),
                       ),
-                    ),
-                    Obx(
-                      () => DropdownSearchBrandsAndCategories(
+                      DropdownSearchBrandsAndCategories(
                         inputName: FormKeys.categories,
                         initialValue: cAliment.initialCategories,
                         dropdownKey: cAliment.categoriesDropdownKey,
@@ -87,135 +82,121 @@ class AlimentPage extends StatelessWidget {
                             Errors.categoryAlreadyExists,
                         onOKClick: () => cAliment.addNewCategory(),
                       ),
-                    ),
-                    FormBuilderDropdown(
-                      name: FormKeys.nutriscore,
-                      initialValue: cAliment.initialNutriscore,
-                      decoration: InputDecoration(
-                        label: const Text(InputTexts.nutriscore),
-                        suffixIcon: IconButton(
-                          onPressed: () => cAliment.clearNutriscore(),
-                          icon: const Icon(Icons.clear),
+                      FormBuilderDropdown(
+                        name: FormKeys.nutriscore,
+                        initialValue: cAliment.initialNutriscore,
+                        decoration: InputDecoration(
+                          label: const Text(InputTexts.nutriscore),
+                          suffixIcon: IconButton(
+                            onPressed: () => cAliment.clearNutriscore(),
+                            icon: const Icon(Icons.clear),
+                          ),
                         ),
+                        items: DropdownValues.nutriscores
+                            .map((String value) => DropdownMenuItem(
+                                  value: value,
+                                  child: Text(value),
+                                ))
+                            .toList(),
+                        validator: null,
                       ),
-                      items: DropdownValues.nutriscores
-                          .map((String value) => DropdownMenuItem(
-                                value: value,
-                                child: Text(value),
-                              ))
-                          .toList(),
-                      validator: null,
-                    ),
-                    // TODO image
-                    FormBuilderDropdown(
-                      name: FormKeys.unit,
-                      initialValue: cAliment.initialUnit,
-                      decoration: const InputDecoration(
-                        label: Text(InputTexts.unit),
+                      // TODO image
+                      FormBuilderDropdown(
+                        name: FormKeys.unit,
+                        initialValue: cAliment.initialUnit,
+                        decoration: const InputDecoration(
+                          label: Text(InputTexts.unit),
+                        ),
+                        items: DropdownValues.units
+                            .map((String value) => DropdownMenuItem(
+                                  value: value,
+                                  child: Text(value),
+                                ))
+                            .toList(),
+                        validator: FormBuilderValidators.compose([
+                          FormBuilderValidators.required(),
+                        ]),
                       ),
-                      items: DropdownValues.units
-                          .map((String value) => DropdownMenuItem(
-                                value: value,
-                                child: Text(value),
-                              ))
-                          .toList(),
-                      validator: FormBuilderValidators.compose([
-                        FormBuilderValidators.required(),
-                      ]),
-                    ),
-                    FormBuilderTextField(
-                      name: FormKeys.servingQuantity,
-                      initialValue: cAliment.initialServingQuantity,
-                      decoration: const InputDecoration(
-                        label: Text(InputTexts.servingQuantity),
+                      CustomTextField(
+                        name: FormKeys.servingQuantity,
+                        initialValue: cAliment.initialServingQuantity,
+                        label: InputTexts.servingQuantity,
+                        validator: FormBuilderValidators.compose([
+                          FormBuilderValidators.numeric(),
+                        ]),
+                        valueTransformer: ValueTransformers.doubleValue,
+                        keyboardType: TextInputType.number,
                       ),
-                      validator: FormBuilderValidators.compose([
-                        FormBuilderValidators.numeric(),
-                      ]),
-                      valueTransformer: ValueTransformers.doubleValue,
-                      keyboardType: TextInputType.number,
-                    ),
-                    FormBuilderTextField(
-                      name: FormKeys.calories,
-                      initialValue: cAliment.initialCalories,
-                      decoration: const InputDecoration(
-                        label: Text(InputTexts.calories),
+                      CustomTextField(
+                        name: FormKeys.calories,
+                        initialValue: cAliment.initialCalories,
+                        label: InputTexts.calories,
+                        validator: FormBuilderValidators.compose([
+                          FormBuilderValidators.required(),
+                          FormBuilderValidators.integer(),
+                        ]),
+                        valueTransformer: ValueTransformers.intValue,
+                        keyboardType: TextInputType.number,
                       ),
-                      validator: FormBuilderValidators.compose([
-                        FormBuilderValidators.required(),
-                        FormBuilderValidators.integer(),
-                      ]),
-                      valueTransformer: ValueTransformers.intValue,
-                      keyboardType: TextInputType.number,
-                    ),
-                    FormBuilderTextField(
-                      name: FormKeys.proteins,
-                      initialValue: cAliment.initialProteins,
-                      decoration: const InputDecoration(
-                        label: Text(InputTexts.proteins),
+                      CustomTextField(
+                        name: FormKeys.proteins,
+                        initialValue: cAliment.initialProteins,
+                        label: InputTexts.proteins,
+                        validator: FormBuilderValidators.compose([
+                          FormBuilderValidators.required(),
+                          FormBuilderValidators.numeric(),
+                        ]),
+                        valueTransformer: ValueTransformers.doubleValue,
+                        keyboardType: TextInputType.number,
                       ),
-                      validator: FormBuilderValidators.compose([
-                        FormBuilderValidators.required(),
-                        FormBuilderValidators.numeric(),
-                      ]),
-                      valueTransformer: ValueTransformers.doubleValue,
-                      keyboardType: TextInputType.number,
-                    ),
-                    FormBuilderTextField(
-                      name: FormKeys.carbohydrates,
-                      initialValue: cAliment.initialCarbohydrates,
-                      decoration: const InputDecoration(
-                        label: Text(InputTexts.carbohydrates),
+                      CustomTextField(
+                        name: FormKeys.carbohydrates,
+                        initialValue: cAliment.initialCarbohydrates,
+                        label: InputTexts.carbohydrates,
+                        validator: FormBuilderValidators.compose([
+                          FormBuilderValidators.required(),
+                          FormBuilderValidators.numeric(),
+                        ]),
+                        valueTransformer: ValueTransformers.doubleValue,
+                        keyboardType: TextInputType.number,
                       ),
-                      validator: FormBuilderValidators.compose([
-                        FormBuilderValidators.required(),
-                        FormBuilderValidators.numeric(),
-                      ]),
-                      valueTransformer: ValueTransformers.doubleValue,
-                      keyboardType: TextInputType.number,
-                    ),
-                    FormBuilderTextField(
-                      name: FormKeys.sugars,
-                      initialValue: cAliment.initialSugars,
-                      decoration: const InputDecoration(
-                        label: Text(InputTexts.sugars),
+                      CustomTextField(
+                        name: FormKeys.sugars,
+                        initialValue: cAliment.initialSugars,
+                        label: InputTexts.sugars,
+                        validator: FormBuilderValidators.compose([
+                          FormBuilderValidators.required(),
+                          FormBuilderValidators.numeric(),
+                        ]),
+                        valueTransformer: ValueTransformers.doubleValue,
+                        keyboardType: TextInputType.number,
                       ),
-                      validator: FormBuilderValidators.compose([
-                        FormBuilderValidators.required(),
-                        FormBuilderValidators.numeric(),
-                      ]),
-                      valueTransformer: ValueTransformers.doubleValue,
-                      keyboardType: TextInputType.number,
-                    ),
-                    FormBuilderTextField(
-                      name: FormKeys.lipids,
-                      initialValue: cAliment.initialLipids,
-                      decoration: const InputDecoration(
-                        label: Text(InputTexts.lipids),
+                      CustomTextField(
+                        name: FormKeys.lipids,
+                        initialValue: cAliment.initialLipids,
+                        label: InputTexts.lipids,
+                        validator: FormBuilderValidators.compose([
+                          FormBuilderValidators.required(),
+                          FormBuilderValidators.numeric(),
+                        ]),
+                        valueTransformer: ValueTransformers.doubleValue,
+                        keyboardType: TextInputType.number,
                       ),
-                      validator: FormBuilderValidators.compose([
-                        FormBuilderValidators.required(),
-                        FormBuilderValidators.numeric(),
-                      ]),
-                      valueTransformer: ValueTransformers.doubleValue,
-                      keyboardType: TextInputType.number,
-                    ),
-                    FormBuilderTextField(
-                      name: FormKeys.saturatedFats,
-                      initialValue: cAliment.initialSaturatedFats,
-                      decoration: const InputDecoration(
-                        label: Text(InputTexts.saturatedFats),
+                      CustomTextField(
+                        name: FormKeys.saturatedFats,
+                        initialValue: cAliment.initialSaturatedFats,
+                        label: InputTexts.saturatedFats,
+                        validator: FormBuilderValidators.compose([
+                          FormBuilderValidators.required(),
+                          FormBuilderValidators.numeric(),
+                        ]),
+                        valueTransformer: ValueTransformers.doubleValue,
+                        keyboardType: TextInputType.number,
                       ),
-                      validator: FormBuilderValidators.compose([
-                        FormBuilderValidators.required(),
-                        FormBuilderValidators.numeric(),
-                      ]),
-                      valueTransformer: ValueTransformers.doubleValue,
-                      keyboardType: TextInputType.number,
-                    ),
-                    // TODO doses
-                  ],
-                ),
+                      // TODO doses
+                    ],
+                  );
+                }),
               ),
             ),
           ),

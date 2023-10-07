@@ -37,7 +37,7 @@ class DropdownSearchBrandsAndCategories extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomDropDownSearch(
+    return CustomDropdownSearch(
       inputName: inputName,
       initialValue: initialValue,
       dropdownKey: dropdownKey,

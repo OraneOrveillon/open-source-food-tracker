@@ -2,8 +2,8 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
-class CustomDropDownSearch extends StatelessWidget {
-  const CustomDropDownSearch({
+class CustomDropdownSearch extends StatelessWidget {
+  const CustomDropdownSearch({
     super.key,
     required this.inputName,
     required this.initialValue,
