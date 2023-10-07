@@ -8,6 +8,7 @@ import '../../../core/utils/lists.dart';
 import '../../../core/utils/paddings.dart';
 import '../../../core/utils/texts.dart';
 import '../../../core/utils/value_transformers.dart';
+import '../../../widgets/dropdown.dart';
 import '../../../widgets/text_field.dart';
 import 'aliment_controller.dart';
 import 'widgets/dropdown_search_brands_categories.dart';
@@ -39,8 +40,8 @@ class AlimentPage extends StatelessWidget {
                     children: [
                       CustomTextField(
                         name: FormKeys.name,
-                        initialValue: cAliment.initialName,
                         label: InputTexts.name,
+                        initialValue: cAliment.initialName,
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.required(),
                         ]),
@@ -49,17 +50,17 @@ class AlimentPage extends StatelessWidget {
                       ),
                       CustomTextField(
                         name: FormKeys.barcode,
-                        initialValue: cAliment.initialBarcode,
                         label: InputTexts.barcode,
+                        initialValue: cAliment.initialBarcode,
                         validator: null,
                         valueTransformer: null,
                         keyboardType: TextInputType.number,
                       ),
                       DropdownSearchBrandsAndCategories(
                         inputName: FormKeys.brands,
+                        label: InputTexts.brands,
                         initialValue: cAliment.initialBrands,
                         dropdownKey: cAliment.brandsDropdownKey,
-                        label: InputTexts.brands,
                         items: cAliment.brands.value,
                         selectedItems: cAliment.selectedBrands,
                         updateFunction: () => cAliment.updateBrands(),
@@ -70,9 +71,9 @@ class AlimentPage extends StatelessWidget {
                       ),
                       DropdownSearchBrandsAndCategories(
                         inputName: FormKeys.categories,
+                        label: InputTexts.categories,
                         initialValue: cAliment.initialCategories,
                         dropdownKey: cAliment.categoriesDropdownKey,
-                        label: InputTexts.categories,
                         items: cAliment.categories.value,
                         selectedItems: cAliment.selectedCategories,
                         updateFunction: () => cAliment.updateCategories(),
@@ -82,45 +83,29 @@ class AlimentPage extends StatelessWidget {
                             Errors.categoryAlreadyExists,
                         onOKClick: () => cAliment.addNewCategory(),
                       ),
-                      FormBuilderDropdown(
+                      CustomDropdown(
                         name: FormKeys.nutriscore,
+                        label: InputTexts.nutriscore,
                         initialValue: cAliment.initialNutriscore,
-                        decoration: InputDecoration(
-                          label: const Text(InputTexts.nutriscore),
-                          suffixIcon: IconButton(
-                            onPressed: () => cAliment.clearNutriscore(),
-                            icon: const Icon(Icons.clear),
-                          ),
-                        ),
-                        items: DropdownValues.nutriscores
-                            .map((String value) => DropdownMenuItem(
-                                  value: value,
-                                  child: Text(value),
-                                ))
-                            .toList(),
+                        items: DropdownValues.nutriscores,
                         validator: null,
+                        clearFunction: () => cAliment.clearNutriscore(),
                       ),
                       // TODO image
-                      FormBuilderDropdown(
+                      CustomDropdown(
                         name: FormKeys.unit,
+                        label: InputTexts.unit,
                         initialValue: cAliment.initialUnit,
-                        decoration: const InputDecoration(
-                          label: Text(InputTexts.unit),
-                        ),
-                        items: DropdownValues.units
-                            .map((String value) => DropdownMenuItem(
-                                  value: value,
-                                  child: Text(value),
-                                ))
-                            .toList(),
+                        items: DropdownValues.units,
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.required(),
                         ]),
+                        clearFunction: null,
                       ),
                       CustomTextField(
                         name: FormKeys.servingQuantity,
-                        initialValue: cAliment.initialServingQuantity,
                         label: InputTexts.servingQuantity,
+                        initialValue: cAliment.initialServingQuantity,
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.numeric(),
                         ]),
@@ -129,8 +114,8 @@ class AlimentPage extends StatelessWidget {
                       ),
                       CustomTextField(
                         name: FormKeys.calories,
-                        initialValue: cAliment.initialCalories,
                         label: InputTexts.calories,
+                        initialValue: cAliment.initialCalories,
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.required(),
                           FormBuilderValidators.integer(),
@@ -140,8 +125,8 @@ class AlimentPage extends StatelessWidget {
                       ),
                       CustomTextField(
                         name: FormKeys.proteins,
-                        initialValue: cAliment.initialProteins,
                         label: InputTexts.proteins,
+                        initialValue: cAliment.initialProteins,
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.required(),
                           FormBuilderValidators.numeric(),
@@ -151,8 +136,8 @@ class AlimentPage extends StatelessWidget {
                       ),
                       CustomTextField(
                         name: FormKeys.carbohydrates,
-                        initialValue: cAliment.initialCarbohydrates,
                         label: InputTexts.carbohydrates,
+                        initialValue: cAliment.initialCarbohydrates,
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.required(),
                           FormBuilderValidators.numeric(),
@@ -162,8 +147,8 @@ class AlimentPage extends StatelessWidget {
                       ),
                       CustomTextField(
                         name: FormKeys.sugars,
-                        initialValue: cAliment.initialSugars,
                         label: InputTexts.sugars,
+                        initialValue: cAliment.initialSugars,
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.required(),
                           FormBuilderValidators.numeric(),
@@ -173,8 +158,8 @@ class AlimentPage extends StatelessWidget {
                       ),
                       CustomTextField(
                         name: FormKeys.lipids,
-                        initialValue: cAliment.initialLipids,
                         label: InputTexts.lipids,
+                        initialValue: cAliment.initialLipids,
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.required(),
                           FormBuilderValidators.numeric(),
@@ -184,8 +169,8 @@ class AlimentPage extends StatelessWidget {
                       ),
                       CustomTextField(
                         name: FormKeys.saturatedFats,
-                        initialValue: cAliment.initialSaturatedFats,
                         label: InputTexts.saturatedFats,
+                        initialValue: cAliment.initialSaturatedFats,
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.required(),
                           FormBuilderValidators.numeric(),
