@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import '../../../core/utils/lists.dart';
 import '../../../data/models/aliment_model.dart';
 import '../../../data/services/aliment_service.dart';
-import '../../../routes/routes.dart';
 import '../aliments_controller.dart';
 
 class AlimentController extends GetxController {
@@ -69,12 +68,9 @@ class AlimentController extends GetxController {
     categories.value = await _service.getAllCategoriesDistinct();
   }
 
-  void goToBrands() =>
-      Get.toNamed(Routes.aliments + Routes.aliment + Routes.brands);
+  void onValidateClick() => aliment == null ? _addAliment() : _updateAliment();
 
-  void onValidateClick() => aliment == null ? addAliment() : updateAliment();
-
-  Future<void> addAliment() async {
+  Future<void> _addAliment() async {
     if (formKey.currentState!.saveAndValidate()) {
       final formValues = formKey.currentState!.value;
 
@@ -104,7 +100,7 @@ class AlimentController extends GetxController {
   }
 
   // TODO mettre à jour les macros des recettes si l'aliment a déjà été enregistré dans une recette
-  Future<void> updateAliment() async {
+  Future<void> _updateAliment() async {
     if (formKey.currentState!.saveAndValidate()) {
       final formValues = formKey.currentState!.value;
 
@@ -140,40 +136,61 @@ class AlimentController extends GetxController {
       formKey.currentState!.fields[FormKeys.nutriscore]!.didChange('');
 
   void updateBrands() {
-    _selectedBrands.value = _selectedBrandsInPopup;
-    formKey.currentState!.patchValue({FormKeys.brands: _selectedBrandsInPopup});
+    _updateItems(
+      selectedItems: _selectedBrands,
+      name: FormKeys.brands,
+      selectedItemsInPopup: _selectedBrandsInPopup,
+    );
   }
 
   void updateCategories() {
-    _selectedCategories.value = _selectedCategoriesInPopup;
-    formKey.currentState!
-        .patchValue({FormKeys.categories: _selectedCategoriesInPopup});
+    _updateItems(
+      selectedItems: _selectedCategories,
+      name: FormKeys.categories,
+      selectedItemsInPopup: _selectedCategoriesInPopup,
+    );
+  }
+
+  void _updateItems({
+    required Rx<List<String>> selectedItems,
+    required String name,
+    required List<String> selectedItemsInPopup,
+  }) {
+    selectedItems.value = selectedItemsInPopup;
+    formKey.currentState!.patchValue({name: selectedItemsInPopup});
   }
 
   void addNewBrand() {
-    if (newBrandFormKey.currentState!.saveAndValidate()) {
-      final String newBrand =
-          newBrandFormKey.currentState?.value[FormKeys.brands];
-
-      if (!brands.value.contains(newBrand)) {
-        brands.value.insert(0, newBrand);
-        brandsDropdownKey.currentState!.getPopupState!.selectItems([newBrand]);
-
-        goBack();
-        goBack();
-      }
-    }
+    _addNewItem(
+      items: brands,
+      name: FormKeys.brands,
+      newItemFormKey: newBrandFormKey,
+      itemsDropDownKey: brandsDropdownKey,
+    );
   }
 
   void addNewCategory() {
-    if (newCategoryFormKey.currentState!.saveAndValidate()) {
-      final String newCategory =
-          newCategoryFormKey.currentState?.value[FormKeys.categories];
+    _addNewItem(
+      items: categories,
+      name: FormKeys.categories,
+      newItemFormKey: newCategoryFormKey,
+      itemsDropDownKey: categoriesDropdownKey,
+    );
+  }
 
-      if (!categories.value.contains(newCategory)) {
-        categories.value.insert(0, newCategory);
-        categoriesDropdownKey.currentState!.getPopupState!
-            .selectItems([newCategory]);
+  /// Adds a new item in the [items] list and updates the view.
+  void _addNewItem({
+    required Rx<List<String>> items,
+    required String name,
+    required GlobalKey<FormBuilderState> newItemFormKey,
+    required GlobalKey<DropdownSearchState<String>> itemsDropDownKey,
+  }) {
+    if (newItemFormKey.currentState!.saveAndValidate()) {
+      final String newItem = newItemFormKey.currentState?.value[name];
+
+      if (!items.value.contains(newItem)) {
+        items.value.insert(0, newItem);
+        itemsDropDownKey.currentState!.getPopupState!.selectItems([newItem]);
 
         goBack();
         goBack();
