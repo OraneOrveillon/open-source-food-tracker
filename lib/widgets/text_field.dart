@@ -10,7 +10,9 @@ class CustomTextField extends StatelessWidget {
     required this.validator,
     required this.valueTransformer,
     required this.keyboardType,
+    this.hintText,
     this.maxLines,
+    this.suffixIcon,
   }) : super(key: key);
 
   final String name;
@@ -19,7 +21,9 @@ class CustomTextField extends StatelessWidget {
   final String? Function(String?)? validator;
   final dynamic Function(String?)? valueTransformer;
   final TextInputType? keyboardType;
+  final String? hintText;
   final int? maxLines;
+  final Widget? suffixIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -35,11 +39,15 @@ class CustomTextField extends StatelessWidget {
   }
 
   InputDecoration _buildInputDecoration() {
+    Widget? labelWidget;
     if (label != null) {
-      return InputDecoration(
-        label: Text(label!),
-      );
+      labelWidget = Text(label!);
     }
-    return const InputDecoration();
+
+    return InputDecoration(
+      label: labelWidget,
+      suffixIcon: suffixIcon,
+      hintText: hintText,
+    );
   }
 }

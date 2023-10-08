@@ -13,7 +13,7 @@ class CustomDropdown extends StatelessWidget {
   }) : super(key: key);
 
   final String name;
-  final String label;
+  final String? label;
   final String? initialValue;
   final List<String> items;
   final String? Function(String?)? validator;
@@ -24,10 +24,7 @@ class CustomDropdown extends StatelessWidget {
     return FormBuilderDropdown(
       name: name,
       initialValue: initialValue,
-      decoration: InputDecoration(
-        label: Text(label),
-        suffixIcon: _buildClearIcon(),
-      ),
+      decoration: _buildInputDecoration(),
       items: items
           .map((String value) => DropdownMenuItem(
                 value: value,
@@ -35,6 +32,18 @@ class CustomDropdown extends StatelessWidget {
               ))
           .toList(),
       validator: null,
+    );
+  }
+
+  InputDecoration _buildInputDecoration() {
+    Widget? labelWidget;
+    if (label != null) {
+      labelWidget = Text(label!);
+    }
+
+    return InputDecoration(
+      label: labelWidget,
+      suffixIcon: _buildClearIcon(),
     );
   }
 
