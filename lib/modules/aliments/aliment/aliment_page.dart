@@ -11,6 +11,7 @@ import '../../../core/utils/value_transformers.dart';
 import '../../../widgets/dropdown.dart';
 import '../../../widgets/text_field.dart';
 import 'aliment_controller.dart';
+import 'doses_controller.dart';
 import 'widgets/dropdown_search_brands_categories.dart';
 
 class AlimentPage extends StatelessWidget {
@@ -34,157 +35,249 @@ class AlimentPage extends StatelessWidget {
               padding: const EdgeInsets.all(Paddings.medium),
               child: FormBuilder(
                 key: cAliment.formKey,
-                child: Obx(() {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomTextField(
-                        name: FormKeys.name,
-                        label: InputTexts.name,
-                        initialValue: cAliment.initialName,
-                        validator: FormBuilderValidators.compose([
-                          FormBuilderValidators.required(),
-                        ]),
-                        valueTransformer: null,
-                        keyboardType: TextInputType.text,
-                      ),
-                      CustomTextField(
-                        name: FormKeys.barcode,
-                        label: InputTexts.barcode,
-                        initialValue: cAliment.initialBarcode,
-                        validator: null,
-                        valueTransformer: null,
-                        keyboardType: TextInputType.number,
-                      ),
-                      DropdownSearchBrandsAndCategories(
-                        inputName: FormKeys.brands,
-                        label: InputTexts.brands,
-                        initialValue: cAliment.initialBrands,
-                        dropdownKey: cAliment.brandsDropdownKey,
-                        items: cAliment.brands.value,
-                        selectedItems: cAliment.selectedBrands,
-                        updateFunction: () => cAliment.updateBrands(),
-                        dialogTitle: DialogTexts.addBrand,
-                        dialogFormKey: cAliment.newBrandFormKey,
-                        dialogAlreadyExistsErrorText: Errors.brandAlreadyExists,
-                        onOKClick: () => cAliment.addNewBrand(),
-                      ),
-                      DropdownSearchBrandsAndCategories(
-                        inputName: FormKeys.categories,
-                        label: InputTexts.categories,
-                        initialValue: cAliment.initialCategories,
-                        dropdownKey: cAliment.categoriesDropdownKey,
-                        items: cAliment.categories.value,
-                        selectedItems: cAliment.selectedCategories,
-                        updateFunction: () => cAliment.updateCategories(),
-                        dialogTitle: DialogTexts.addCategory,
-                        dialogFormKey: cAliment.newCategoryFormKey,
-                        dialogAlreadyExistsErrorText:
-                            Errors.categoryAlreadyExists,
-                        onOKClick: () => cAliment.addNewCategory(),
-                      ),
-                      CustomDropdown(
-                        name: FormKeys.nutriscore,
-                        label: InputTexts.nutriscore,
-                        initialValue: cAliment.initialNutriscore,
-                        items: DropdownValues.nutriscores,
-                        validator: null,
-                        clearFunction: () => cAliment.clearNutriscore(),
-                      ),
-                      // TODO image
-                      CustomDropdown(
-                        name: FormKeys.unit,
-                        label: InputTexts.unit,
-                        initialValue: cAliment.initialUnit,
-                        items: DropdownValues.units,
-                        validator: FormBuilderValidators.compose([
-                          FormBuilderValidators.required(),
-                        ]),
-                        clearFunction: null,
-                      ),
-                      CustomTextField(
-                        name: FormKeys.servingQuantity,
-                        label: InputTexts.servingQuantity,
-                        initialValue: cAliment.initialServingQuantity,
-                        validator: FormBuilderValidators.compose([
-                          FormBuilderValidators.numeric(),
-                        ]),
-                        valueTransformer: ValueTransformers.doubleValue,
-                        keyboardType: TextInputType.number,
-                      ),
-                      CustomTextField(
-                        name: FormKeys.calories,
-                        label: InputTexts.calories,
-                        initialValue: cAliment.initialCalories,
-                        validator: FormBuilderValidators.compose([
-                          FormBuilderValidators.required(),
-                          FormBuilderValidators.integer(),
-                        ]),
-                        valueTransformer: ValueTransformers.intValue,
-                        keyboardType: TextInputType.number,
-                      ),
-                      CustomTextField(
-                        name: FormKeys.proteins,
-                        label: InputTexts.proteins,
-                        initialValue: cAliment.initialProteins,
-                        validator: FormBuilderValidators.compose([
-                          FormBuilderValidators.required(),
-                          FormBuilderValidators.numeric(),
-                        ]),
-                        valueTransformer: ValueTransformers.doubleValue,
-                        keyboardType: TextInputType.number,
-                      ),
-                      CustomTextField(
-                        name: FormKeys.carbohydrates,
-                        label: InputTexts.carbohydrates,
-                        initialValue: cAliment.initialCarbohydrates,
-                        validator: FormBuilderValidators.compose([
-                          FormBuilderValidators.required(),
-                          FormBuilderValidators.numeric(),
-                        ]),
-                        valueTransformer: ValueTransformers.doubleValue,
-                        keyboardType: TextInputType.number,
-                      ),
-                      CustomTextField(
-                        name: FormKeys.sugars,
-                        label: InputTexts.sugars,
-                        initialValue: cAliment.initialSugars,
-                        validator: FormBuilderValidators.compose([
-                          FormBuilderValidators.required(),
-                          FormBuilderValidators.numeric(),
-                        ]),
-                        valueTransformer: ValueTransformers.doubleValue,
-                        keyboardType: TextInputType.number,
-                      ),
-                      CustomTextField(
-                        name: FormKeys.lipids,
-                        label: InputTexts.lipids,
-                        initialValue: cAliment.initialLipids,
-                        validator: FormBuilderValidators.compose([
-                          FormBuilderValidators.required(),
-                          FormBuilderValidators.numeric(),
-                        ]),
-                        valueTransformer: ValueTransformers.doubleValue,
-                        keyboardType: TextInputType.number,
-                      ),
-                      CustomTextField(
-                        name: FormKeys.saturatedFats,
-                        label: InputTexts.saturatedFats,
-                        initialValue: cAliment.initialSaturatedFats,
-                        validator: FormBuilderValidators.compose([
-                          FormBuilderValidators.required(),
-                          FormBuilderValidators.numeric(),
-                        ]),
-                        valueTransformer: ValueTransformers.doubleValue,
-                        keyboardType: TextInputType.number,
-                      ),
-                      // TODO doses
-                    ],
-                  );
-                }),
+                child: Obx(
+                  () {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomTextField(
+                          name: FormKeys.name,
+                          label: InputTexts.name,
+                          initialValue: cAliment.initialName,
+                          validator: FormBuilderValidators.compose([
+                            FormBuilderValidators.required(),
+                          ]),
+                          valueTransformer: null,
+                          keyboardType: TextInputType.text,
+                        ),
+                        CustomTextField(
+                          name: FormKeys.barcode,
+                          label: InputTexts.barcode,
+                          initialValue: cAliment.initialBarcode,
+                          validator: null,
+                          valueTransformer: null,
+                          keyboardType: TextInputType.number,
+                        ),
+                        DropdownSearchBrandsAndCategories(
+                          inputName: FormKeys.brands,
+                          label: InputTexts.brands,
+                          initialValue: cAliment.initialBrands,
+                          dropdownKey: cAliment.brandsDropdownKey,
+                          items: cAliment.brands.value,
+                          selectedItems: cAliment.selectedBrands,
+                          updateFunction: () => cAliment.updateBrands(),
+                          dialogTitle: DialogTexts.addBrand,
+                          dialogFormKey: cAliment.newBrandFormKey,
+                          dialogAlreadyExistsErrorText:
+                              Errors.brandAlreadyExists,
+                          onOKClick: () => cAliment.addNewBrand(),
+                        ),
+                        DropdownSearchBrandsAndCategories(
+                          inputName: FormKeys.categories,
+                          label: InputTexts.categories,
+                          initialValue: cAliment.initialCategories,
+                          dropdownKey: cAliment.categoriesDropdownKey,
+                          items: cAliment.categories.value,
+                          selectedItems: cAliment.selectedCategories,
+                          updateFunction: () => cAliment.updateCategories(),
+                          dialogTitle: DialogTexts.addCategory,
+                          dialogFormKey: cAliment.newCategoryFormKey,
+                          dialogAlreadyExistsErrorText:
+                              Errors.categoryAlreadyExists,
+                          onOKClick: () => cAliment.addNewCategory(),
+                        ),
+                        CustomDropdown(
+                          name: FormKeys.nutriscore,
+                          label: InputTexts.nutriscore,
+                          initialValue: cAliment.initialNutriscore,
+                          items: DropdownValues.nutriscores,
+                          validator: null,
+                          clearFunction: () => cAliment.clearNutriscore(),
+                        ),
+                        // TODO image
+                        CustomDropdown(
+                          name: FormKeys.unit,
+                          label: InputTexts.unit,
+                          initialValue: cAliment.initialUnit,
+                          items: DropdownValues.units,
+                          validator: FormBuilderValidators.compose([
+                            FormBuilderValidators.required(),
+                          ]),
+                          clearFunction: null,
+                        ),
+                        CustomTextField(
+                          name: FormKeys.servingQuantity,
+                          label: InputTexts.servingQuantity,
+                          initialValue: cAliment.initialServingQuantity,
+                          validator: FormBuilderValidators.compose([
+                            FormBuilderValidators.numeric(),
+                          ]),
+                          valueTransformer: ValueTransformers.doubleValue,
+                          keyboardType: TextInputType.number,
+                        ),
+                        CustomTextField(
+                          name: FormKeys.calories,
+                          label: InputTexts.calories,
+                          initialValue: cAliment.initialCalories,
+                          validator: FormBuilderValidators.compose([
+                            FormBuilderValidators.required(),
+                            FormBuilderValidators.integer(),
+                          ]),
+                          valueTransformer: ValueTransformers.intValue,
+                          keyboardType: TextInputType.number,
+                        ),
+                        CustomTextField(
+                          name: FormKeys.proteins,
+                          label: InputTexts.proteins,
+                          initialValue: cAliment.initialProteins,
+                          validator: FormBuilderValidators.compose([
+                            FormBuilderValidators.required(),
+                            FormBuilderValidators.numeric(),
+                          ]),
+                          valueTransformer: ValueTransformers.doubleValue,
+                          keyboardType: TextInputType.number,
+                        ),
+                        CustomTextField(
+                          name: FormKeys.carbohydrates,
+                          label: InputTexts.carbohydrates,
+                          initialValue: cAliment.initialCarbohydrates,
+                          validator: FormBuilderValidators.compose([
+                            FormBuilderValidators.required(),
+                            FormBuilderValidators.numeric(),
+                          ]),
+                          valueTransformer: ValueTransformers.doubleValue,
+                          keyboardType: TextInputType.number,
+                        ),
+                        CustomTextField(
+                          name: FormKeys.sugars,
+                          label: InputTexts.sugars,
+                          initialValue: cAliment.initialSugars,
+                          validator: FormBuilderValidators.compose([
+                            FormBuilderValidators.required(),
+                            FormBuilderValidators.numeric(),
+                          ]),
+                          valueTransformer: ValueTransformers.doubleValue,
+                          keyboardType: TextInputType.number,
+                        ),
+                        CustomTextField(
+                          name: FormKeys.lipids,
+                          label: InputTexts.lipids,
+                          initialValue: cAliment.initialLipids,
+                          validator: FormBuilderValidators.compose([
+                            FormBuilderValidators.required(),
+                            FormBuilderValidators.numeric(),
+                          ]),
+                          valueTransformer: ValueTransformers.doubleValue,
+                          keyboardType: TextInputType.number,
+                        ),
+                        CustomTextField(
+                          name: FormKeys.saturatedFats,
+                          label: InputTexts.saturatedFats,
+                          initialValue: cAliment.initialSaturatedFats,
+                          validator: FormBuilderValidators.compose([
+                            FormBuilderValidators.required(),
+                            FormBuilderValidators.numeric(),
+                          ]),
+                          valueTransformer: ValueTransformers.doubleValue,
+                          keyboardType: TextInputType.number,
+                        ),
+                        // TODO doses
+                        const Padding(
+                          padding: EdgeInsets.only(
+                            top: Paddings.medium,
+                          ),
+                          child: Divider(),
+                        ),
+                        Text(
+                          SectionTexts.doses,
+                          style: Get.theme.textTheme.titleLarge,
+                        ),
+                        const DosesInputs(),
+                        GetBuilder<DosesController>(
+                          builder: (cDoses) {
+                            return TextButton.icon(
+                              icon: const Icon(Icons.add),
+                              label: const Text('Add a dose...'),
+                              onPressed: () => cDoses.addInput(),
+                            );
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                ),
               ),
             ),
           ),
+        );
+      },
+    );
+  }
+}
+
+class DosesInputs extends StatelessWidget {
+  const DosesInputs({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return FormBuilderField(
+      name: FormKeys.doses,
+      initialValue: null,
+      builder: (field) {
+        return GetX<DosesController>(
+          builder: (cDoses) {
+            return Column(
+              children: cDoses.doses.value.indexed
+                  .map(
+                    (dose) => Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Flexible(
+                          flex: 1,
+                          child: CustomDropdown(
+                            name: '${FormKeys.doseName}${dose.$1}',
+                            label: null,
+                            initialValue: cDoses.initialDose,
+                            items: DropdownValues.doses,
+                            validator: FormBuilderValidators.compose([
+                              FormBuilderValidators.required(),
+                            ]),
+                            clearFunction: null,
+                          ),
+                        ),
+                        GetBuilder<AlimentController>(
+                          builder: (cAliment) {
+                            return Flexible(
+                              flex: 3,
+                              child: CustomTextField(
+                                name: '${FormKeys.doseEquivalent}${dose.$2}',
+                                label: null,
+                                // TODO changer dynamiquement en fonction de l'unité sélectionnée
+                                hintText:
+                                    'Equivalent (${cAliment.initialUnit})',
+                                initialValue: null,
+                                validator: FormBuilderValidators.compose([
+                                  FormBuilderValidators.required(),
+                                  FormBuilderValidators.numeric(),
+                                ]),
+                                valueTransformer: ValueTransformers.doubleValue,
+                                keyboardType: TextInputType.number,
+                                suffixIcon: IconButton(
+                                  icon: const Icon(Icons.remove),
+                                  onPressed: () {},
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  )
+                  .toList(),
+            );
+          },
         );
       },
     );

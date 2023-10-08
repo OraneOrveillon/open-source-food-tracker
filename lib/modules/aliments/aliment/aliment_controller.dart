@@ -239,4 +239,7 @@ abstract class FormKeys {
   static const String sugars = 'sugars';
   static const String lipids = 'lipids';
   static const String saturatedFats = 'saturatedFats';
+  static const String doses = 'doses';
+  static const String doseName = 'doseName';
+  static const String doseEquivalent = 'doseEquivalent';
 }

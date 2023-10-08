@@ -40,6 +40,10 @@ abstract class DialogTexts {
   static const String editWeighing = 'Edit a weighing';
 }
 
+abstract class SectionTexts {
+  static const String doses = 'Doses';
+}
+
 abstract class ContentTexts {
   static const String noBrands = 'No brand added';
 }
