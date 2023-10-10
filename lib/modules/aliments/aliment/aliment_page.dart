@@ -198,7 +198,7 @@ class AlimentPage extends StatelessWidget {
                             return TextButton.icon(
                               icon: const Icon(Icons.add),
                               label: const Text('Add a dose...'),
-                              onPressed: () => cDoses.addInput(),
+                              onPressed: () => cDoses.addInputs(),
                             );
                           },
                         ),
@@ -225,49 +225,55 @@ class DosesInputs extends StatelessWidget {
     return FormBuilderField(
       name: FormKeys.doses,
       initialValue: null,
+      // TODO transformer en double uniquement les valeurs des TextField
+      // valueTransformer: ,
       builder: (field) {
         return GetX<DosesController>(
           builder: (cDoses) {
             return Column(
-              children: cDoses.doses.value.indexed
+              children: cDoses.inputs.value
                   .map(
-                    (dose) => Row(
+                    (inputs) => Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Flexible(
                           flex: 1,
-                          child: CustomDropdown(
-                            name: '${FormKeys.doseName}${dose.$1}',
-                            label: null,
-                            initialValue: cDoses.initialDose,
-                            items: DropdownValues.doses,
+                          child: DropdownButtonFormField(
+                            onChanged: (value) {},
+                            value: cDoses.initialDose,
+                            items: DropdownValues.doses
+                                .map((item) => DropdownMenuItem(
+                                      value: item,
+                                      child: Text(item),
+                                    ))
+                                .toList(),
                             validator: FormBuilderValidators.compose([
                               FormBuilderValidators.required(),
                             ]),
-                            clearFunction: null,
                           ),
                         ),
                         GetBuilder<AlimentController>(
                           builder: (cAliment) {
                             return Flexible(
                               flex: 3,
-                              child: CustomTextField(
-                                name: '${FormKeys.doseEquivalent}${dose.$2}',
-                                label: null,
+                              child: TextFormField(
                                 // TODO changer dynamiquement en fonction de l'unité sélectionnée
-                                hintText:
-                                    'Equivalent (${cAliment.initialUnit})',
+                                // TODO mettre dans une constante
+                                decoration: InputDecoration(
+                                  hintText:
+                                      'Equivalent (${cAliment.initialUnit})',
+                                  suffixIcon: IconButton(
+                                    icon: const Icon(Icons.remove),
+                                    onPressed: () =>
+                                        cDoses.removeInputs(inputs),
+                                  ),
+                                ),
                                 initialValue: null,
                                 validator: FormBuilderValidators.compose([
                                   FormBuilderValidators.required(),
                                   FormBuilderValidators.numeric(),
                                 ]),
-                                valueTransformer: ValueTransformers.doubleValue,
                                 keyboardType: TextInputType.number,
-                                suffixIcon: IconButton(
-                                  icon: const Icon(Icons.remove),
-                                  onPressed: () {},
-                                ),
                               ),
                             );
                           },
