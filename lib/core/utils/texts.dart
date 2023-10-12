@@ -11,7 +11,7 @@ abstract class ButtonTexts {
   static const String cancel = "CANCEL";
 }
 
-abstract class InputTexts {
+abstract class InputLabelTexts {
   static const String calories = 'Calories';
   static const String proteins = 'Proteins';
   static const String carbohydrates = 'Carbohydrates';
@@ -29,6 +29,10 @@ abstract class InputTexts {
 
   static const String portions = 'Number of portions';
   static const String description = 'Description';
+}
+
+abstract class InputHintTexts {
+  static const String equivalent = 'Equivalent';
 }
 
 abstract class DialogTexts {

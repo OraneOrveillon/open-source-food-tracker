@@ -35,7 +35,7 @@ class ObjectivesPage extends StatelessWidget {
                   children: [
                     CustomTextField(
                       name: FormKeys.calories,
-                      label: InputTexts.calories,
+                      label: InputLabelTexts.calories,
                       initialValue: null,
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(),
@@ -46,7 +46,7 @@ class ObjectivesPage extends StatelessWidget {
                     ),
                     CustomTextField(
                       name: FormKeys.proteins,
-                      label: InputTexts.proteins,
+                      label: InputLabelTexts.proteins,
                       initialValue: null,
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(),
@@ -57,7 +57,7 @@ class ObjectivesPage extends StatelessWidget {
                     ),
                     CustomTextField(
                       name: FormKeys.carbohydrates,
-                      label: InputTexts.carbohydrates,
+                      label: InputLabelTexts.carbohydrates,
                       initialValue: null,
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(),
@@ -68,7 +68,7 @@ class ObjectivesPage extends StatelessWidget {
                     ),
                     CustomTextField(
                       name: FormKeys.sugars,
-                      label: InputTexts.sugars,
+                      label: InputLabelTexts.sugars,
                       initialValue: null,
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(),
@@ -79,7 +79,7 @@ class ObjectivesPage extends StatelessWidget {
                     ),
                     CustomTextField(
                       name: FormKeys.lipids,
-                      label: InputTexts.lipids,
+                      label: InputLabelTexts.lipids,
                       initialValue: null,
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(),
@@ -90,7 +90,7 @@ class ObjectivesPage extends StatelessWidget {
                     ),
                     CustomTextField(
                       name: FormKeys.saturatedFats,
-                      label: InputTexts.saturatedFats,
+                      label: InputLabelTexts.saturatedFats,
                       initialValue: null,
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(),

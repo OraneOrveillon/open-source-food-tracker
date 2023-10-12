@@ -34,7 +34,7 @@ class RecipePage extends StatelessWidget {
                   children: [
                     CustomTextField(
                       name: FormKeys.name,
-                      label: InputTexts.name,
+                      label: InputLabelTexts.name,
                       initialValue: cRecipe.initialName,
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(),
@@ -45,7 +45,7 @@ class RecipePage extends StatelessWidget {
                     // TODO tags
                     CustomTextField(
                       name: FormKeys.portions,
-                      label: InputTexts.portions,
+                      label: InputLabelTexts.portions,
                       initialValue: cRecipe.initialPortions,
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(),
@@ -56,7 +56,7 @@ class RecipePage extends StatelessWidget {
                     ),
                     CustomTextField(
                       name: FormKeys.description,
-                      label: InputTexts.description,
+                      label: InputLabelTexts.description,
                       initialValue: cRecipe.initialDescription,
                       validator: null,
                       valueTransformer: null,
