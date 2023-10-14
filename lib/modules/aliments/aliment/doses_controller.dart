@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../core/utils/lists.dart';
 import 'aliment_controller.dart';
 
 class DosesController extends GetxController {
@@ -8,15 +9,14 @@ class DosesController extends GetxController {
 
   int _inputsNextId = 0;
 
-  final inputs = Rx<List<Inputs>>([]);
+  final dosesInputs = Rx<List<DoseInputs>>([]);
 
   Future<void> addInputs() async {
-    // TODO if le dernier input a bien été rempli
-    inputs.value.add(Inputs(
+    dosesInputs.value.add(DoseInputs(
         id: _inputsNextId,
-        dropdownValue: null,
+        dropdownValue: _inputsNextId == 0 ? DropdownValues.doses[0] : null,
         textFieldController: TextEditingController()));
-    inputs.refresh();
+    dosesInputs.refresh();
     _inputsNextId++;
 
     await Future.delayed(const Duration(milliseconds: 50));
@@ -25,19 +25,20 @@ class DosesController extends GetxController {
     );
   }
 
-  void removeInputs(Inputs inputs) {
-    this.inputs.value.removeWhere(((i) => i.id == inputs.id));
-    this.inputs.refresh();
+  void removeInputs(DoseInputs doseInputs) {
+    dosesInputs.value.removeWhere(((element) => element.id == doseInputs.id));
+    dosesInputs.refresh();
   }
 
-  void onChangedDropdown(Inputs inputs, String? value) {
-    this.inputs.value.firstWhere((i) => i.id == inputs.id).dropdownValue =
-        value;
+  void onChangedDropdown(DoseInputs doseInputs, String? value) {
+    dosesInputs.value
+        .firstWhere((element) => element.id == doseInputs.id)
+        .dropdownValue = value;
   }
 }
 
-class Inputs {
-  Inputs({
+class DoseInputs {
+  DoseInputs({
     required this.id,
     required this.dropdownValue,
     required this.textFieldController,

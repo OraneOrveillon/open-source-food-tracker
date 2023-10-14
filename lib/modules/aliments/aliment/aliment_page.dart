@@ -224,6 +224,8 @@ class DosesInputs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FormBuilderField(
+      // TODO pas de doublons dans les noms de doses
+      // validator: ,
       name: FormKeys.doses,
       initialValue: null,
       // TODO transformer en double uniquement les valeurs des TextField
@@ -232,17 +234,17 @@ class DosesInputs extends StatelessWidget {
         return GetX<DosesController>(
           builder: (cDoses) {
             return Column(
-              children: cDoses.inputs.value
+              children: cDoses.dosesInputs.value
                   .map(
-                    (inputs) => Row(
+                    (doseInputs) => Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Flexible(
                           flex: 1,
                           child: DropdownButtonFormField(
                             onChanged: (value) =>
-                                cDoses.onChangedDropdown(inputs, value),
-                            value: inputs.dropdownValue,
+                                cDoses.onChangedDropdown(doseInputs, value),
+                            value: doseInputs.dropdownValue,
                             items: DropdownValues.doses
                                 .map((item) => DropdownMenuItem(
                                       value: item,
@@ -266,10 +268,10 @@ class DosesInputs extends StatelessWidget {
                                   suffixIcon: IconButton(
                                     icon: const Icon(Icons.remove),
                                     onPressed: () =>
-                                        cDoses.removeInputs(inputs),
+                                        cDoses.removeInputs(doseInputs),
                                   ),
                                 ),
-                                controller: inputs.textFieldController,
+                                controller: doseInputs.textFieldController,
                                 validator: FormBuilderValidators.compose([
                                   FormBuilderValidators.required(),
                                   FormBuilderValidators.numeric(),
