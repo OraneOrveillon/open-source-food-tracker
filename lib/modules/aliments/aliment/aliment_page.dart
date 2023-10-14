@@ -31,6 +31,7 @@ class AlimentPage extends StatelessWidget {
             ],
           ),
           body: SingleChildScrollView(
+            controller: cAliment.scrollController,
             child: Padding(
               padding: const EdgeInsets.all(Paddings.medium),
               child: FormBuilder(

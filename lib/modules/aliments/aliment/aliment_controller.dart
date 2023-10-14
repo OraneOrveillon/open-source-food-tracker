@@ -12,6 +12,7 @@ class AlimentController extends GetxController {
   final AlimentService _service = AlimentService();
   final AlimentsController _cAliments = Get.find<AlimentsController>();
   Aliment? aliment = Get.arguments;
+  final ScrollController scrollController = ScrollController();
 
   final GlobalKey<FormBuilderState> formKey = GlobalKey();
   final GlobalKey<FormBuilderState> newBrandFormKey = GlobalKey();

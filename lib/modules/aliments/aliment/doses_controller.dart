@@ -10,15 +10,19 @@ class DosesController extends GetxController {
 
   final inputs = Rx<List<Inputs>>([]);
 
-  void addInputs() {
+  Future<void> addInputs() async {
     // TODO if le dernier input a bien été rempli
-    // TODO scroller tout en bas
     inputs.value.add(Inputs(
         id: _inputsNextId,
         dropdownValue: null,
         textFieldController: TextEditingController()));
     inputs.refresh();
     _inputsNextId++;
+
+    await Future.delayed(const Duration(milliseconds: 50));
+    _cAliment.scrollController.jumpTo(
+      _cAliment.scrollController.position.maxScrollExtent,
+    );
   }
 
   void removeInputs(Inputs inputs) {
