@@ -8,18 +8,17 @@ import 'models/doses_inputs.dart';
 class DosesController extends GetxController {
   final AlimentController _cAliment = Get.find<AlimentController>();
 
-  int _inputsNextId = 0;
-
   Future<void> addInputs() async {
     _cAliment.dosesInputs.value.add(
       DoseInputs(
-        id: _inputsNextId,
-        dropdownValue: _inputsNextId == 0 ? DropdownValues.doses[0] : null,
+        id: _cAliment.inputsNextId,
+        dropdownValue:
+            _cAliment.inputsNextId == 0 ? DropdownValues.doses[0] : null,
         textFieldController: TextEditingController(),
       ),
     );
     _cAliment.dosesInputs.refresh();
-    _inputsNextId++;
+    _cAliment.inputsNextId++;
 
     await Future.delayed(const Duration(milliseconds: 50));
     _cAliment.scrollController.jumpTo(

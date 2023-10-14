@@ -24,6 +24,7 @@ class AlimentController extends GetxController {
   final GlobalKey<DropdownSearchState<String>> categoriesDropdownKey =
       GlobalKey();
 
+  int inputsNextId = 0;
   final dosesInputs = Rx<List<DoseInputs>>([]);
 
   String? initialName;
@@ -67,10 +68,31 @@ class AlimentController extends GetxController {
 
       _selectedBrands.value = aliment!.brands ?? [];
       _selectedCategories.value = aliment!.categories ?? [];
+
+      _initDosesInputs();
     }
 
     brands.value = await _service.getAllBrandsDistinct();
     categories.value = await _service.getAllCategoriesDistinct();
+  }
+
+  void _initDosesInputs() {
+    final List<DoseInputs> dosesInputs = [];
+    for (final dose in aliment!.doses!) {
+      dosesInputs.add(
+        DoseInputs(
+          id: inputsNextId,
+          dropdownValue: dose.name,
+          textFieldController: TextEditingController(
+            text: dose.equivalent.toString(),
+          ),
+        ),
+      );
+
+      inputsNextId++;
+    }
+
+    this.dosesInputs.value = dosesInputs;
   }
 
   void onValidateClick() => aliment == null ? _addAliment() : _updateAliment();
@@ -94,14 +116,7 @@ class AlimentController extends GetxController {
         ..sugars = formValues[FormKeys.sugars]
         ..lipids = formValues[FormKeys.lipids]
         ..saturatedFats = formValues[FormKeys.saturatedFats]
-        ..doses = dosesInputs.value
-            .map(
-              (doseInputs) => Dose()
-                ..name = doseInputs.dropdownValue
-                ..equivalent = ValueTransformers
-                    .doubleValue!(doseInputs.textFieldController.text),
-            )
-            .toList()
+        ..doses = _dosesInputsToDoses()
         ..deleted = false;
 
       await _service.putAliment(aliment);
@@ -132,7 +147,7 @@ class AlimentController extends GetxController {
         sugars: formValues[FormKeys.sugars],
         lipids: formValues[FormKeys.lipids],
         saturatedFats: formValues[FormKeys.saturatedFats],
-        doses: null,
+        doses: _dosesInputsToDoses(),
       );
 
       if (newAliment != aliment) {
@@ -209,6 +224,17 @@ class AlimentController extends GetxController {
         goBack();
       }
     }
+  }
+
+  List<Dose> _dosesInputsToDoses() {
+    return dosesInputs.value
+        .map(
+          (doseInputs) => Dose()
+            ..name = doseInputs.dropdownValue
+            ..equivalent = ValueTransformers
+                .doubleValue!(doseInputs.textFieldController.text),
+        )
+        .toList();
   }
 
   void goBack() => Get.back();
