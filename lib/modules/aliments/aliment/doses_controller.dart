@@ -25,6 +25,11 @@ class DosesController extends GetxController {
     this.inputs.value.removeWhere(((i) => i.id == inputs.id));
     this.inputs.refresh();
   }
+
+  void onChangedDropdown(Inputs inputs, String? value) {
+    this.inputs.value.firstWhere((i) => i.id == inputs.id).dropdownValue =
+        value;
+  }
 }
 
 class Inputs {

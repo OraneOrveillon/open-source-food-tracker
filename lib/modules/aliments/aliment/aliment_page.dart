@@ -239,7 +239,8 @@ class DosesInputs extends StatelessWidget {
                         Flexible(
                           flex: 1,
                           child: DropdownButtonFormField(
-                            onChanged: (value) {},
+                            onChanged: (value) =>
+                                cDoses.onChangedDropdown(inputs, value),
                             value: inputs.dropdownValue,
                             items: DropdownValues.doses
                                 .map((item) => DropdownMenuItem(
