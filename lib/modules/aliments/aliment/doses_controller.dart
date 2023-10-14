@@ -1,7 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../core/utils/lists.dart';
-import '../../../data/models/aliment_model.dart';
 import 'aliment_controller.dart';
 
 class DosesController extends GetxController {
@@ -15,10 +14,9 @@ class DosesController extends GetxController {
     // TODO if le dernier input a bien été rempli
     // TODO scroller tout en bas
     inputs.value.add(Inputs(
-      id: _inputsNextId,
-      dropdownValue: null,
-      textFieldValue: null,
-    ));
+        id: _inputsNextId,
+        dropdownValue: null,
+        textFieldController: TextEditingController()));
     inputs.refresh();
     _inputsNextId++;
   }
@@ -33,10 +31,10 @@ class Inputs {
   Inputs({
     required this.id,
     required this.dropdownValue,
-    required this.textFieldValue,
+    required this.textFieldController,
   });
 
   final int id;
   String? dropdownValue;
-  String? textFieldValue;
+  final TextEditingController textFieldController;
 }

@@ -267,7 +267,7 @@ class DosesInputs extends StatelessWidget {
                                         cDoses.removeInputs(inputs),
                                   ),
                                 ),
-                                initialValue: inputs.textFieldValue,
+                                controller: inputs.textFieldController,
                                 validator: FormBuilderValidators.compose([
                                   FormBuilderValidators.required(),
                                   FormBuilderValidators.numeric(),
