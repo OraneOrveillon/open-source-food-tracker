@@ -4,9 +4,11 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 
 import '../../../core/utils/lists.dart';
+import '../../../core/utils/value_transformers.dart';
 import '../../../data/models/aliment_model.dart';
 import '../../../data/services/aliment_service.dart';
 import '../aliments_controller.dart';
+import 'models/doses_inputs.dart';
 
 class AlimentController extends GetxController {
   final AlimentService _service = AlimentService();
@@ -21,6 +23,8 @@ class AlimentController extends GetxController {
   final GlobalKey<DropdownSearchState<String>> brandsDropdownKey = GlobalKey();
   final GlobalKey<DropdownSearchState<String>> categoriesDropdownKey =
       GlobalKey();
+
+  final dosesInputs = Rx<List<DoseInputs>>([]);
 
   String? initialName;
   String? initialBarcode;
@@ -90,6 +94,14 @@ class AlimentController extends GetxController {
         ..sugars = formValues[FormKeys.sugars]
         ..lipids = formValues[FormKeys.lipids]
         ..saturatedFats = formValues[FormKeys.saturatedFats]
+        ..doses = dosesInputs.value
+            .map(
+              (doseInputs) => Dose()
+                ..name = doseInputs.dropdownValue
+                ..equivalent = ValueTransformers
+                    .doubleValue!(doseInputs.textFieldController.text),
+            )
+            .toList()
         ..deleted = false;
 
       await _service.putAliment(aliment);

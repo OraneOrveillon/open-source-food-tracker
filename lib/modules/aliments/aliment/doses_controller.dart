@@ -3,20 +3,22 @@ import 'package:get/get.dart';
 
 import '../../../core/utils/lists.dart';
 import 'aliment_controller.dart';
+import 'models/doses_inputs.dart';
 
 class DosesController extends GetxController {
   final AlimentController _cAliment = Get.find<AlimentController>();
 
   int _inputsNextId = 0;
 
-  final dosesInputs = Rx<List<DoseInputs>>([]);
-
   Future<void> addInputs() async {
-    dosesInputs.value.add(DoseInputs(
+    _cAliment.dosesInputs.value.add(
+      DoseInputs(
         id: _inputsNextId,
         dropdownValue: _inputsNextId == 0 ? DropdownValues.doses[0] : null,
-        textFieldController: TextEditingController()));
-    dosesInputs.refresh();
+        textFieldController: TextEditingController(),
+      ),
+    );
+    _cAliment.dosesInputs.refresh();
     _inputsNextId++;
 
     await Future.delayed(const Duration(milliseconds: 50));
@@ -26,25 +28,17 @@ class DosesController extends GetxController {
   }
 
   void removeInputs(DoseInputs doseInputs) {
-    dosesInputs.value.removeWhere(((element) => element.id == doseInputs.id));
-    dosesInputs.refresh();
+    _cAliment.dosesInputs.value
+        .removeWhere(((element) => element.id == doseInputs.id));
+    _cAliment.dosesInputs.refresh();
   }
 
   void onChangedDropdown(DoseInputs doseInputs, String? value) {
-    dosesInputs.value
+    _cAliment.dosesInputs.value
         .firstWhere((element) => element.id == doseInputs.id)
         .dropdownValue = value;
+
+    _cAliment.formKey.currentState!
+        .patchValue({FormKeys.doses: _cAliment.dosesInputs.value});
   }
-}
-
-class DoseInputs {
-  DoseInputs({
-    required this.id,
-    required this.dropdownValue,
-    required this.textFieldController,
-  });
-
-  final int id;
-  String? dropdownValue;
-  final TextEditingController textFieldController;
 }

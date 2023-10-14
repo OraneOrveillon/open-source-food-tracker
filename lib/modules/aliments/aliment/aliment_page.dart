@@ -223,42 +223,42 @@ class DosesInputs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FormBuilderField(
-      // TODO pas de doublons dans les noms de doses
-      // validator: ,
-      name: FormKeys.doses,
-      initialValue: null,
-      // TODO transformer en double uniquement les valeurs des TextField
-      // valueTransformer: ,
-      builder: (field) {
-        return GetX<DosesController>(
-          builder: (cDoses) {
-            return Column(
-              children: cDoses.dosesInputs.value
-                  .map(
-                    (doseInputs) => Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Flexible(
-                          flex: 1,
-                          child: DropdownButtonFormField(
-                            onChanged: (value) =>
-                                cDoses.onChangedDropdown(doseInputs, value),
-                            value: doseInputs.dropdownValue,
-                            items: DropdownValues.doses
-                                .map((item) => DropdownMenuItem(
-                                      value: item,
-                                      child: Text(item),
-                                    ))
-                                .toList(),
-                            validator: FormBuilderValidators.compose([
-                              FormBuilderValidators.required(),
-                            ]),
-                          ),
-                        ),
-                        GetBuilder<AlimentController>(
-                          builder: (cAliment) {
-                            return Flexible(
+    return GetBuilder<DosesController>(
+      builder: (cDoses) {
+        return FormBuilderField(
+          // TODO pas de doublons dans les noms de doses
+          // validator: ,
+          name: FormKeys.doses,
+          initialValue: null,
+          // TODO transformer en double uniquement les valeurs des TextField
+          // valueTransformer: ,
+          builder: (field) {
+            return GetX<AlimentController>(
+              builder: (cAliment) {
+                return Column(
+                  children: cAliment.dosesInputs.value
+                      .map(
+                        (doseInputs) => Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Flexible(
+                              flex: 1,
+                              child: DropdownButtonFormField(
+                                onChanged: (value) =>
+                                    cDoses.onChangedDropdown(doseInputs, value),
+                                value: doseInputs.dropdownValue,
+                                items: DropdownValues.doses
+                                    .map((item) => DropdownMenuItem(
+                                          value: item,
+                                          child: Text(item),
+                                        ))
+                                    .toList(),
+                                validator: FormBuilderValidators.compose([
+                                  FormBuilderValidators.required(),
+                                ]),
+                              ),
+                            ),
+                            Flexible(
                               flex: 3,
                               child: TextFormField(
                                 decoration: InputDecoration(
@@ -278,13 +278,13 @@ class DosesInputs extends StatelessWidget {
                                 ]),
                                 keyboardType: TextInputType.number,
                               ),
-                            );
-                          },
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  )
-                  .toList(),
+                      )
+                      .toList(),
+                );
+              },
             );
           },
         );
