@@ -232,8 +232,7 @@ class DosesInputs extends StatelessWidget {
               // validator: ,
               name: FormKeys.doses,
               initialValue: cAliment.initialDoses,
-              // TODO transformer en double uniquement les valeurs des TextField
-              // valueTransformer: ,
+              valueTransformer: ValueTransformers.doubleValueDoses,
               builder: (field) {
                 return Column(
                   children: field.value!

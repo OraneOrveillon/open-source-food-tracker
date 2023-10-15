@@ -1,23 +1,18 @@
 import 'package:flutter/material.dart';
 
-// TODO supprimer puis convertir en Dose ?
+/// A set of inputs associated with a [Dose].
 class DoseInputs {
   DoseInputs({
-    required this.id,
-    required this.dropdownValue,
+    this.dropdownValue,
     required this.textFieldController,
   });
 
-  final int id;
+  /// The selected value in the dropdown associated with `name` property.
   String? dropdownValue;
+
+  /// The controller of the [TextField] associated with `equivalent` property.
   final TextEditingController textFieldController;
 
-  @override
-  String toString() {
-    return 'DoseInputs('
-        'id: $id, '
-        'dropdownValue: $dropdownValue, '
-        'textFieldController: ${textFieldController.text}'
-        ')';
-  }
+  /// The transformed value of the [TextField].
+  double? textFieldValue;
 }

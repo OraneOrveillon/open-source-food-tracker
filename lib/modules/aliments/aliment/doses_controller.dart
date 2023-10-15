@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../core/utils/lists.dart';
 import 'aliment_controller.dart';
 import 'models/doses_inputs.dart';
 
@@ -13,13 +12,10 @@ class DosesController extends GetxController {
 
     dosesInputs.add(
       DoseInputs(
-        id: _cAliment.inputsNextId,
-        dropdownValue:
-            _cAliment.inputsNextId == 0 ? DropdownValues.doses[0] : null,
+        dropdownValue: null,
         textFieldController: TextEditingController(),
       ),
     );
-    _cAliment.inputsNextId++;
 
     _changeDosesFormValue(dosesInputs);
 
@@ -32,7 +28,8 @@ class DosesController extends GetxController {
   void removeInputs(DoseInputs doseInputs) {
     final List<DoseInputs> dosesInputs = _dosesForm;
 
-    dosesInputs.removeWhere(((element) => element.id == doseInputs.id));
+    dosesInputs
+        .removeWhere(((element) => element.hashCode == doseInputs.hashCode));
 
     _changeDosesFormValue(dosesInputs);
   }
@@ -41,7 +38,7 @@ class DosesController extends GetxController {
     final List<DoseInputs> dosesInputs = _dosesForm;
 
     dosesInputs
-        .firstWhere((element) => element.id == doseInputs.id)
+        .firstWhere((element) => element.hashCode == doseInputs.hashCode)
         .dropdownValue = value;
 
     _changeDosesFormValue(dosesInputs);

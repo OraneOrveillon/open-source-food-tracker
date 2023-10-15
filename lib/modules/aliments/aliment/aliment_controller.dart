@@ -4,7 +4,6 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 
 import '../../../core/utils/lists.dart';
-import '../../../core/utils/value_transformers.dart';
 import '../../../data/models/aliment_model.dart';
 import '../../../data/services/aliment_service.dart';
 import '../aliments_controller.dart';
@@ -24,9 +23,6 @@ class AlimentController extends GetxController {
   final GlobalKey<DropdownSearchState<String>> categoriesDropdownKey =
       GlobalKey();
 
-  int inputsNextId = 0;
-  List<DoseInputs> initialDoses = [];
-
   String? initialName;
   String? initialBarcode;
   List<String>? initialBrands = [];
@@ -40,6 +36,7 @@ class AlimentController extends GetxController {
   String? initialSugars;
   String? initialLipids;
   String? initialSaturatedFats;
+  List<DoseInputs> initialDoses = [];
 
   final brands = Rx<List<String>>([]);
   final _selectedBrands = Rx<List<String>>([]);
@@ -77,22 +74,16 @@ class AlimentController extends GetxController {
   }
 
   void _initDosesInputs() {
-    final List<DoseInputs> dosesInputs = [];
     for (final dose in aliment!.doses!) {
-      dosesInputs.add(
+      initialDoses.add(
         DoseInputs(
-          id: inputsNextId,
           dropdownValue: dose.name,
           textFieldController: TextEditingController(
             text: dose.equivalent.toString(),
           ),
         ),
       );
-
-      inputsNextId++;
     }
-
-    initialDoses = dosesInputs;
   }
 
   void onValidateClick() => aliment == null ? _addAliment() : _updateAliment();
@@ -234,8 +225,7 @@ class AlimentController extends GetxController {
         .map(
           (doseInputs) => Dose()
             ..name = doseInputs.dropdownValue
-            ..equivalent = ValueTransformers
-                .doubleValue!(doseInputs.textFieldController.text),
+            ..equivalent = doseInputs.textFieldValue,
         )
         .toList();
   }
