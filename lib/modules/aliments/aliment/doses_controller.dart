@@ -9,7 +9,9 @@ class DosesController extends GetxController {
   final AlimentController _cAliment = Get.find<AlimentController>();
 
   Future<void> addInputs() async {
-    _cAliment.dosesInputs.value.add(
+    final List<DoseInputs> dosesInputs = _dosesForm;
+
+    dosesInputs.add(
       DoseInputs(
         id: _cAliment.inputsNextId,
         dropdownValue:
@@ -17,8 +19,9 @@ class DosesController extends GetxController {
         textFieldController: TextEditingController(),
       ),
     );
-    _cAliment.dosesInputs.refresh();
     _cAliment.inputsNextId++;
+
+    _changeDosesFormValue(dosesInputs);
 
     await Future.delayed(const Duration(milliseconds: 50));
     _cAliment.scrollController.jumpTo(
@@ -27,17 +30,29 @@ class DosesController extends GetxController {
   }
 
   void removeInputs(DoseInputs doseInputs) {
-    _cAliment.dosesInputs.value
-        .removeWhere(((element) => element.id == doseInputs.id));
-    _cAliment.dosesInputs.refresh();
+    final List<DoseInputs> dosesInputs = _dosesForm;
+
+    dosesInputs.removeWhere(((element) => element.id == doseInputs.id));
+
+    _changeDosesFormValue(dosesInputs);
   }
 
   void onChangedDropdown(DoseInputs doseInputs, String? value) {
-    _cAliment.dosesInputs.value
+    final List<DoseInputs> dosesInputs = _dosesForm;
+
+    dosesInputs
         .firstWhere((element) => element.id == doseInputs.id)
         .dropdownValue = value;
 
-    _cAliment.formKey.currentState!
-        .patchValue({FormKeys.doses: _cAliment.dosesInputs.value});
+    _changeDosesFormValue(dosesInputs);
+  }
+
+  void _changeDosesFormValue(List<DoseInputs> dosesInputs) {
+    _cAliment.formKey.currentState!.patchValue({FormKeys.doses: dosesInputs});
+  }
+
+  List<DoseInputs> get _dosesForm {
+    _cAliment.formKey.currentState!.save();
+    return _cAliment.formKey.currentState!.value[FormKeys.doses];
   }
 }

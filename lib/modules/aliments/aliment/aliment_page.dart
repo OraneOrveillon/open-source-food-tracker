@@ -223,69 +223,71 @@ class DosesInputs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<DosesController>(
-      builder: (cDoses) {
-        return GetX<AlimentController>(builder: (cAliment) {
-          return FormBuilderField(
-            // TODO pas de doublons dans les noms de doses
-            // validator: ,
-            name: FormKeys.doses,
-            initialValue: cAliment.dosesInputs.value,
-            // TODO transformer en double uniquement les valeurs des TextField
-            // valueTransformer: ,
-            builder: (field) {
-              return Column(
-                children: field.value!
-                    .map(
-                      (doseInputs) => Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Flexible(
-                            flex: 1,
-                            child: DropdownButtonFormField(
-                              onChanged: (value) =>
-                                  cDoses.onChangedDropdown(doseInputs, value),
-                              value: doseInputs.dropdownValue,
-                              items: DropdownValues.doses
-                                  .map((item) => DropdownMenuItem(
-                                        value: item,
-                                        child: Text(item),
-                                      ))
-                                  .toList(),
-                              validator: FormBuilderValidators.compose([
-                                FormBuilderValidators.required(),
-                              ]),
-                            ),
-                          ),
-                          Flexible(
-                            flex: 3,
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                hintText: InputHintTexts.equivalent,
-                                // TODO changer dynamiquement en fonction de l'unité sélectionnée
-                                suffixText: cAliment.initialUnit,
-                                suffixIcon: IconButton(
-                                  icon: const Icon(Icons.remove),
-                                  onPressed: () =>
-                                      cDoses.removeInputs(doseInputs),
-                                ),
+    return GetBuilder<AlimentController>(
+      builder: (cAliment) {
+        return GetBuilder<DosesController>(
+          builder: (cDoses) {
+            return FormBuilderField(
+              // TODO pas de doublons dans les noms de doses
+              // validator: ,
+              name: FormKeys.doses,
+              initialValue: cAliment.initialDoses,
+              // TODO transformer en double uniquement les valeurs des TextField
+              // valueTransformer: ,
+              builder: (field) {
+                return Column(
+                  children: field.value!
+                      .map(
+                        (doseInputs) => Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Flexible(
+                              flex: 1,
+                              child: DropdownButtonFormField(
+                                onChanged: (value) =>
+                                    cDoses.onChangedDropdown(doseInputs, value),
+                                value: doseInputs.dropdownValue,
+                                items: DropdownValues.doses
+                                    .map((item) => DropdownMenuItem(
+                                          value: item,
+                                          child: Text(item),
+                                        ))
+                                    .toList(),
+                                validator: FormBuilderValidators.compose([
+                                  FormBuilderValidators.required(),
+                                ]),
                               ),
-                              controller: doseInputs.textFieldController,
-                              validator: FormBuilderValidators.compose([
-                                FormBuilderValidators.required(),
-                                FormBuilderValidators.numeric(),
-                              ]),
-                              keyboardType: TextInputType.number,
                             ),
-                          ),
-                        ],
-                      ),
-                    )
-                    .toList(),
-              );
-            },
-          );
-        });
+                            Flexible(
+                              flex: 3,
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                  hintText: InputHintTexts.equivalent,
+                                  // TODO changer dynamiquement en fonction de l'unité sélectionnée
+                                  suffixText: cAliment.initialUnit,
+                                  suffixIcon: IconButton(
+                                    icon: const Icon(Icons.remove),
+                                    onPressed: () =>
+                                        cDoses.removeInputs(doseInputs),
+                                  ),
+                                ),
+                                controller: doseInputs.textFieldController,
+                                validator: FormBuilderValidators.compose([
+                                  FormBuilderValidators.required(),
+                                  FormBuilderValidators.numeric(),
+                                ]),
+                                keyboardType: TextInputType.number,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                      .toList(),
+                );
+              },
+            );
+          },
+        );
       },
     );
   }

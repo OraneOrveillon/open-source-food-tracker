@@ -25,8 +25,7 @@ class AlimentController extends GetxController {
       GlobalKey();
 
   int inputsNextId = 0;
-  // TODO initialDoses ?
-  final dosesInputs = Rx<List<DoseInputs>>([]);
+  List<DoseInputs> initialDoses = [];
 
   String? initialName;
   String? initialBarcode;
@@ -93,7 +92,7 @@ class AlimentController extends GetxController {
       inputsNextId++;
     }
 
-    this.dosesInputs.value = dosesInputs;
+    initialDoses = dosesInputs;
   }
 
   void onValidateClick() => aliment == null ? _addAliment() : _updateAliment();
@@ -283,6 +282,4 @@ abstract class FormKeys {
   static const String lipids = 'lipids';
   static const String saturatedFats = 'saturatedFats';
   static const String doses = 'doses';
-  static const String doseName = 'doseName';
-  static const String doseEquivalent = 'doseEquivalent';
 }
