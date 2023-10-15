@@ -25,6 +25,7 @@ class AlimentController extends GetxController {
       GlobalKey();
 
   int inputsNextId = 0;
+  // TODO initialDoses ?
   final dosesInputs = Rx<List<DoseInputs>>([]);
 
   String? initialName;
@@ -227,7 +228,10 @@ class AlimentController extends GetxController {
   }
 
   List<Dose> _dosesInputsToDoses() {
-    return dosesInputs.value
+    final List<DoseInputs> dosesInputs =
+        formKey.currentState!.value[FormKeys.doses];
+
+    return dosesInputs
         .map(
           (doseInputs) => Dose()
             ..name = doseInputs.dropdownValue
