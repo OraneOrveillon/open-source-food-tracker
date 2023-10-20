@@ -91,7 +91,7 @@ class AlimentPage extends StatelessWidget {
                           name: FormKeys.nutriscore,
                           label: InputLabelTexts.nutriscore,
                           initialValue: cAliment.initialNutriscore,
-                          items: DropdownValues.nutriscores,
+                          items: Lists.nutriscores,
                           validator: null,
                           clearFunction: () => cAliment.clearNutriscore(),
                         ),
@@ -100,7 +100,7 @@ class AlimentPage extends StatelessWidget {
                           name: FormKeys.unit,
                           label: InputLabelTexts.unit,
                           initialValue: cAliment.initialUnit,
-                          items: DropdownValues.units,
+                          items: Lists.units,
                           validator: FormBuilderValidators.compose([
                             FormBuilderValidators.required(),
                           ]),
@@ -246,7 +246,7 @@ class DosesInputs extends StatelessWidget {
                                 onChanged: (value) =>
                                     cDoses.onChangedDropdown(doseInputs, value),
                                 value: doseInputs.dropdownValue,
-                                items: DropdownValues.doses
+                                items: Lists.doses
                                     .map((item) => DropdownMenuItem(
                                           value: item,
                                           child: Text(item),

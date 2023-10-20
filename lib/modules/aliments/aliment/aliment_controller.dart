@@ -28,7 +28,7 @@ class AlimentController extends GetxController {
   List<String>? initialBrands = [];
   List<String>? initialCategories = [];
   String? initialNutriscore;
-  String? initialUnit = DropdownValues.units[0];
+  String? initialUnit = Lists.units[0];
   String? initialServingQuantity;
   String? initialCalories;
   String? initialProteins;
