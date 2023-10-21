@@ -31,9 +31,7 @@ abstract class InputLabelTexts {
   static const String description = 'Description';
 }
 
-abstract class InputHintTexts {
-  static const String equivalent = 'Equivalent';
-}
+abstract class InputHintTexts {}
 
 abstract class DialogTexts {
   static const String addBrand = 'Add a brand';
@@ -48,6 +46,4 @@ abstract class SectionTexts {
   static const String doses = 'Doses';
 }
 
-abstract class ContentTexts {
-  static const String noBrands = 'No brand added';
-}
+abstract class ContentTexts {}

@@ -7,7 +7,6 @@ import '../../../core/utils/lists.dart';
 import '../../../data/models/aliment_model.dart';
 import '../../../data/services/aliment_service.dart';
 import '../aliments_controller.dart';
-import 'models/doses_inputs.dart';
 
 class AlimentController extends GetxController {
   final AlimentService _service = AlimentService();
@@ -36,7 +35,7 @@ class AlimentController extends GetxController {
   String? initialSugars;
   String? initialLipids;
   String? initialSaturatedFats;
-  List<DoseInputs> initialDoses = [];
+  List<Dose>? initialDoses;
 
   final brands = Rx<List<String>>([]);
   final _selectedBrands = Rx<List<String>>([]);
@@ -55,35 +54,31 @@ class AlimentController extends GetxController {
       initialCategories = aliment!.categories;
       initialNutriscore = aliment!.nutriscore;
       initialUnit = aliment!.unit;
-      initialServingQuantity = aliment!.servingQuantity.toString();
+      if (aliment!.servingQuantity != null) {
+        initialServingQuantity = aliment!.servingQuantity.toString();
+      }
       initialCalories = aliment!.calories.toString();
       initialProteins = aliment!.proteins.toString();
       initialCarbohydrates = aliment!.carbohydrates.toString();
       initialSugars = aliment!.sugars.toString();
       initialLipids = aliment!.lipids.toString();
       initialSaturatedFats = aliment!.saturatedFats.toString();
+      initialDoses = aliment!.doses;
 
       _selectedBrands.value = aliment!.brands ?? [];
       _selectedCategories.value = aliment!.categories ?? [];
-
-      _initDosesInputs();
     }
 
     brands.value = await _service.getAllBrandsDistinct();
     categories.value = await _service.getAllCategoriesDistinct();
   }
 
-  void _initDosesInputs() {
-    for (final dose in aliment!.doses!) {
-      initialDoses.add(
-        DoseInputs(
-          dropdownValue: dose.name,
-          textFieldController: TextEditingController(
-            text: dose.equivalent.toString(),
-          ),
-        ),
-      );
+  String? getInitialDoseValue(String doseName) {
+    final dose = initialDoses?.where((element) => doseName == element.name);
+    if (dose != null && dose.isNotEmpty) {
+      return dose.first.equivalent.toString();
     }
+    return null;
   }
 
   void onValidateClick() => aliment == null ? _addAliment() : _updateAliment();
@@ -100,14 +95,14 @@ class AlimentController extends GetxController {
         ..categories = formValues[FormKeys.categories]
         ..nutriscore = formValues[FormKeys.nutriscore]
         ..unit = formValues[FormKeys.unit]
-        ..servingQuantity = formValues[FormKeys.servingQuantity]
+        ..servingQuantity = _getFormServingQuantity(formValues)
         ..calories = formValues[FormKeys.calories]
         ..proteins = formValues[FormKeys.proteins]
         ..carbohydrates = formValues[FormKeys.carbohydrates]
         ..sugars = formValues[FormKeys.sugars]
         ..lipids = formValues[FormKeys.lipids]
         ..saturatedFats = formValues[FormKeys.saturatedFats]
-        ..doses = _dosesInputsToDoses()
+        ..doses = _getFormDoses(formValues)
         ..deleted = false;
 
       await _service.putAliment(aliment);
@@ -131,14 +126,14 @@ class AlimentController extends GetxController {
         nutriscore: formValues[FormKeys.nutriscore],
         image: null,
         unit: formValues[FormKeys.unit],
-        servingQuantity: formValues[FormKeys.servingQuantity],
+        servingQuantity: _getFormServingQuantity(formValues),
         calories: formValues[FormKeys.calories],
         proteins: formValues[FormKeys.proteins],
         carbohydrates: formValues[FormKeys.carbohydrates],
         sugars: formValues[FormKeys.sugars],
         lipids: formValues[FormKeys.lipids],
         saturatedFats: formValues[FormKeys.saturatedFats],
-        doses: _dosesInputsToDoses(),
+        doses: _getFormDoses(formValues),
       );
 
       if (newAliment != aliment) {
@@ -149,6 +144,30 @@ class AlimentController extends GetxController {
 
       goBack();
     }
+  }
+
+  double? _getFormServingQuantity(Map<String, dynamic> formValues) {
+    if (formValues[FormKeys.servingQuantity] != 0) {
+      return formValues[FormKeys.servingQuantity];
+    }
+    return null;
+  }
+
+  List<Dose>? _getFormDoses(Map<String, dynamic> formValues) {
+    List<Dose> doses = [];
+
+    for (final doseName in FormKeys.doses) {
+      if (formValues[doseName] != 0) {
+        doses.add(Dose()
+          ..name = doseName
+          ..equivalent = formValues[doseName]);
+      }
+    }
+
+    if (doses.isNotEmpty) {
+      return doses;
+    }
+    return null;
   }
 
   void clearNutriscore() =>
@@ -217,19 +236,6 @@ class AlimentController extends GetxController {
     }
   }
 
-  List<Dose> _dosesInputsToDoses() {
-    final List<DoseInputs> dosesInputs =
-        formKey.currentState!.value[FormKeys.doses];
-
-    return dosesInputs
-        .map(
-          (doseInputs) => Dose()
-            ..name = doseInputs.dropdownValue
-            ..equivalent = doseInputs.textFieldValue,
-        )
-        .toList();
-  }
-
   void goBack() => Get.back();
 
   /// Returns sorted [_selectedBrands].
@@ -271,5 +277,5 @@ abstract class FormKeys {
   static const String sugars = 'sugars';
   static const String lipids = 'lipids';
   static const String saturatedFats = 'saturatedFats';
-  static const String doses = 'doses';
+  static const List<String> doses = Lists.doses;
 }

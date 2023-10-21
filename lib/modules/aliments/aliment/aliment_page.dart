@@ -11,7 +11,6 @@ import '../../../core/utils/value_transformers.dart';
 import '../../../widgets/dropdown.dart';
 import '../../../widgets/text_field.dart';
 import 'aliment_controller.dart';
-import 'doses_controller.dart';
 import 'widgets/dropdown_search_brands_categories.dart';
 
 class AlimentPage extends StatelessWidget {
@@ -194,15 +193,6 @@ class AlimentPage extends StatelessWidget {
                           style: Get.theme.textTheme.titleLarge,
                         ),
                         const DosesInputs(),
-                        GetBuilder<DosesController>(
-                          builder: (cDoses) {
-                            return TextButton.icon(
-                              icon: const Icon(Icons.add),
-                              label: const Text('Add a dose...'),
-                              onPressed: () => cDoses.addInputs(),
-                            );
-                          },
-                        ),
                       ],
                     );
                   },
@@ -225,68 +215,29 @@ class DosesInputs extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<AlimentController>(
       builder: (cAliment) {
-        return GetBuilder<DosesController>(
-          builder: (cDoses) {
-            return FormBuilderField(
-              // TODO pas de doublons dans les noms de doses
-              // validator: ,
-              name: FormKeys.doses,
-              initialValue: cAliment.initialDoses,
-              valueTransformer: ValueTransformers.doubleValueDoses,
-              builder: (field) {
-                return Column(
-                  children: field.value!
-                      .map(
-                        (doseInputs) => Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Flexible(
-                              flex: 1,
-                              child: DropdownButtonFormField(
-                                onChanged: (value) =>
-                                    cDoses.onChangedDropdown(doseInputs, value),
-                                value: doseInputs.dropdownValue,
-                                items: Lists.doses
-                                    .map((item) => DropdownMenuItem(
-                                          value: item,
-                                          child: Text(item),
-                                        ))
-                                    .toList(),
-                                validator: FormBuilderValidators.compose([
-                                  FormBuilderValidators.required(),
-                                ]),
-                              ),
-                            ),
-                            Flexible(
-                              flex: 3,
-                              child: TextFormField(
-                                decoration: InputDecoration(
-                                  hintText: InputHintTexts.equivalent,
-                                  // TODO changer dynamiquement en fonction de l'unité sélectionnée
-                                  suffixText: cAliment.initialUnit,
-                                  suffixIcon: IconButton(
-                                    icon: const Icon(Icons.remove),
-                                    onPressed: () =>
-                                        cDoses.removeInputs(doseInputs),
-                                  ),
-                                ),
-                                controller: doseInputs.textFieldController,
-                                validator: FormBuilderValidators.compose([
-                                  FormBuilderValidators.required(),
-                                  FormBuilderValidators.numeric(),
-                                ]),
-                                keyboardType: TextInputType.number,
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                      .toList(),
-                );
-              },
-            );
-          },
-        );
+        return Row(children: [
+          for (final dose in FormKeys.doses) ...[
+            Flexible(
+              child: CustomTextField(
+                name: dose,
+                label: dose,
+                initialValue: cAliment.getInitialDoseValue(dose),
+                validator: FormBuilderValidators.compose([
+                  FormBuilderValidators.numeric(),
+                ]),
+                valueTransformer: ValueTransformers.doubleValue,
+                keyboardType: TextInputType.number,
+                suffixText: cAliment.initialUnit,
+              ),
+            ),
+            Builder(builder: (_) {
+              if (dose != FormKeys.doses.last) {
+                return const SizedBox(width: Paddings.medium);
+              }
+              return const SizedBox.shrink();
+            }),
+          ]
+        ]);
       },
     );
   }

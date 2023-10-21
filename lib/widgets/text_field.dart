@@ -12,6 +12,7 @@ class CustomTextField extends StatelessWidget {
     required this.keyboardType,
     this.hintText,
     this.maxLines,
+    this.suffixText,
     this.suffixIcon,
   }) : super(key: key);
 
@@ -23,6 +24,7 @@ class CustomTextField extends StatelessWidget {
   final TextInputType? keyboardType;
   final String? hintText;
   final int? maxLines;
+  final String? suffixText;
   final Widget? suffixIcon;
 
   @override
@@ -46,6 +48,7 @@ class CustomTextField extends StatelessWidget {
 
     return InputDecoration(
       label: labelWidget,
+      suffixText: suffixText,
       suffixIcon: suffixIcon,
       hintText: hintText,
     );
