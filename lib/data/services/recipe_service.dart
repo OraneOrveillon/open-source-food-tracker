@@ -1,11 +1,11 @@
 import 'package:get/get.dart';
 import 'package:isar/isar.dart';
 
-import '../../modules/home/home_controller.dart';
 import '../models/recipe_model.dart';
+import '../providers/database_provider.dart';
 
 class RecipeService {
-  final Isar _db = Get.find<HomeController>().database;
+  final Isar _db = Get.find<DatabaseProvider>().db;
 
   Future<List<Recipe>> getLastRecipesWithOffset(
     int numberOfRecipes,
