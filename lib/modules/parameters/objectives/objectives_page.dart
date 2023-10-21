@@ -43,6 +43,7 @@ class ObjectivesPage extends StatelessWidget {
                       ]),
                       valueTransformer: ValueTransformers.intValue,
                       keyboardType: TextInputType.number,
+                      suffixText: InputSuffixTexts.kcalD,
                     ),
                     CustomTextField(
                       name: FormKeys.proteins,
@@ -54,6 +55,7 @@ class ObjectivesPage extends StatelessWidget {
                       ]),
                       valueTransformer: ValueTransformers.intValue,
                       keyboardType: TextInputType.number,
+                      suffixText: InputSuffixTexts.gD,
                     ),
                     CustomTextField(
                       name: FormKeys.carbohydrates,
@@ -65,6 +67,7 @@ class ObjectivesPage extends StatelessWidget {
                       ]),
                       valueTransformer: ValueTransformers.intValue,
                       keyboardType: TextInputType.number,
+                      suffixText: InputSuffixTexts.gD,
                     ),
                     CustomTextField(
                       name: FormKeys.sugars,
@@ -76,6 +79,7 @@ class ObjectivesPage extends StatelessWidget {
                       ]),
                       valueTransformer: ValueTransformers.intValue,
                       keyboardType: TextInputType.number,
+                      suffixText: InputSuffixTexts.gD,
                     ),
                     CustomTextField(
                       name: FormKeys.lipids,
@@ -87,6 +91,7 @@ class ObjectivesPage extends StatelessWidget {
                       ]),
                       valueTransformer: ValueTransformers.intValue,
                       keyboardType: TextInputType.number,
+                      suffixText: InputSuffixTexts.gD,
                     ),
                     CustomTextField(
                       name: FormKeys.saturatedFats,
@@ -98,6 +103,7 @@ class ObjectivesPage extends StatelessWidget {
                       ]),
                       valueTransformer: ValueTransformers.intValue,
                       keyboardType: TextInputType.number,
+                      suffixText: InputSuffixTexts.gD,
                     ),
                   ],
                 ),

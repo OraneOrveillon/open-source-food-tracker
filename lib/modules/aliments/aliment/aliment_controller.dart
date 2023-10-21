@@ -36,7 +36,7 @@ class AlimentController extends GetxController {
   String? initialSaturatedFats;
   List<Dose>? initialDoses;
 
-  final activeUnit = Rx<String?>(null);
+  final activeUnit = Rx<String>(Lists.units[0]);
 
   final brands = Rx<List<String>>([]);
   final _selectedBrands = Rx<List<String>>([]);
@@ -66,7 +66,7 @@ class AlimentController extends GetxController {
       initialSaturatedFats = aliment!.saturatedFats.toString();
       initialDoses = aliment!.doses;
 
-      activeUnit.value = aliment!.unit;
+      activeUnit.value = aliment!.unit!;
 
       _selectedBrands.value = aliment!.brands ?? [];
       _selectedCategories.value = aliment!.categories ?? [];
@@ -176,7 +176,7 @@ class AlimentController extends GetxController {
   void clearNutriscore() =>
       formKey.currentState!.fields[FormKeys.nutriscore]!.didChange('');
 
-  void updateActiveUnit(String? value) => activeUnit.value = value;
+  void updateActiveUnit(String? value) => activeUnit.value = value!;
 
   void updateBrands() {
     _updateItems(

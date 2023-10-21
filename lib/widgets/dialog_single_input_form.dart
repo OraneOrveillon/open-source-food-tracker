@@ -16,6 +16,7 @@ class DialogSingleInputForm extends StatelessWidget {
     required this.keyboardType,
     required this.onCancelClick,
     required this.onOKClick,
+    this.suffixText,
   });
 
   final String title;
@@ -27,6 +28,7 @@ class DialogSingleInputForm extends StatelessWidget {
   final TextInputType? keyboardType;
   final void Function() onCancelClick;
   final void Function() onOKClick;
+  final String? suffixText;
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +43,7 @@ class DialogSingleInputForm extends StatelessWidget {
           validator: validator,
           valueTransformer: valueTransformer,
           keyboardType: keyboardType,
+          suffixText: suffixText,
         ),
       ),
       actions: [

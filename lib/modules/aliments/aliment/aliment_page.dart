@@ -115,6 +115,7 @@ class AlimentPage extends StatelessWidget {
                           ]),
                           valueTransformer: ValueTransformers.doubleValue,
                           keyboardType: TextInputType.number,
+                          suffixText: cAliment.activeUnit.value,
                         ),
                         CustomTextField(
                           name: FormKeys.calories,
@@ -126,6 +127,9 @@ class AlimentPage extends StatelessWidget {
                           ]),
                           valueTransformer: ValueTransformers.intValue,
                           keyboardType: TextInputType.number,
+                          suffixText: InputSuffixTexts.kcal100(
+                            cAliment.activeUnit.value,
+                          ),
                         ),
                         CustomTextField(
                           name: FormKeys.proteins,
@@ -137,6 +141,9 @@ class AlimentPage extends StatelessWidget {
                           ]),
                           valueTransformer: ValueTransformers.doubleValue,
                           keyboardType: TextInputType.number,
+                          suffixText: InputSuffixTexts.g100(
+                            cAliment.activeUnit.value,
+                          ),
                         ),
                         CustomTextField(
                           name: FormKeys.carbohydrates,
@@ -148,6 +155,9 @@ class AlimentPage extends StatelessWidget {
                           ]),
                           valueTransformer: ValueTransformers.doubleValue,
                           keyboardType: TextInputType.number,
+                          suffixText: InputSuffixTexts.g100(
+                            cAliment.activeUnit.value,
+                          ),
                         ),
                         CustomTextField(
                           name: FormKeys.sugars,
@@ -159,6 +169,9 @@ class AlimentPage extends StatelessWidget {
                           ]),
                           valueTransformer: ValueTransformers.doubleValue,
                           keyboardType: TextInputType.number,
+                          suffixText: InputSuffixTexts.g100(
+                            cAliment.activeUnit.value,
+                          ),
                         ),
                         CustomTextField(
                           name: FormKeys.lipids,
@@ -170,6 +183,9 @@ class AlimentPage extends StatelessWidget {
                           ]),
                           valueTransformer: ValueTransformers.doubleValue,
                           keyboardType: TextInputType.number,
+                          suffixText: InputSuffixTexts.g100(
+                            cAliment.activeUnit.value,
+                          ),
                         ),
                         CustomTextField(
                           name: FormKeys.saturatedFats,
@@ -181,6 +197,9 @@ class AlimentPage extends StatelessWidget {
                           ]),
                           valueTransformer: ValueTransformers.doubleValue,
                           keyboardType: TextInputType.number,
+                          suffixText: InputSuffixTexts.g100(
+                            cAliment.activeUnit.value,
+                          ),
                         ),
                         const Padding(
                           padding: EdgeInsets.only(

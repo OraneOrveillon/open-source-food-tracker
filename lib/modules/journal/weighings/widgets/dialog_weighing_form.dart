@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 
+import '../../../../core/utils/texts.dart';
 import '../../../../core/utils/value_transformers.dart';
 import '../../../../widgets/dialog_single_input_form.dart';
 import '../weighings_controller.dart';
@@ -35,6 +36,7 @@ class DialogWeighingForm extends StatelessWidget {
           keyboardType: TextInputType.number,
           onCancelClick: onCancelClick,
           onOKClick: onOKClick,
+          suffixText: InputSuffixTexts.kg,
         );
       },
     );

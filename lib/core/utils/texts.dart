@@ -31,6 +31,14 @@ abstract class InputLabelTexts {
   static const String description = 'Description';
 }
 
+abstract class InputSuffixTexts {
+  static const String kg = 'kg';
+  static String Function(String unit) kcal100 = (unit) => 'kcal/100$unit';
+  static String Function(String unit) g100 = (unit) => 'g/100$unit';
+  static const String kcalD = 'kcal/d';
+  static const String gD = 'g/d';
+}
+
 abstract class InputHintTexts {}
 
 abstract class DialogTexts {
