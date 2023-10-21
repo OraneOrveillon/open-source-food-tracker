@@ -30,7 +30,6 @@ class AlimentPage extends StatelessWidget {
             ],
           ),
           body: SingleChildScrollView(
-            controller: cAliment.scrollController,
             child: Padding(
               padding: const EdgeInsets.all(Paddings.medium),
               child: FormBuilder(
@@ -181,7 +180,6 @@ class AlimentPage extends StatelessWidget {
                           valueTransformer: ValueTransformers.doubleValue,
                           keyboardType: TextInputType.number,
                         ),
-                        // TODO doses
                         const Padding(
                           padding: EdgeInsets.only(
                             top: Paddings.medium,
