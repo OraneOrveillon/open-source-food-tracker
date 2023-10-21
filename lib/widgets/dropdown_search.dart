@@ -40,7 +40,9 @@ class CustomDropdownSearch extends StatelessWidget {
             labelText: label,
           ),
         ),
-        dropdownBuilder: (_, selectedItems) => Text(selectedItems.join(', ')),
+        dropdownBuilder: selectedItems.isNotEmpty
+            ? (_, selectedItems) => Text(selectedItems.join(', '))
+            : null,
         popupProps: PopupPropsMultiSelection.modalBottomSheet(
           showSelectedItems: true,
           showSearchBox: true,
