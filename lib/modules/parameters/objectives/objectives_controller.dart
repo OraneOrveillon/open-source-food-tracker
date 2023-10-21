@@ -14,7 +14,6 @@ class ObjectivesController extends GetxController {
 
   final GlobalKey<FormBuilderState> formKey = GlobalKey();
 
-  // TODO documentation sur le onReady() pour essayer de récupérer le dernier objectif dedans
   @override
   Future<void> onInit() async {
     super.onInit();

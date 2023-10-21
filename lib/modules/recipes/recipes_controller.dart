@@ -17,7 +17,7 @@ class RecipesController extends GetxController {
       PagingController(firstPageKey: 0);
 
   @override
-  Future<void> onInit() async {
+  void onInit() {
     super.onInit();
 
     pagingController.addPageRequestListener((pageKey) {

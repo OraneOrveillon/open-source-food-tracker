@@ -21,7 +21,7 @@ class WeighingsController extends GetxController {
   String? initialValue;
 
   @override
-  Future<void> onInit() async {
+  void onInit() {
     super.onInit();
 
     pagingController.addPageRequestListener((pageKey) {
