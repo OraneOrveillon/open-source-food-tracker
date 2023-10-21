@@ -103,6 +103,8 @@ class AlimentPage extends StatelessWidget {
                             FormBuilderValidators.required(),
                           ]),
                           clearFunction: null,
+                          onChanged: (value) =>
+                              cAliment.updateActiveUnit(value),
                         ),
                         CustomTextField(
                           name: FormKeys.servingQuantity,
@@ -211,7 +213,7 @@ class DosesInputs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<AlimentController>(
+    return GetX<AlimentController>(
       builder: (cAliment) {
         return Row(children: [
           for (final dose in FormKeys.doses) ...[
@@ -225,7 +227,7 @@ class DosesInputs extends StatelessWidget {
                 ]),
                 valueTransformer: ValueTransformers.doubleValue,
                 keyboardType: TextInputType.number,
-                suffixText: cAliment.initialUnit,
+                suffixText: cAliment.activeUnit.value,
               ),
             ),
             Builder(builder: (_) {

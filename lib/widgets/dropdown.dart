@@ -10,6 +10,7 @@ class CustomDropdown extends StatelessWidget {
     required this.items,
     required this.validator,
     required this.clearFunction,
+    this.onChanged,
   }) : super(key: key);
 
   final String name;
@@ -18,6 +19,7 @@ class CustomDropdown extends StatelessWidget {
   final List<String> items;
   final String? Function(String?)? validator;
   final void Function()? clearFunction;
+  final void Function(String?)? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +34,7 @@ class CustomDropdown extends StatelessWidget {
               ))
           .toList(),
       validator: null,
+      onChanged: onChanged,
     );
   }
 
