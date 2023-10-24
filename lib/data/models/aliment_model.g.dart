@@ -236,31 +236,32 @@ Aliment _alimentDeserialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = Aliment();
-  object.barcode = reader.readStringOrNull(offsets[0]);
-  object.brands = reader.readStringList(offsets[1]);
-  object.calories = reader.readLongOrNull(offsets[2]);
-  object.carbohydrates = reader.readDoubleOrNull(offsets[3]);
-  object.categories = reader.readStringList(offsets[4]);
-  object.creationDate = reader.readDateTimeOrNull(offsets[5]);
-  object.deleted = reader.readBoolOrNull(offsets[6]);
-  object.doses = reader.readObjectList<Dose>(
-    offsets[7],
-    DoseSchema.deserialize,
-    allOffsets,
-    Dose(),
+  final object = Aliment(
+    barcode: reader.readStringOrNull(offsets[0]),
+    brands: reader.readStringList(offsets[1]),
+    calories: reader.readLongOrNull(offsets[2]),
+    carbohydrates: reader.readDoubleOrNull(offsets[3]),
+    categories: reader.readStringList(offsets[4]),
+    creationDate: reader.readDateTimeOrNull(offsets[5]),
+    deleted: reader.readBoolOrNull(offsets[6]),
+    doses: reader.readObjectList<Dose>(
+      offsets[7],
+      DoseSchema.deserialize,
+      allOffsets,
+      Dose(),
+    ),
+    id: id,
+    image: reader.readStringOrNull(offsets[8]),
+    lipids: reader.readDoubleOrNull(offsets[9]),
+    name: reader.readStringOrNull(offsets[10]),
+    nutriscore: reader.readStringOrNull(offsets[11]),
+    proteins: reader.readDoubleOrNull(offsets[12]),
+    saturatedFats: reader.readDoubleOrNull(offsets[13]),
+    servingQuantity: reader.readDoubleOrNull(offsets[14]),
+    sugars: reader.readDoubleOrNull(offsets[15]),
+    unit: reader.readStringOrNull(offsets[16]),
+    updateDate: reader.readDateTimeOrNull(offsets[17]),
   );
-  object.id = id;
-  object.image = reader.readStringOrNull(offsets[8]);
-  object.lipids = reader.readDoubleOrNull(offsets[9]);
-  object.name = reader.readStringOrNull(offsets[10]);
-  object.nutriscore = reader.readStringOrNull(offsets[11]);
-  object.proteins = reader.readDoubleOrNull(offsets[12]);
-  object.saturatedFats = reader.readDoubleOrNull(offsets[13]);
-  object.servingQuantity = reader.readDoubleOrNull(offsets[14]);
-  object.sugars = reader.readDoubleOrNull(offsets[15]);
-  object.unit = reader.readStringOrNull(offsets[16]);
-  object.updateDate = reader.readDateTimeOrNull(offsets[17]);
   return object;
 }
 
@@ -325,9 +326,7 @@ List<IsarLinkBase<dynamic>> _alimentGetLinks(Aliment object) {
   return [];
 }
 
-void _alimentAttach(IsarCollection<dynamic> col, Id id, Aliment object) {
-  object.id = id;
-}
+void _alimentAttach(IsarCollection<dynamic> col, Id id, Aliment object) {}
 
 extension AlimentQueryWhereSort on QueryBuilder<Aliment, Aliment, QWhere> {
   QueryBuilder<Aliment, Aliment, QAfterWhere> anyId() {
@@ -3144,9 +3143,10 @@ Dose _doseDeserialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = Dose();
-  object.equivalent = reader.readDoubleOrNull(offsets[0]);
-  object.name = reader.readStringOrNull(offsets[1]);
+  final object = Dose(
+    equivalent: reader.readDoubleOrNull(offsets[0]),
+    name: reader.readStringOrNull(offsets[1]),
+  );
   return object;
 }
 

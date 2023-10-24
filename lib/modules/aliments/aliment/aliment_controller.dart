@@ -90,23 +90,24 @@ class AlimentController extends GetxController {
     if (formKey.currentState!.saveAndValidate()) {
       final formValues = formKey.currentState!.value;
 
-      final Aliment aliment = Aliment()
-        ..creationDate = DateTime.now()
-        ..name = formValues[FormKeys.name]
-        ..barcode = formValues[FormKeys.barcode]
-        ..brands = formValues[FormKeys.brands]
-        ..categories = formValues[FormKeys.categories]
-        ..nutriscore = formValues[FormKeys.nutriscore]
-        ..unit = formValues[FormKeys.unit]
-        ..servingQuantity = _getFormServingQuantity(formValues)
-        ..calories = formValues[FormKeys.calories]
-        ..proteins = formValues[FormKeys.proteins]
-        ..carbohydrates = formValues[FormKeys.carbohydrates]
-        ..sugars = formValues[FormKeys.sugars]
-        ..lipids = formValues[FormKeys.lipids]
-        ..saturatedFats = formValues[FormKeys.saturatedFats]
-        ..doses = _getFormDoses(formValues)
-        ..deleted = false;
+      final Aliment aliment = Aliment(
+        creationDate: DateTime.now(),
+        name: formValues[FormKeys.name],
+        barcode: formValues[FormKeys.barcode],
+        brands: formValues[FormKeys.brands],
+        categories: formValues[FormKeys.categories],
+        nutriscore: formValues[FormKeys.nutriscore],
+        unit: formValues[FormKeys.unit],
+        servingQuantity: _getFormServingQuantity(formValues),
+        calories: formValues[FormKeys.calories],
+        proteins: formValues[FormKeys.proteins],
+        carbohydrates: formValues[FormKeys.carbohydrates],
+        sugars: formValues[FormKeys.sugars],
+        lipids: formValues[FormKeys.lipids],
+        saturatedFats: formValues[FormKeys.saturatedFats],
+        doses: _getFormDoses(formValues),
+        deleted: false,
+      );
 
       await _service.putAliment(aliment);
 
@@ -122,6 +123,7 @@ class AlimentController extends GetxController {
       final formValues = formKey.currentState!.value;
 
       final Aliment newAliment = aliment!.copyWith(
+        updateDate: DateTime.now(),
         name: formValues[FormKeys.name],
         barcode: formValues[FormKeys.barcode],
         brands: formValues[FormKeys.brands],
@@ -140,7 +142,7 @@ class AlimentController extends GetxController {
       );
 
       if (newAliment != aliment) {
-        await _service.putAliment(newAliment..updateDate = DateTime.now());
+        await _service.putAliment(newAliment);
       }
 
       _cAliments.updateAlimentInList(newAliment);
@@ -161,9 +163,10 @@ class AlimentController extends GetxController {
 
     for (final doseName in FormKeys.doses) {
       if (formValues[doseName] != 0) {
-        doses.add(Dose()
-          ..name = doseName
-          ..equivalent = formValues[doseName]);
+        doses.add(Dose(
+          name: doseName,
+          equivalent: formValues[doseName],
+        ));
       }
     }
 
