@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import '../../../core/utils/paddings.dart';
 import '../../../core/utils/texts.dart';
 import '../../../core/utils/value_transformers.dart';
+import '../../../widgets/section_title.dart';
 import '../../../widgets/text_field.dart';
 import 'recipe_controller.dart';
 
@@ -31,7 +32,12 @@ class RecipePage extends StatelessWidget {
               child: FormBuilder(
                 key: cRecipe.formKey,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    const SectionTitle(
+                      title: SectionTexts.general,
+                      isFirstSection: true,
+                    ),
                     CustomTextField(
                       name: FormKeys.name,
                       label: InputLabelTexts.name,

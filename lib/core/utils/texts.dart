@@ -51,6 +51,8 @@ abstract class DialogTexts {
 }
 
 abstract class SectionTexts {
+  static const String general = 'General';
+  static const String nutrition = 'Nutrition';
   static const String doses = 'Doses';
 }
 

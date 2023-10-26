@@ -9,6 +9,7 @@ import '../../../core/utils/paddings.dart';
 import '../../../core/utils/texts.dart';
 import '../../../core/utils/value_transformers.dart';
 import '../../../widgets/dropdown.dart';
+import '../../../widgets/section_title.dart';
 import '../../../widgets/text_field.dart';
 import 'aliment_controller.dart';
 import 'widgets/dropdown_search_brands_categories.dart';
@@ -39,6 +40,10 @@ class AlimentPage extends StatelessWidget {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        const SectionTitle(
+                          title: SectionTexts.general,
+                          isFirstSection: true,
+                        ),
                         CustomTextField(
                           name: FormKeys.name,
                           label: InputLabelTexts.name,
@@ -85,6 +90,7 @@ class AlimentPage extends StatelessWidget {
                               Errors.categoryAlreadyExists,
                           onOKClick: () => cAliment.addNewCategory(),
                         ),
+                        const SectionTitle(title: SectionTexts.nutrition),
                         CustomDropdown(
                           name: FormKeys.nutriscore,
                           label: InputLabelTexts.nutriscore,
@@ -201,17 +207,8 @@ class AlimentPage extends StatelessWidget {
                             cAliment.activeUnit.value,
                           ),
                         ),
-                        const Padding(
-                          padding: EdgeInsets.only(
-                            top: Paddings.medium,
-                          ),
-                          child: Divider(),
-                        ),
-                        Text(
-                          SectionTexts.doses,
-                          style: Get.theme.textTheme.titleLarge,
-                        ),
-                        const DosesInputs(),
+                        const SectionTitle(title: SectionTexts.doses),
+                        _DosesInputs(),
                       ],
                     );
                   },
@@ -225,11 +222,7 @@ class AlimentPage extends StatelessWidget {
   }
 }
 
-class DosesInputs extends StatelessWidget {
-  const DosesInputs({
-    super.key,
-  });
-
+class _DosesInputs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetX<AlimentController>(
