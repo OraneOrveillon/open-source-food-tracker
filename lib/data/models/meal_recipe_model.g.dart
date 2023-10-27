@@ -69,7 +69,7 @@ const MealRecipeSchema = CollectionSchema(
     r'recipe': LinkSchema(
       id: -4126936616943649693,
       name: r'recipe',
-      target: r'Recipe',
+      target: r'RecipeVariant',
       single: true,
     )
   },
@@ -159,7 +159,8 @@ List<IsarLinkBase<dynamic>> _mealRecipeGetLinks(MealRecipe object) {
 void _mealRecipeAttach(IsarCollection<dynamic> col, Id id, MealRecipe object) {
   object.id = id;
   object.meal.attach(col, col.isar.collection<Meal>(), r'meal', id);
-  object.recipe.attach(col, col.isar.collection<Recipe>(), r'recipe', id);
+  object.recipe
+      .attach(col, col.isar.collection<RecipeVariant>(), r'recipe', id);
 }
 
 extension MealRecipeQueryWhereSort
@@ -880,7 +881,7 @@ extension MealRecipeQueryLinks
   }
 
   QueryBuilder<MealRecipe, MealRecipe, QAfterFilterCondition> recipe(
-      FilterQuery<Recipe> q) {
+      FilterQuery<RecipeVariant> q) {
     return QueryBuilder.apply(this, (query) {
       return query.link(q, r'recipe');
     });

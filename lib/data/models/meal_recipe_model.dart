@@ -9,7 +9,7 @@ part 'meal_recipe_model.g.dart';
 class MealRecipe {
   Id id = Isar.autoIncrement;
   final meal = IsarLink<Meal>();
-  final recipe = IsarLink<Recipe>();
+  final recipe = IsarLink<RecipeVariant>();
   double? portions;
   double? calories;
   double? proteins;

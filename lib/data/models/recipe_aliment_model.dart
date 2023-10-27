@@ -8,7 +8,7 @@ part 'recipe_aliment_model.g.dart';
 @Collection()
 class RecipeAliment {
   Id id = Isar.autoIncrement;
-  final recipe = IsarLink<Recipe>();
+  final recipe = IsarLink<RecipeVariant>();
   final aliment = IsarLink<Aliment>();
   String? dose;
   int? quantity;

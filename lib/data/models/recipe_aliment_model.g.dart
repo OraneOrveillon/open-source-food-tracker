@@ -68,7 +68,7 @@ const RecipeAlimentSchema = CollectionSchema(
     r'recipe': LinkSchema(
       id: -944611800953094446,
       name: r'recipe',
-      target: r'Recipe',
+      target: r'RecipeVariant',
       single: true,
     ),
     r'aliment': LinkSchema(
@@ -174,7 +174,8 @@ List<IsarLinkBase<dynamic>> _recipeAlimentGetLinks(RecipeAliment object) {
 void _recipeAlimentAttach(
     IsarCollection<dynamic> col, Id id, RecipeAliment object) {
   object.id = id;
-  object.recipe.attach(col, col.isar.collection<Recipe>(), r'recipe', id);
+  object.recipe
+      .attach(col, col.isar.collection<RecipeVariant>(), r'recipe', id);
   object.aliment.attach(col, col.isar.collection<Aliment>(), r'aliment', id);
 }
 
@@ -1043,7 +1044,7 @@ extension RecipeAlimentQueryObject
 extension RecipeAlimentQueryLinks
     on QueryBuilder<RecipeAliment, RecipeAliment, QFilterCondition> {
   QueryBuilder<RecipeAliment, RecipeAliment, QAfterFilterCondition> recipe(
-      FilterQuery<Recipe> q) {
+      FilterQuery<RecipeVariant> q) {
     return QueryBuilder.apply(this, (query) {
       return query.link(q, r'recipe');
     });
