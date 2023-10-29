@@ -28,6 +28,7 @@ class DatabaseProvider extends GetxService {
         ObjectiveSchema,
         RecipeAlimentSchema,
         RecipeSchema,
+        RecipeVariantSchema,
         WeighingSchema,
       ],
       directory: directory.path,
