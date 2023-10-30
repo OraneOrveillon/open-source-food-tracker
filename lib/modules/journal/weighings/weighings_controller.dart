@@ -3,30 +3,22 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
+import '../../../core/mixins/scroll_pagination_mixin.dart';
 import '../../../data/models/weighing_model.dart';
 import '../../../data/services/weighing_service.dart';
 
-class WeighingsController extends GetxController {
+class WeighingsController extends GetxController
+    with ScrollPaginationMixin<Weighing> {
   final WeighingService _service = WeighingService();
-
-  static const int _numberOfWeighingsPerRequest = 20;
-  int _weighingsOffset = 0;
-
-  final PagingController<int, Weighing> pagingController =
-      PagingController(firstPageKey: 0);
 
   final GlobalKey<FormBuilderState> formKey = GlobalKey();
   String? initialValue;
 
   @override
-  void onInit() {
+  Future<void> onInit() async {
     super.onInit();
-
-    pagingController.addPageRequestListener((pageKey) {
-      _fetchPage(pageKey);
-    });
+    await initPagination(_getLastWeighings);
   }
 
   void openDialog({
@@ -40,31 +32,19 @@ class WeighingsController extends GetxController {
 
   void closeDialog() => Get.back();
 
-  Future<List<Weighing>> _getLastWeighings() async {
-    final List<Weighing> nextWeighings =
-        await _service.getLastWeighingsWithOffset(
-      _numberOfWeighingsPerRequest,
-      _weighingsOffset,
+  Future<List<Weighing>> _getLastWeighings(
+    int numberOfWeighingsPerRequest,
+    int weighingsOffset,
+  ) async {
+    return await _service.getLastWeighingsWithOffset(
+      numberOfWeighingsPerRequest,
+      weighingsOffset,
     );
-
-    _weighingsOffset += _numberOfWeighingsPerRequest;
-
-    return nextWeighings;
   }
 
-  Future<void> _fetchPage(int pageKey) async {
-    try {
-      final List<Weighing> nextWeighings = await _getLastWeighings();
-      final isLastPage = nextWeighings.length < _numberOfWeighingsPerRequest;
-      if (isLastPage) {
-        pagingController.appendLastPage(nextWeighings);
-      } else {
-        final nextPageKey = pageKey + 1;
-        pagingController.appendPage(nextWeighings, nextPageKey);
-      }
-    } catch (e) {
-      pagingController.error = e;
-    }
+  int _getIndex(Weighing weighing) {
+    return pagingController.value.itemList!
+        .indexWhere((element) => element.id == weighing.id);
   }
 
   Future<void> addWeighing() async {
@@ -75,8 +55,7 @@ class WeighingsController extends GetxController {
 
       await _service.putWeighing(weighing);
 
-      pagingController.value.itemList?.insert(0, weighing);
-      _fetchPage(0);
+      addItemInList(weighing);
 
       closeDialog();
     }
@@ -91,9 +70,7 @@ class WeighingsController extends GetxController {
 
         await _service.putWeighing(weighing);
 
-        pagingController.value.itemList?[pagingController.value.itemList!
-            .indexWhere((w) => w.id == weighing.id)] = weighing;
-        _fetchPage(0);
+        updateItemInList(weighing, _getIndex(weighing));
       }
 
       closeDialog();
@@ -103,9 +80,7 @@ class WeighingsController extends GetxController {
   Future<void> deleteWeighing(Weighing weighing) async {
     await _service.deleteWeighing(weighing);
 
-    pagingController.value.itemList
-        ?.removeWhere((Weighing w) => w.id == weighing.id);
-    _fetchPage(0);
+    deleteItemInList(_getIndex(weighing));
   }
 
   @override

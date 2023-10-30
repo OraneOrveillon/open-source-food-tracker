@@ -18,13 +18,16 @@ class AlimentsController extends GetxController
   }
 
   Future<List<Aliment>> _getLastAliments(
-      int numberOfAlimentsPerRequest, int alimentsOffset) async {
+    int numberOfAlimentsPerRequest,
+    int alimentsOffset,
+  ) async {
     return await _service.getLastAlimentsWithOffset(
       numberOfAlimentsPerRequest,
       alimentsOffset,
     );
   }
 
+// TODO voir si toujours utile
   int _getIndex(Aliment aliment) {
     return pagingController.value.itemList!
         .indexWhere((element) => element.id == aliment.id);
