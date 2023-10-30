@@ -44,7 +44,6 @@ class AlimentsController extends GetxController
   // TODO vérifier si l'aliment a déjà été enregistré dans une recette
   Future<void> deleteAliment(Aliment aliment) async {
     await _service.deleteAliment(aliment);
-
     deleteItemInList(_getIndex(aliment));
   }
 

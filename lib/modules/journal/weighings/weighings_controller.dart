@@ -79,7 +79,6 @@ class WeighingsController extends GetxController
 
   Future<void> deleteWeighing(Weighing weighing) async {
     await _service.deleteWeighing(weighing);
-
     deleteItemInList(_getIndex(weighing));
   }
 
