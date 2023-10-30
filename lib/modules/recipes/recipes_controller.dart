@@ -27,23 +27,18 @@ class RecipesController extends GetxController
     );
   }
 
-  int _getIndex(Recipe recipe) {
-    return pagingController.value.itemList!
-        .indexWhere((element) => element.id == recipe.id);
-  }
-
   void addRecipeInList(Recipe recipe) {
     addItemInList(recipe);
   }
 
   void updateRecipeInList(Recipe recipe) {
-    updateItemInList(recipe, _getIndex(recipe));
+    updateItemInList(recipe, (element) => recipe.id == element.id);
   }
 
   // TODO vérifier si la recette a déjà été enregistrée dans une recette
   Future<void> deleteRecipe(Recipe recipe) async {
     await _service.deleteRecipe(recipe);
-    deleteItemInList(_getIndex(recipe));
+    deleteItemInList((element) => recipe.id == element.id);
   }
 
   void goToAddRecipe() => Get.toNamed(Routes.recipes + Routes.recipe);

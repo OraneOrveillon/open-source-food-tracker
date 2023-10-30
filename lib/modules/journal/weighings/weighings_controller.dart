@@ -42,11 +42,6 @@ class WeighingsController extends GetxController
     );
   }
 
-  int _getIndex(Weighing weighing) {
-    return pagingController.value.itemList!
-        .indexWhere((element) => element.id == weighing.id);
-  }
-
   Future<void> addWeighing() async {
     if (formKey.currentState!.saveAndValidate()) {
       final Weighing weighing = Weighing()
@@ -70,7 +65,7 @@ class WeighingsController extends GetxController
 
         await _service.putWeighing(weighing);
 
-        updateItemInList(weighing, _getIndex(weighing));
+        updateItemInList(weighing, (element) => weighing.id == element.id);
       }
 
       closeDialog();
@@ -79,7 +74,7 @@ class WeighingsController extends GetxController
 
   Future<void> deleteWeighing(Weighing weighing) async {
     await _service.deleteWeighing(weighing);
-    deleteItemInList(_getIndex(weighing));
+    deleteItemInList((element) => weighing.id == element.id);
   }
 
   @override

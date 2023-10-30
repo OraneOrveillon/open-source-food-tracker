@@ -27,24 +27,18 @@ class AlimentsController extends GetxController
     );
   }
 
-// TODO voir si toujours utile
-  int _getIndex(Aliment aliment) {
-    return pagingController.value.itemList!
-        .indexWhere((element) => element.id == aliment.id);
-  }
-
   void addAlimentInList(Aliment aliment) {
     addItemInList(aliment);
   }
 
   void updateAlimentInList(Aliment aliment) {
-    updateItemInList(aliment, _getIndex(aliment));
+    updateItemInList(aliment, (element) => aliment.id == element.id);
   }
 
   // TODO vérifier si l'aliment a déjà été enregistré dans une recette
   Future<void> deleteAliment(Aliment aliment) async {
     await _service.deleteAliment(aliment);
-    deleteItemInList(_getIndex(aliment));
+    deleteItemInList((element) => aliment.id == element.id);
   }
 
   void goToAddAliment() => Get.toNamed(Routes.aliments + Routes.aliment);

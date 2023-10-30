@@ -40,13 +40,15 @@ mixin ScrollPaginationMixin<T> {
     _fetchPage(0);
   }
 
-  void updateItemInList(T item, int index) {
-    pagingController.value.itemList?[index] = item;
+  void updateItemInList(T item, bool Function(T) whereTest) {
+    pagingController.value
+            .itemList?[pagingController.value.itemList!.indexWhere(whereTest)] =
+        item;
     _fetchPage(0);
   }
 
-  void deleteItemInList(int index) {
-    pagingController.value.itemList?.removeAt(index);
+  void deleteItemInList(bool Function(T) whereTest) {
+    pagingController.value.itemList?.removeWhere(whereTest);
     _fetchPage(0);
   }
 }
