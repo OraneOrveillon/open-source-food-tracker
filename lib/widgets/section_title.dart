@@ -17,17 +17,11 @@ class SectionTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-        top: isFirstSection ? Paddings.medium : 0,
+        top: isFirstSection ? 0 : Paddings.medium,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          isFirstSection ? const Divider() : const SizedBox.shrink(),
-          Text(
-            title,
-            style: Get.theme.textTheme.titleLarge,
-          ),
-        ],
+      child: Text(
+        title,
+        style: Get.theme.textTheme.titleLarge,
       ),
     );
   }
