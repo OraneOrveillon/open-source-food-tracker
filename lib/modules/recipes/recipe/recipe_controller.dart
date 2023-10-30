@@ -35,16 +35,16 @@ class RecipeController extends GetxController {
     if (formKey.currentState!.saveAndValidate()) {
       final formValues = formKey.currentState!.value;
 
-      final Recipe recipe = Recipe()
-        ..creationDate = DateTime.now()
-        ..name = formValues[FormKeys.name]
-        ..portions = formValues[FormKeys.portions]
-        ..description = formValues[FormKeys.description]
-        ..deleted = false;
+      // final Recipe recipe = Recipe()
+      //   ..creationDate = DateTime.now()
+      //   ..name = formValues[FormKeys.name]
+      //   ..portions = formValues[FormKeys.portions]
+      //   ..description = formValues[FormKeys.description]
+      //   ..deleted = false;
 
-      await _service.putRecipe(recipe);
+      // await _service.putRecipe(recipe);
 
-      cRecipes.addRecipeInList(recipe);
+      // cRecipes.addRecipeInList(recipe);
 
       goBack();
     }
