@@ -134,16 +134,15 @@ Recipe _recipeDeserialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = Recipe(
-    creationDate: reader.readDateTimeOrNull(offsets[0]),
-    description: reader.readStringOrNull(offsets[1]),
-    id: id,
-    link: reader.readStringOrNull(offsets[2]),
-    name: reader.readStringOrNull(offsets[3]),
-    portions: reader.readLongOrNull(offsets[4]),
-    tags: reader.readStringList(offsets[5]),
-    updateDate: reader.readDateTimeOrNull(offsets[6]),
-  );
+  final object = Recipe();
+  object.creationDate = reader.readDateTimeOrNull(offsets[0]);
+  object.description = reader.readStringOrNull(offsets[1]);
+  object.id = id;
+  object.link = reader.readStringOrNull(offsets[2]);
+  object.name = reader.readStringOrNull(offsets[3]);
+  object.portions = reader.readLongOrNull(offsets[4]);
+  object.tags = reader.readStringList(offsets[5]);
+  object.updateDate = reader.readDateTimeOrNull(offsets[6]);
   return object;
 }
 
@@ -182,6 +181,7 @@ List<IsarLinkBase<dynamic>> _recipeGetLinks(Recipe object) {
 }
 
 void _recipeAttach(IsarCollection<dynamic> col, Id id, Recipe object) {
+  object.id = id;
   object.variants
       .attach(col, col.isar.collection<RecipeVariant>(), r'variants', id);
 }
@@ -1529,11 +1529,10 @@ RecipeVariant _recipeVariantDeserialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = RecipeVariant(
-    deleted: reader.readBoolOrNull(offsets[0]),
-    id: id,
-    name: reader.readStringOrNull(offsets[1]),
-  );
+  final object = RecipeVariant();
+  object.deleted = reader.readBoolOrNull(offsets[0]);
+  object.id = id;
+  object.name = reader.readStringOrNull(offsets[1]);
   return object;
 }
 
@@ -1562,7 +1561,9 @@ List<IsarLinkBase<dynamic>> _recipeVariantGetLinks(RecipeVariant object) {
 }
 
 void _recipeVariantAttach(
-    IsarCollection<dynamic> col, Id id, RecipeVariant object) {}
+    IsarCollection<dynamic> col, Id id, RecipeVariant object) {
+  object.id = id;
+}
 
 extension RecipeVariantQueryWhereSort
     on QueryBuilder<RecipeVariant, RecipeVariant, QWhere> {
