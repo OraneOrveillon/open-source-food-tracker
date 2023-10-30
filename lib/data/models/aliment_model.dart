@@ -6,6 +6,7 @@ part 'aliment_model.g.dart';
 @Collection(inheritance: false)
 class Aliment with EquatableMixin {
   Id id = Isar.autoIncrement;
+  @Index()
   DateTime? creationDate;
   DateTime? updateDate;
   bool? deleted;

@@ -114,7 +114,21 @@ const AlimentSchema = CollectionSchema(
   deserialize: _alimentDeserialize,
   deserializeProp: _alimentDeserializeProp,
   idName: r'id',
-  indexes: {},
+  indexes: {
+    r'creationDate': IndexSchema(
+      id: -78501097794997996,
+      name: r'creationDate',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'creationDate',
+          type: IndexType.value,
+          caseSensitive: false,
+        )
+      ],
+    )
+  },
   links: {},
   embeddedSchemas: {r'Dose': DoseSchema},
   getId: _alimentGetId,
@@ -335,6 +349,14 @@ extension AlimentQueryWhereSort on QueryBuilder<Aliment, Aliment, QWhere> {
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
+
+  QueryBuilder<Aliment, Aliment, QAfterWhere> anyCreationDate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'creationDate'),
+      );
+    });
+  }
 }
 
 extension AlimentQueryWhere on QueryBuilder<Aliment, Aliment, QWhereClause> {
@@ -398,6 +420,116 @@ extension AlimentQueryWhere on QueryBuilder<Aliment, Aliment, QWhereClause> {
         lower: lowerId,
         includeLower: includeLower,
         upper: upperId,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Aliment, Aliment, QAfterWhereClause> creationDateIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'creationDate',
+        value: [null],
+      ));
+    });
+  }
+
+  QueryBuilder<Aliment, Aliment, QAfterWhereClause> creationDateIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'creationDate',
+        lower: [null],
+        includeLower: false,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<Aliment, Aliment, QAfterWhereClause> creationDateEqualTo(
+      DateTime? creationDate) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'creationDate',
+        value: [creationDate],
+      ));
+    });
+  }
+
+  QueryBuilder<Aliment, Aliment, QAfterWhereClause> creationDateNotEqualTo(
+      DateTime? creationDate) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'creationDate',
+              lower: [],
+              upper: [creationDate],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'creationDate',
+              lower: [creationDate],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'creationDate',
+              lower: [creationDate],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'creationDate',
+              lower: [],
+              upper: [creationDate],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<Aliment, Aliment, QAfterWhereClause> creationDateGreaterThan(
+    DateTime? creationDate, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'creationDate',
+        lower: [creationDate],
+        includeLower: include,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<Aliment, Aliment, QAfterWhereClause> creationDateLessThan(
+    DateTime? creationDate, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'creationDate',
+        lower: [],
+        upper: [creationDate],
+        includeUpper: include,
+      ));
+    });
+  }
+
+  QueryBuilder<Aliment, Aliment, QAfterWhereClause> creationDateBetween(
+    DateTime? lowerCreationDate,
+    DateTime? upperCreationDate, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'creationDate',
+        lower: [lowerCreationDate],
+        includeLower: includeLower,
+        upper: [upperCreationDate],
         includeUpper: includeUpper,
       ));
     });
