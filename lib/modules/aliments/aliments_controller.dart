@@ -1,74 +1,48 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../../../data/models/aliment_model.dart';
 import '../../../data/services/aliment_service.dart';
+import '../../core/mixins/scroll_pagination_mixin.dart';
 import '../../routes/routes.dart';
 
-class AlimentsController extends GetxController {
+class AlimentsController extends GetxController
+    with ScrollPaginationMixin<Aliment> {
   final AlimentService _service = AlimentService();
 
-  static const int _numberOfAlimentsPerRequest = 20;
-  int _alimentsOffset = 0;
-
-  final PagingController<int, Aliment> pagingController =
-      PagingController(firstPageKey: 0);
-
   @override
-  void onInit() {
+  Future<void> onInit() async {
     super.onInit();
-
-    pagingController.addPageRequestListener((pageKey) {
-      _fetchPage(pageKey);
-    });
+    await initPagination(_getLastAliments);
   }
 
-  Future<List<Aliment>> _getLastAliments() async {
-    final List<Aliment> nextAliments = await _service.getLastAlimentsWithOffset(
-      _numberOfAlimentsPerRequest,
-      _alimentsOffset,
+  Future<List<Aliment>> _getLastAliments(
+      int numberOfAlimentsPerRequest, int alimentsOffset) async {
+    return await _service.getLastAlimentsWithOffset(
+      numberOfAlimentsPerRequest,
+      alimentsOffset,
     );
-
-    _alimentsOffset += _numberOfAlimentsPerRequest;
-
-    return nextAliments;
   }
 
-  Future<void> _fetchPage(int pageKey) async {
-    try {
-      final List<Aliment> nextAliments = await _getLastAliments();
-      final isLastPage = nextAliments.length < _numberOfAlimentsPerRequest;
-      if (isLastPage) {
-        pagingController.appendLastPage(nextAliments);
-      } else {
-        final nextPageKey = pageKey + 1;
-        pagingController.appendPage(nextAliments, nextPageKey);
-      }
-    } catch (e) {
-      pagingController.error = e;
-    }
+  int _getIndex(Aliment aliment) {
+    return pagingController.value.itemList!
+        .indexWhere((element) => element.id == aliment.id);
   }
 
   void addAlimentInList(Aliment aliment) {
-    pagingController.value.itemList?.insert(0, aliment);
-    _fetchPage(0);
+    addItemInList(aliment);
   }
 
   void updateAlimentInList(Aliment aliment) {
-    pagingController.value.itemList?[pagingController.value.itemList!
-        .indexWhere((a) => a.id == aliment.id)] = aliment;
-    _fetchPage(0);
+    updateItemInList(aliment, _getIndex(aliment));
   }
 
   // TODO vérifier si l'aliment a déjà été enregistré dans une recette
   Future<void> deleteAliment(Aliment aliment) async {
     await _service.deleteAliment(aliment);
 
-    pagingController.value.itemList
-        ?.removeWhere((Aliment a) => a.id == aliment.id);
-    _fetchPage(0);
+    deleteItemInList(_getIndex(aliment));
   }
 
   void goToAddAliment() => Get.toNamed(Routes.aliments + Routes.aliment);
