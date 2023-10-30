@@ -3,9 +3,8 @@ import 'package:get/get.dart';
 import '../../routes/routes.dart';
 
 class HomeController extends GetxController {
-  final count = 0.obs;
-
-  void increment() => count.value++;
-
-  void onClick() => Get.toNamed(dog);
+  void goToAliments() => Get.toNamed(Routes.aliments);
+  void goToRecipes() => Get.toNamed(Routes.recipes);
+  void goToJournal() => Get.toNamed(Routes.journal);
+  void goToParameters() => Get.toNamed(Routes.parameters);
 }

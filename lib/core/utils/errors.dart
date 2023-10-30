@@ -1,3 +1,4 @@
-abstract class FetchErrors {
-  static const String fetchDog = 'Failed to load dogs.';
+abstract class Errors {
+  static const String brandAlreadyExists = 'This brand already exists.';
+  static const String categoryAlreadyExists = 'This category already exists.';
 }
