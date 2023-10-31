@@ -4,18 +4,19 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../core/utils/lists.dart';
 import '../../../data/models/aliment_model.dart';
 import '../../../data/services/aliment_service.dart';
 import '../aliments_controller.dart';
-import 'image_controller.dart';
 
 class AlimentController extends GetxController {
   final AlimentService _service = AlimentService();
   final AlimentsController _cAliments = Get.find<AlimentsController>();
   Aliment? aliment = Get.arguments;
-  final ImageController _cImage = Get.find<ImageController>();
+
+  final ImagePicker _imagePicker = ImagePicker();
 
   final GlobalKey<FormBuilderState> formKey = GlobalKey();
   final GlobalKey<FormBuilderState> newBrandFormKey = GlobalKey();
@@ -40,6 +41,7 @@ class AlimentController extends GetxController {
   String? initialSaturatedFats;
   List<Dose>? initialDoses;
 
+  final Rx<Uint8List?> image = Rx(null);
   final activeUnit = Rx<String>(Lists.units[0]);
 
   final brands = Rx<List<String>>([]);
@@ -76,7 +78,7 @@ class AlimentController extends GetxController {
       _selectedCategories.value = aliment!.categories ?? [];
 
       if (aliment!.image != null) {
-        _cImage.image.value = Uint8List.fromList(aliment!.image!);
+        image.value = Uint8List.fromList(aliment!.image!);
       }
     }
 
@@ -104,7 +106,7 @@ class AlimentController extends GetxController {
         ..barcode = formValues[FormKeys.barcode]
         ..brands = formValues[FormKeys.brands]
         ..categories = formValues[FormKeys.categories]
-        ..image = _cImage.image.value?.toList()
+        ..image = image.value?.toList()
         ..nutriscore = formValues[FormKeys.nutriscore]
         ..unit = formValues[FormKeys.unit]
         ..servingQuantity = _getFormServingQuantity(formValues)
@@ -135,7 +137,7 @@ class AlimentController extends GetxController {
         barcode: formValues[FormKeys.barcode],
         brands: formValues[FormKeys.brands],
         categories: formValues[FormKeys.categories],
-        image: _cImage.image.value?.toList(),
+        image: image.value?.toList(),
         nutriscore: formValues[FormKeys.nutriscore],
         unit: formValues[FormKeys.unit],
         servingQuantity: _getFormServingQuantity(formValues),
@@ -183,6 +185,15 @@ class AlimentController extends GetxController {
     }
     return null;
   }
+
+  Future<void> pickImage(ImageSource value) async {
+    final XFile? picture = await _imagePicker.pickImage(source: value);
+    if (picture != null) {
+      image.value = await picture.readAsBytes();
+    }
+  }
+
+  void removeImage() => image.value = null;
 
   void clearNutriscore() =>
       formKey.currentState!.fields[FormKeys.nutriscore]!.didChange('');

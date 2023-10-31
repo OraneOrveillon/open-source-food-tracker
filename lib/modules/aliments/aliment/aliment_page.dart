@@ -13,7 +13,6 @@ import '../../../widgets/dropdown.dart';
 import '../../../widgets/section_title.dart';
 import '../../../widgets/text_field.dart';
 import 'aliment_controller.dart';
-import 'image_controller.dart';
 import 'widgets/dropdown_search_brands_categories.dart';
 
 class AlimentPage extends StatelessWidget {
@@ -243,7 +242,7 @@ class _ImageInput extends StatelessWidget {
         decoration: BoxDecoration(
           color: Get.theme.dividerColor,
         ),
-        child: GetX<ImageController>(
+        child: GetX<AlimentController>(
           builder: (cImage) {
             if (cImage.image.value != null) {
               return Stack(
