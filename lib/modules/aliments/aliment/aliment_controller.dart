@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -7,11 +9,13 @@ import '../../../core/utils/lists.dart';
 import '../../../data/models/aliment_model.dart';
 import '../../../data/services/aliment_service.dart';
 import '../aliments_controller.dart';
+import 'image_controller.dart';
 
 class AlimentController extends GetxController {
   final AlimentService _service = AlimentService();
   final AlimentsController _cAliments = Get.find<AlimentsController>();
   Aliment? aliment = Get.arguments;
+  final ImageController _cImage = Get.find<ImageController>();
 
   final GlobalKey<FormBuilderState> formKey = GlobalKey();
   final GlobalKey<FormBuilderState> newBrandFormKey = GlobalKey();
@@ -70,6 +74,10 @@ class AlimentController extends GetxController {
 
       _selectedBrands.value = aliment!.brands ?? [];
       _selectedCategories.value = aliment!.categories ?? [];
+
+      if (aliment!.image != null) {
+        _cImage.image.value = Uint8List.fromList(aliment!.image!);
+      }
     }
 
     brands.value = await _service.getAllBrandsDistinct();
@@ -96,6 +104,7 @@ class AlimentController extends GetxController {
         ..barcode = formValues[FormKeys.barcode]
         ..brands = formValues[FormKeys.brands]
         ..categories = formValues[FormKeys.categories]
+        ..image = _cImage.image.value?.toList()
         ..nutriscore = formValues[FormKeys.nutriscore]
         ..unit = formValues[FormKeys.unit]
         ..servingQuantity = _getFormServingQuantity(formValues)
@@ -126,8 +135,8 @@ class AlimentController extends GetxController {
         barcode: formValues[FormKeys.barcode],
         brands: formValues[FormKeys.brands],
         categories: formValues[FormKeys.categories],
+        image: _cImage.image.value?.toList(),
         nutriscore: formValues[FormKeys.nutriscore],
-        image: null,
         unit: formValues[FormKeys.unit],
         servingQuantity: _getFormServingQuantity(formValues),
         calories: formValues[FormKeys.calories],

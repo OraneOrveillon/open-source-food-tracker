@@ -61,7 +61,7 @@ const AlimentSchema = CollectionSchema(
     r'image': PropertySchema(
       id: 8,
       name: r'image',
-      type: IsarType.string,
+      type: IsarType.longList,
     ),
     r'lipids': PropertySchema(
       id: 9,
@@ -189,7 +189,7 @@ int _alimentEstimateSize(
   {
     final value = object.image;
     if (value != null) {
-      bytesCount += 3 + value.length * 3;
+      bytesCount += 3 + value.length * 8;
     }
   }
   {
@@ -232,7 +232,7 @@ void _alimentSerialize(
     DoseSchema.serialize,
     object.doses,
   );
-  writer.writeString(offsets[8], object.image);
+  writer.writeLongList(offsets[8], object.image);
   writer.writeDouble(offsets[9], object.lipids);
   writer.writeString(offsets[10], object.name);
   writer.writeString(offsets[11], object.nutriscore);
@@ -265,7 +265,7 @@ Aliment _alimentDeserialize(
     Dose(),
   );
   object.id = id;
-  object.image = reader.readStringOrNull(offsets[8]);
+  object.image = reader.readLongList(offsets[8]);
   object.lipids = reader.readDoubleOrNull(offsets[9]);
   object.name = reader.readStringOrNull(offsets[10]);
   object.nutriscore = reader.readStringOrNull(offsets[11]);
@@ -307,7 +307,7 @@ P _alimentDeserializeProp<P>(
         Dose(),
       )) as P;
     case 8:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readLongList(offset)) as P;
     case 9:
       return (reader.readDoubleOrNull(offset)) as P;
     case 10:
@@ -1567,55 +1567,47 @@ extension AlimentQueryFilter
     });
   }
 
-  QueryBuilder<Aliment, Aliment, QAfterFilterCondition> imageEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Aliment, Aliment, QAfterFilterCondition> imageElementEqualTo(
+      int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'image',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Aliment, Aliment, QAfterFilterCondition> imageGreaterThan(
-    String? value, {
+  QueryBuilder<Aliment, Aliment, QAfterFilterCondition> imageElementGreaterThan(
+    int value, {
     bool include = false,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'image',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Aliment, Aliment, QAfterFilterCondition> imageLessThan(
-    String? value, {
+  QueryBuilder<Aliment, Aliment, QAfterFilterCondition> imageElementLessThan(
+    int value, {
     bool include = false,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'image',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Aliment, Aliment, QAfterFilterCondition> imageBetween(
-    String? lower,
-    String? upper, {
+  QueryBuilder<Aliment, Aliment, QAfterFilterCondition> imageElementBetween(
+    int lower,
+    int upper, {
     bool includeLower = true,
     bool includeUpper = true,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -1624,76 +1616,91 @@ extension AlimentQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Aliment, Aliment, QAfterFilterCondition> imageStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Aliment, Aliment, QAfterFilterCondition> imageLengthEqualTo(
+      int length) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'image',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Aliment, Aliment, QAfterFilterCondition> imageEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'image',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Aliment, Aliment, QAfterFilterCondition> imageContains(
-      String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'image',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Aliment, Aliment, QAfterFilterCondition> imageMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'image',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.listLength(
+        r'image',
+        length,
+        true,
+        length,
+        true,
+      );
     });
   }
 
   QueryBuilder<Aliment, Aliment, QAfterFilterCondition> imageIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'image',
-        value: '',
-      ));
+      return query.listLength(
+        r'image',
+        0,
+        true,
+        0,
+        true,
+      );
     });
   }
 
   QueryBuilder<Aliment, Aliment, QAfterFilterCondition> imageIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'image',
-        value: '',
-      ));
+      return query.listLength(
+        r'image',
+        0,
+        false,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Aliment, Aliment, QAfterFilterCondition> imageLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'image',
+        0,
+        true,
+        length,
+        include,
+      );
+    });
+  }
+
+  QueryBuilder<Aliment, Aliment, QAfterFilterCondition> imageLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'image',
+        length,
+        include,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Aliment, Aliment, QAfterFilterCondition> imageLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'image',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
+      );
     });
   }
 
@@ -2674,18 +2681,6 @@ extension AlimentQuerySortBy on QueryBuilder<Aliment, Aliment, QSortBy> {
     });
   }
 
-  QueryBuilder<Aliment, Aliment, QAfterSortBy> sortByImage() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'image', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Aliment, Aliment, QAfterSortBy> sortByImageDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'image', Sort.desc);
-    });
-  }
-
   QueryBuilder<Aliment, Aliment, QAfterSortBy> sortByLipids() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lipids', Sort.asc);
@@ -2869,18 +2864,6 @@ extension AlimentQuerySortThenBy
     });
   }
 
-  QueryBuilder<Aliment, Aliment, QAfterSortBy> thenByImage() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'image', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Aliment, Aliment, QAfterSortBy> thenByImageDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'image', Sort.desc);
-    });
-  }
-
   QueryBuilder<Aliment, Aliment, QAfterSortBy> thenByLipids() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lipids', Sort.asc);
@@ -3035,10 +3018,9 @@ extension AlimentQueryWhereDistinct
     });
   }
 
-  QueryBuilder<Aliment, Aliment, QDistinct> distinctByImage(
-      {bool caseSensitive = true}) {
+  QueryBuilder<Aliment, Aliment, QDistinct> distinctByImage() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'image', caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'image');
     });
   }
 
@@ -3156,7 +3138,7 @@ extension AlimentQueryProperty
     });
   }
 
-  QueryBuilder<Aliment, String?, QQueryOperations> imageProperty() {
+  QueryBuilder<Aliment, List<int>?, QQueryOperations> imageProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'image');
     });

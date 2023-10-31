@@ -15,7 +15,7 @@ class Aliment with EquatableMixin {
   List<String>? brands;
   List<String>? categories;
   String? nutriscore;
-  String? image;
+  List<int>? image;
   String? unit;
   double? servingQuantity;
   int? calories;
@@ -32,7 +32,7 @@ class Aliment with EquatableMixin {
     required List<String>? brands,
     required List<String>? categories,
     required String? nutriscore,
-    required String? image,
+    required List<int>? image,
     required String? unit,
     required double? servingQuantity,
     required int? calories,

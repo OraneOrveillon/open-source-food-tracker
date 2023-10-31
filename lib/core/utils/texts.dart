@@ -56,4 +56,9 @@ abstract class SectionTexts {
   static const String doses = 'Doses';
 }
 
+abstract class ItemTexts {
+  static const String camera = 'From camera';
+  static const String gallery = 'From gallery';
+}
+
 abstract class ContentTexts {}

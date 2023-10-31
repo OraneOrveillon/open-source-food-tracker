@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../core/utils/errors.dart';
 import '../../../core/utils/lists.dart';
@@ -12,6 +13,7 @@ import '../../../widgets/dropdown.dart';
 import '../../../widgets/section_title.dart';
 import '../../../widgets/text_field.dart';
 import 'aliment_controller.dart';
+import 'image_controller.dart';
 import 'widgets/dropdown_search_brands_categories.dart';
 
 class AlimentPage extends StatelessWidget {
@@ -40,9 +42,16 @@ class AlimentPage extends StatelessWidget {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SectionTitle(
-                          title: SectionTexts.general,
-                          isFirstSection: true,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            const SectionTitle(
+                              title: SectionTexts.general,
+                              isFirstSection: true,
+                            ),
+                            _ImageInput(),
+                          ],
                         ),
                         CustomTextField(
                           name: FormKeys.name,
@@ -99,7 +108,6 @@ class AlimentPage extends StatelessWidget {
                           validator: null,
                           clearFunction: () => cAliment.clearNutriscore(),
                         ),
-                        // TODO image
                         CustomDropdown(
                           name: FormKeys.unit,
                           label: InputLabelTexts.unit,
@@ -218,6 +226,61 @@ class AlimentPage extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class _ImageInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: const BorderRadius.all(
+        Radius.circular(10),
+      ),
+      child: Container(
+        height: 100,
+        width: 100,
+        decoration: BoxDecoration(
+          color: Get.theme.dividerColor,
+        ),
+        child: GetX<ImageController>(
+          builder: (cImage) {
+            if (cImage.image.value != null) {
+              return Stack(
+                children: [
+                  Image(
+                    image: MemoryImage(cImage.image.value!),
+                    fit: BoxFit.cover,
+                    height: double.infinity,
+                    width: double.infinity,
+                  ),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: IconButton(
+                      onPressed: () => cImage.removeImage(),
+                      icon: const Icon(Icons.cancel),
+                    ),
+                  ),
+                ],
+              );
+            }
+            return PopupMenuButton(
+              icon: const Icon(Icons.add_a_photo),
+              onSelected: (value) => cImage.pickImage(value),
+              itemBuilder: (_) => [
+                const PopupMenuItem(
+                  value: ImageSource.camera,
+                  child: Text(ItemTexts.camera),
+                ),
+                const PopupMenuItem(
+                  value: ImageSource.gallery,
+                  child: Text(ItemTexts.gallery),
+                ),
+              ],
+            );
+          },
+        ),
+      ),
     );
   }
 }
