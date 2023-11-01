@@ -246,6 +246,8 @@ class _ImageInput extends StatelessWidget {
           builder: (cAliment) => FormBuilderField(
             name: FormKeys.image,
             initialValue: cAliment.initialImage,
+            validator: null,
+            valueTransformer: ValueTransformers.imageValue,
             builder: (field) {
               if (field.value != null) {
                 return Stack(

@@ -105,7 +105,7 @@ class AlimentController extends GetxController {
         ..barcode = formValues[FormKeys.barcode]
         ..brands = formValues[FormKeys.brands]
         ..categories = formValues[FormKeys.categories]
-        ..image = formValues[FormKeys.image]?.toList()
+        ..image = formValues[FormKeys.image]
         ..nutriscore = formValues[FormKeys.nutriscore]
         ..unit = formValues[FormKeys.unit]
         ..servingQuantity = _getFormServingQuantity(formValues)
@@ -136,7 +136,7 @@ class AlimentController extends GetxController {
         barcode: formValues[FormKeys.barcode],
         brands: formValues[FormKeys.brands],
         categories: formValues[FormKeys.categories],
-        image: formValues[FormKeys.image]?.toList(),
+        image: formValues[FormKeys.image],
         nutriscore: formValues[FormKeys.nutriscore],
         unit: formValues[FormKeys.unit],
         servingQuantity: _getFormServingQuantity(formValues),
