@@ -8,6 +8,7 @@ class Recipe {
   DateTime? creationDate;
   DateTime? updateDate;
   String? name;
+  List<int>? image;
   List<String>? tags;
   String? link;
   int? portions;

@@ -27,28 +27,33 @@ const RecipeSchema = CollectionSchema(
       name: r'description',
       type: IsarType.string,
     ),
-    r'link': PropertySchema(
+    r'image': PropertySchema(
       id: 2,
+      name: r'image',
+      type: IsarType.longList,
+    ),
+    r'link': PropertySchema(
+      id: 3,
       name: r'link',
       type: IsarType.string,
     ),
     r'name': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'name',
       type: IsarType.string,
     ),
     r'portions': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'portions',
       type: IsarType.long,
     ),
     r'tags': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'tags',
       type: IsarType.stringList,
     ),
     r'updateDate': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'updateDate',
       type: IsarType.dateTime,
     )
@@ -87,6 +92,12 @@ int _recipeEstimateSize(
     }
   }
   {
+    final value = object.image;
+    if (value != null) {
+      bytesCount += 3 + value.length * 8;
+    }
+  }
+  {
     final value = object.link;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
@@ -121,11 +132,12 @@ void _recipeSerialize(
 ) {
   writer.writeDateTime(offsets[0], object.creationDate);
   writer.writeString(offsets[1], object.description);
-  writer.writeString(offsets[2], object.link);
-  writer.writeString(offsets[3], object.name);
-  writer.writeLong(offsets[4], object.portions);
-  writer.writeStringList(offsets[5], object.tags);
-  writer.writeDateTime(offsets[6], object.updateDate);
+  writer.writeLongList(offsets[2], object.image);
+  writer.writeString(offsets[3], object.link);
+  writer.writeString(offsets[4], object.name);
+  writer.writeLong(offsets[5], object.portions);
+  writer.writeStringList(offsets[6], object.tags);
+  writer.writeDateTime(offsets[7], object.updateDate);
 }
 
 Recipe _recipeDeserialize(
@@ -138,11 +150,12 @@ Recipe _recipeDeserialize(
   object.creationDate = reader.readDateTimeOrNull(offsets[0]);
   object.description = reader.readStringOrNull(offsets[1]);
   object.id = id;
-  object.link = reader.readStringOrNull(offsets[2]);
-  object.name = reader.readStringOrNull(offsets[3]);
-  object.portions = reader.readLongOrNull(offsets[4]);
-  object.tags = reader.readStringList(offsets[5]);
-  object.updateDate = reader.readDateTimeOrNull(offsets[6]);
+  object.image = reader.readLongList(offsets[2]);
+  object.link = reader.readStringOrNull(offsets[3]);
+  object.name = reader.readStringOrNull(offsets[4]);
+  object.portions = reader.readLongOrNull(offsets[5]);
+  object.tags = reader.readStringList(offsets[6]);
+  object.updateDate = reader.readDateTimeOrNull(offsets[7]);
   return object;
 }
 
@@ -158,14 +171,16 @@ P _recipeDeserializeProp<P>(
     case 1:
       return (reader.readStringOrNull(offset)) as P;
     case 2:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readLongList(offset)) as P;
     case 3:
       return (reader.readStringOrNull(offset)) as P;
     case 4:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 5:
-      return (reader.readStringList(offset)) as P;
+      return (reader.readLongOrNull(offset)) as P;
     case 6:
+      return (reader.readStringList(offset)) as P;
+    case 7:
       return (reader.readDateTimeOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -526,6 +541,159 @@ extension RecipeQueryFilter on QueryBuilder<Recipe, Recipe, QFilterCondition> {
         upper: upper,
         includeUpper: includeUpper,
       ));
+    });
+  }
+
+  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> imageIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'image',
+      ));
+    });
+  }
+
+  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> imageIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'image',
+      ));
+    });
+  }
+
+  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> imageElementEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'image',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> imageElementGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'image',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> imageElementLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'image',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> imageElementBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'image',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> imageLengthEqualTo(
+      int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'image',
+        length,
+        true,
+        length,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> imageIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'image',
+        0,
+        true,
+        0,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> imageIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'image',
+        0,
+        false,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> imageLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'image',
+        0,
+        true,
+        length,
+        include,
+      );
+    });
+  }
+
+  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> imageLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'image',
+        length,
+        include,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> imageLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'image',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
+      );
     });
   }
 
@@ -1379,6 +1547,12 @@ extension RecipeQueryWhereDistinct on QueryBuilder<Recipe, Recipe, QDistinct> {
     });
   }
 
+  QueryBuilder<Recipe, Recipe, QDistinct> distinctByImage() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'image');
+    });
+  }
+
   QueryBuilder<Recipe, Recipe, QDistinct> distinctByLink(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1428,6 +1602,12 @@ extension RecipeQueryProperty on QueryBuilder<Recipe, Recipe, QQueryProperty> {
   QueryBuilder<Recipe, String?, QQueryOperations> descriptionProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'description');
+    });
+  }
+
+  QueryBuilder<Recipe, List<int>?, QQueryOperations> imageProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'image');
     });
   }
 
