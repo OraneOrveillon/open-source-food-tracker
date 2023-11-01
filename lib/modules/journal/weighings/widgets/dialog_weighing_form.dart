@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 import '../../../../core/utils/texts.dart';
 import '../../../../core/utils/value_transformers.dart';
-import '../../../../widgets/dialog_single_input_form.dart';
+import '../../../../widgets/form/dialog_single_input.dart';
 import '../weighings_controller.dart';
 
 class DialogWeighingForm extends StatelessWidget {
@@ -23,7 +23,7 @@ class DialogWeighingForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<WeighingsController>(
       builder: (cWeighings) {
-        return DialogSingleInputForm(
+        return DialogSingleInput(
           title: title,
           formKey: cWeighings.formKey,
           inputName: FormKeys.value,

@@ -7,9 +7,9 @@ import '../../../core/utils/errors.dart';
 import '../../../core/utils/paddings.dart';
 import '../../../core/utils/texts.dart';
 import '../../../core/utils/value_transformers.dart';
-import '../../../widgets/dropdown_search.dart';
+import '../../../widgets/form/dropdown_search.dart';
 import '../../../widgets/section_title.dart';
-import '../../../widgets/text_field.dart';
+import '../../../widgets/form/text_field.dart';
 import 'recipe_controller.dart';
 
 class RecipePage extends StatelessWidget {

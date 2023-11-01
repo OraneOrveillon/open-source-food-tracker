@@ -4,7 +4,6 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../../../core/utils/lists.dart';
 import '../../../data/models/aliment_model.dart';
@@ -15,8 +14,6 @@ class AlimentController extends GetxController {
   final AlimentService _service = AlimentService();
   final AlimentsController _cAliments = Get.find<AlimentsController>();
   Aliment? aliment = Get.arguments;
-
-  final ImagePicker _imagePicker = ImagePicker();
 
   final GlobalKey<FormBuilderState> formKey = GlobalKey();
   final GlobalKey<FormBuilderState> newBrandFormKey = GlobalKey();
@@ -185,17 +182,11 @@ class AlimentController extends GetxController {
     return null;
   }
 
-  Future<void> pickImage(ImageSource value) async {
-    final XFile? picture = await _imagePicker.pickImage(source: value);
-    if (picture != null) {
-      formKey.currentState!.patchValue(
-        {FormKeys.image: await picture.readAsBytes()},
-      );
-    }
+  Future<void> updateImage(Uint8List image) async {
+    formKey.currentState!.patchValue({FormKeys.image: image});
   }
 
-  void removeImage() =>
-      formKey.currentState!.patchValue({FormKeys.image: null});
+  void clearImage() => formKey.currentState!.patchValue({FormKeys.image: null});
 
   void clearNutriscore() =>
       formKey.currentState!.fields[FormKeys.nutriscore]!.didChange('');

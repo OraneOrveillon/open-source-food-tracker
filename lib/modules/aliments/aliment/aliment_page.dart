@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../../../core/utils/errors.dart';
 import '../../../core/utils/lists.dart';
 import '../../../core/utils/paddings.dart';
 import '../../../core/utils/texts.dart';
 import '../../../core/utils/value_transformers.dart';
-import '../../../widgets/dropdown.dart';
-import '../../../widgets/dropdown_search.dart';
+import '../../../widgets/form/dropdown.dart';
+import '../../../widgets/form/dropdown_search.dart';
+import '../../../widgets/form/image_selector.dart';
 import '../../../widgets/section_title.dart';
-import '../../../widgets/text_field.dart';
+import '../../../widgets/form/text_field.dart';
 import 'aliment_controller.dart';
 
 class AlimentPage extends StatelessWidget {
@@ -49,7 +49,13 @@ class AlimentPage extends StatelessWidget {
                               title: SectionTexts.general,
                               isFirstSection: true,
                             ),
-                            _ImageInput(),
+                            ImageInput(
+                              name: FormKeys.image,
+                              initialValue: cAliment.initialImage,
+                              pickImageCallback: (image) =>
+                                  cAliment.updateImage(image),
+                              clearImageFunction: () => cAliment.clearImage(),
+                            ),
                           ],
                         ),
                         CustomTextField(
@@ -225,67 +231,6 @@ class AlimentPage extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-}
-
-class _ImageInput extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: const BorderRadius.all(
-        Radius.circular(10),
-      ),
-      child: Container(
-        height: 100,
-        width: 100,
-        decoration: BoxDecoration(
-          color: Get.theme.dividerColor,
-        ),
-        child: GetBuilder<AlimentController>(
-          builder: (cAliment) => FormBuilderField(
-            name: FormKeys.image,
-            initialValue: cAliment.initialImage,
-            validator: null,
-            valueTransformer: ValueTransformers.imageValue,
-            builder: (field) {
-              if (field.value != null) {
-                return Stack(
-                  children: [
-                    Image(
-                      image: MemoryImage(field.value!),
-                      fit: BoxFit.cover,
-                      height: double.infinity,
-                      width: double.infinity,
-                    ),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: IconButton(
-                        onPressed: () => cAliment.removeImage(),
-                        icon: const Icon(Icons.cancel),
-                      ),
-                    ),
-                  ],
-                );
-              }
-              return PopupMenuButton(
-                icon: const Icon(Icons.add_a_photo),
-                onSelected: (value) => cAliment.pickImage(value),
-                itemBuilder: (_) => [
-                  const PopupMenuItem(
-                    value: ImageSource.camera,
-                    child: Text(ItemTexts.camera),
-                  ),
-                  const PopupMenuItem(
-                    value: ImageSource.gallery,
-                    child: Text(ItemTexts.gallery),
-                  ),
-                ],
-              );
-            },
-          ),
-        ),
-      ),
     );
   }
 }

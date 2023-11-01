@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import '../../../core/utils/paddings.dart';
 import '../../../core/utils/texts.dart';
 import '../../../core/utils/value_transformers.dart';
-import '../../../widgets/text_field.dart';
+import '../../../widgets/form/text_field.dart';
 import 'objectives_controller.dart';
 
 class ObjectivesPage extends StatelessWidget {

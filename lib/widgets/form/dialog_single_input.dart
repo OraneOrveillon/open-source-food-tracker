@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
-import '../../../../core/utils/texts.dart';
+import '../../../../../core/utils/texts.dart';
 import 'text_field.dart';
 
-class DialogSingleInputForm extends StatelessWidget {
-  const DialogSingleInputForm({
+class DialogSingleInput extends StatelessWidget {
+  const DialogSingleInput({
     super.key,
     required this.title,
     required this.formKey,

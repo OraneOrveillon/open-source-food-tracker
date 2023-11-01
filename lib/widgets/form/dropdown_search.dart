@@ -4,7 +4,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 
-import 'dialog_single_input_form.dart';
+import 'dialog_single_input.dart';
 
 class CustomDropdownSearch extends StatelessWidget {
   const CustomDropdownSearch({
@@ -65,7 +65,7 @@ class CustomDropdownSearch extends StatelessWidget {
               prefixIcon: const Icon(Icons.search),
               suffixIcon: IconButton(
                 onPressed: () => _openDialog(
-                  DialogSingleInputForm(
+                  DialogSingleInput(
                     title: dialogTitle,
                     formKey: dialogFormKey,
                     inputName: inputName,
