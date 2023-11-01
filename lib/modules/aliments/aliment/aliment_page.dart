@@ -242,42 +242,46 @@ class _ImageInput extends StatelessWidget {
         decoration: BoxDecoration(
           color: Get.theme.dividerColor,
         ),
-        child: GetX<AlimentController>(
-          builder: (cImage) {
-            if (cImage.image.value != null) {
-              return Stack(
-                children: [
-                  Image(
-                    image: MemoryImage(cImage.image.value!),
-                    fit: BoxFit.cover,
-                    height: double.infinity,
-                    width: double.infinity,
-                  ),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: IconButton(
-                      onPressed: () => cImage.removeImage(),
-                      icon: const Icon(Icons.cancel),
+        child: GetBuilder<AlimentController>(
+          builder: (cAliment) => FormBuilderField(
+            name: FormKeys.image,
+            initialValue: cAliment.initialImage,
+            builder: (field) {
+              if (field.value != null) {
+                return Stack(
+                  children: [
+                    Image(
+                      image: MemoryImage(field.value!),
+                      fit: BoxFit.cover,
+                      height: double.infinity,
+                      width: double.infinity,
                     ),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: IconButton(
+                        onPressed: () => cAliment.removeImage(),
+                        icon: const Icon(Icons.cancel),
+                      ),
+                    ),
+                  ],
+                );
+              }
+              return PopupMenuButton(
+                icon: const Icon(Icons.add_a_photo),
+                onSelected: (value) => cAliment.pickImage(value),
+                itemBuilder: (_) => [
+                  const PopupMenuItem(
+                    value: ImageSource.camera,
+                    child: Text(ItemTexts.camera),
+                  ),
+                  const PopupMenuItem(
+                    value: ImageSource.gallery,
+                    child: Text(ItemTexts.gallery),
                   ),
                 ],
               );
-            }
-            return PopupMenuButton(
-              icon: const Icon(Icons.add_a_photo),
-              onSelected: (value) => cImage.pickImage(value),
-              itemBuilder: (_) => [
-                const PopupMenuItem(
-                  value: ImageSource.camera,
-                  child: Text(ItemTexts.camera),
-                ),
-                const PopupMenuItem(
-                  value: ImageSource.gallery,
-                  child: Text(ItemTexts.gallery),
-                ),
-              ],
-            );
-          },
+            },
+          ),
         ),
       ),
     );

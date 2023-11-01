@@ -30,6 +30,7 @@ class AlimentController extends GetxController {
   String? initialBarcode;
   List<String>? initialBrands = [];
   List<String>? initialCategories = [];
+  Uint8List? initialImage;
   String? initialNutriscore;
   String? initialUnit = Lists.units[0];
   String? initialServingQuantity;
@@ -41,7 +42,6 @@ class AlimentController extends GetxController {
   String? initialSaturatedFats;
   List<Dose>? initialDoses;
 
-  final Rx<Uint8List?> image = Rx(null);
   final activeUnit = Rx<String>(Lists.units[0]);
 
   final brands = Rx<List<String>>([]);
@@ -59,6 +59,9 @@ class AlimentController extends GetxController {
       initialBarcode = aliment!.barcode;
       initialBrands = aliment!.brands;
       initialCategories = aliment!.categories;
+      if (aliment!.image != null) {
+        initialImage = Uint8List.fromList(aliment!.image!);
+      }
       initialNutriscore = aliment!.nutriscore;
       initialUnit = aliment!.unit;
       if (aliment!.servingQuantity != null) {
@@ -76,10 +79,6 @@ class AlimentController extends GetxController {
 
       _selectedBrands.value = aliment!.brands ?? [];
       _selectedCategories.value = aliment!.categories ?? [];
-
-      if (aliment!.image != null) {
-        image.value = Uint8List.fromList(aliment!.image!);
-      }
     }
 
     brands.value = await _service.getAllBrandsDistinct();
@@ -106,7 +105,7 @@ class AlimentController extends GetxController {
         ..barcode = formValues[FormKeys.barcode]
         ..brands = formValues[FormKeys.brands]
         ..categories = formValues[FormKeys.categories]
-        ..image = image.value?.toList()
+        ..image = formValues[FormKeys.image]?.toList()
         ..nutriscore = formValues[FormKeys.nutriscore]
         ..unit = formValues[FormKeys.unit]
         ..servingQuantity = _getFormServingQuantity(formValues)
@@ -137,7 +136,7 @@ class AlimentController extends GetxController {
         barcode: formValues[FormKeys.barcode],
         brands: formValues[FormKeys.brands],
         categories: formValues[FormKeys.categories],
-        image: image.value?.toList(),
+        image: formValues[FormKeys.image]?.toList(),
         nutriscore: formValues[FormKeys.nutriscore],
         unit: formValues[FormKeys.unit],
         servingQuantity: _getFormServingQuantity(formValues),
@@ -189,11 +188,14 @@ class AlimentController extends GetxController {
   Future<void> pickImage(ImageSource value) async {
     final XFile? picture = await _imagePicker.pickImage(source: value);
     if (picture != null) {
-      image.value = await picture.readAsBytes();
+      formKey.currentState!.patchValue(
+        {FormKeys.image: await picture.readAsBytes()},
+      );
     }
   }
 
-  void removeImage() => image.value = null;
+  void removeImage() =>
+      formKey.currentState!.patchValue({FormKeys.image: null});
 
   void clearNutriscore() =>
       formKey.currentState!.fields[FormKeys.nutriscore]!.didChange('');
@@ -295,6 +297,7 @@ abstract class FormKeys {
   static const String barcode = 'barcode';
   static const String brands = 'brands';
   static const String categories = 'categories';
+  static const String image = 'image';
   static const String nutriscore = 'nutriscore';
   static const String unit = 'unit';
   static const String servingQuantity = 'servingQuantity';
