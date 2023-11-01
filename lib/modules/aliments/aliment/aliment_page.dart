@@ -10,10 +10,10 @@ import '../../../core/utils/paddings.dart';
 import '../../../core/utils/texts.dart';
 import '../../../core/utils/value_transformers.dart';
 import '../../../widgets/dropdown.dart';
+import '../../../widgets/dropdown_search.dart';
 import '../../../widgets/section_title.dart';
 import '../../../widgets/text_field.dart';
 import 'aliment_controller.dart';
-import 'widgets/dropdown_search_brands_categories.dart';
 
 class AlimentPage extends StatelessWidget {
   const AlimentPage({Key? key}) : super(key: key);
@@ -70,7 +70,7 @@ class AlimentPage extends StatelessWidget {
                           valueTransformer: null,
                           keyboardType: TextInputType.number,
                         ),
-                        DropdownSearchBrandsAndCategories(
+                        CustomDropdownSearch(
                           inputName: FormKeys.brands,
                           label: InputLabelTexts.brands,
                           initialValue: cAliment.initialBrands,
@@ -84,7 +84,7 @@ class AlimentPage extends StatelessWidget {
                               Errors.brandAlreadyExists,
                           onOKClick: () => cAliment.addNewBrand(),
                         ),
-                        DropdownSearchBrandsAndCategories(
+                        CustomDropdownSearch(
                           inputName: FormKeys.categories,
                           label: InputLabelTexts.categories,
                           initialValue: cAliment.initialCategories,

@@ -1,6 +1,10 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:get/get.dart';
+
+import 'dialog_single_input_form.dart';
 
 class CustomDropdownSearch extends StatelessWidget {
   const CustomDropdownSearch({
@@ -12,7 +16,10 @@ class CustomDropdownSearch extends StatelessWidget {
     required this.items,
     required this.selectedItems,
     required this.updateFunction,
-    required this.searchFieldDecoration,
+    required this.dialogTitle,
+    required this.dialogFormKey,
+    required this.dialogAlreadyExistsErrorText,
+    required this.onOKClick,
   });
 
   final String inputName;
@@ -22,7 +29,10 @@ class CustomDropdownSearch extends StatelessWidget {
   final List<String> items;
   final List<String> selectedItems;
   final void Function() updateFunction;
-  final InputDecoration searchFieldDecoration;
+  final String dialogTitle;
+  final GlobalKey<FormBuilderState> dialogFormKey;
+  final String dialogAlreadyExistsErrorText;
+  final void Function() onOKClick;
 
   @override
   Widget build(BuildContext context) {
@@ -51,10 +61,40 @@ class CustomDropdownSearch extends StatelessWidget {
           onDismissed: updateFunction,
           searchFieldProps: TextFieldProps(
             keyboardType: TextInputType.text,
-            decoration: searchFieldDecoration,
+            decoration: InputDecoration(
+              prefixIcon: const Icon(Icons.search),
+              suffixIcon: IconButton(
+                onPressed: () => _openDialog(
+                  DialogSingleInputForm(
+                    title: dialogTitle,
+                    formKey: dialogFormKey,
+                    inputName: inputName,
+                    initialValue: null,
+                    validator: FormBuilderValidators.compose([
+                      FormBuilderValidators.required(),
+                      ...items
+                          .map((brand) => FormBuilderValidators.notEqual(
+                                brand,
+                                errorText: dialogAlreadyExistsErrorText,
+                              ))
+                          .toList(),
+                    ]),
+                    valueTransformer: null,
+                    keyboardType: TextInputType.text,
+                    onCancelClick: _goBack,
+                    onOKClick: onOKClick,
+                  ),
+                ),
+                icon: const Icon(Icons.add),
+              ),
+            ),
           ),
         ),
       ),
     );
   }
+
+  void _openDialog(Widget dialog) => Get.dialog(dialog);
+
+  void _goBack() => Get.back();
 }

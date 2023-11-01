@@ -1,3 +1,4 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
@@ -12,20 +13,32 @@ class RecipeController extends GetxController {
   Recipe? recipe = Get.arguments;
 
   final GlobalKey<FormBuilderState> formKey = GlobalKey();
+  final GlobalKey<FormBuilderState> newTagFormKey = GlobalKey();
+
+  final GlobalKey<DropdownSearchState<String>> tagsDropdownKey = GlobalKey();
 
   String? initialName;
+  List<String>? initialTags = [];
   String? initialPortions = '1';
   String? initialDescription;
 
+  final tags = Rx<List<String>>([]);
+  final _selectedTags = Rx<List<String>>([]);
+
   @override
-  void onInit() {
+  Future<void> onInit() async {
     super.onInit();
 
     if (recipe != null) {
       initialName = recipe!.name;
+      initialTags = recipe!.tags;
       initialPortions = recipe!.portions.toString();
       initialDescription = recipe!.description;
+
+      _selectedTags.value = recipe!.tags ?? [];
     }
+
+    tags.value = await _service.getAllTagsDistinct();
   }
 
   void onValidateClick() => recipe == null ? addRecipe() : updateRecipe();
@@ -68,11 +81,43 @@ class RecipeController extends GetxController {
     }
   }
 
+  void updateTags() {
+    _selectedTags.value = _selectedTagsInPopup;
+    formKey.currentState!.patchValue({FormKeys.tags: _selectedTagsInPopup});
+  }
+
+  void addNewTag() {
+    if (newTagFormKey.currentState!.saveAndValidate()) {
+      final String newTag = newTagFormKey.currentState?.value[FormKeys.tags];
+
+      if (!tags.value.contains(newTag)) {
+        tags.value.insert(0, newTag);
+        tagsDropdownKey.currentState!.getPopupState!.selectItems([newTag]);
+
+        goBack();
+        goBack();
+      }
+    }
+  }
+
   void goBack() => Get.back();
+
+  /// Returns sorted [_selectedTags].
+  List<String> get selectedTags {
+    List<String> categories = _selectedTags.value;
+    categories.sort();
+    return categories;
+  }
+
+  /// Returns currently selected items in the tags popup.
+  List<String> get _selectedTagsInPopup {
+    return tagsDropdownKey.currentState!.getPopupState!.getSelectedItem;
+  }
 }
 
 abstract class FormKeys {
   static const String name = 'name';
+  static const String tags = 'tags';
   static const String portions = 'portions';
   static const String description = 'description';
 }

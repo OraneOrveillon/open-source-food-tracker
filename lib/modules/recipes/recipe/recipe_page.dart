@@ -3,9 +3,11 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 
+import '../../../core/utils/errors.dart';
 import '../../../core/utils/paddings.dart';
 import '../../../core/utils/texts.dart';
 import '../../../core/utils/value_transformers.dart';
+import '../../../widgets/dropdown_search.dart';
 import '../../../widgets/section_title.dart';
 import '../../../widgets/text_field.dart';
 import 'recipe_controller.dart';
@@ -15,7 +17,7 @@ class RecipePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<RecipeController>(
+    return GetX<RecipeController>(
       builder: (cRecipe) {
         return Scaffold(
           appBar: AppBar(
@@ -27,6 +29,7 @@ class RecipePage extends StatelessWidget {
             ],
           ),
           body: SingleChildScrollView(
+            // TODO image
             child: Padding(
               padding: const EdgeInsets.all(Paddings.medium),
               child: FormBuilder(
@@ -48,7 +51,19 @@ class RecipePage extends StatelessWidget {
                       valueTransformer: null,
                       keyboardType: TextInputType.text,
                     ),
-                    // TODO tags
+                    CustomDropdownSearch(
+                      inputName: FormKeys.tags,
+                      label: InputLabelTexts.tags,
+                      initialValue: cRecipe.initialTags,
+                      dropdownKey: cRecipe.tagsDropdownKey,
+                      items: cRecipe.tags.value,
+                      selectedItems: cRecipe.selectedTags,
+                      updateFunction: () => cRecipe.updateTags(),
+                      dialogTitle: DialogTexts.addTag,
+                      dialogFormKey: cRecipe.newTagFormKey,
+                      dialogAlreadyExistsErrorText: Errors.tagAlreadyExists,
+                      onOKClick: () => cRecipe.addNewTag(),
+                    ),
                     CustomTextField(
                       name: FormKeys.portions,
                       label: InputLabelTexts.portions,

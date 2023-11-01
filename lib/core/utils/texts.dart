@@ -27,6 +27,7 @@ abstract class InputLabelTexts {
   static const String unit = 'Unit';
   static const String servingQuantity = 'Serving quantity';
 
+  static const String tags = 'Tags';
   static const String portions = 'Number of portions';
   static const String description = 'Description';
 }
@@ -43,9 +44,8 @@ abstract class InputHintTexts {}
 
 abstract class DialogTexts {
   static const String addBrand = 'Add a brand';
-  static const String editBrand = 'Edit a brand';
   static const String addCategory = 'Add a category';
-  static const String editCategory = 'Edit a category';
+  static const String addTag = 'Add a tag';
   static const String addWeighing = 'Add a weighing';
   static const String editWeighing = 'Edit a weighing';
 }

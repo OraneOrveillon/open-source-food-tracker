@@ -19,6 +19,22 @@ class RecipeService {
         .findAll();
   }
 
+  Future<List<String>> getAllTagsDistinct() async {
+    final result =
+        await _db.recipes.where().distinctByTags().tagsProperty().findAll();
+
+    final Set<String> tagsSet = {};
+
+    for (List<String>? tagsList in result) {
+      if (tagsList != null) tagsSet.addAll(tagsList);
+    }
+
+    final List<String> tagsList = tagsSet.toList();
+    tagsList.sort();
+
+    return tagsList;
+  }
+
   Future<void> putRecipe(Recipe recipe) async {
     _db.writeTxn(() async {
       await _db.recipes.put(recipe);

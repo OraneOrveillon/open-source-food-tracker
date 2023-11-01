@@ -232,7 +232,7 @@ class AlimentController extends GetxController {
       items: brands,
       name: FormKeys.brands,
       newItemFormKey: newBrandFormKey,
-      itemsDropDownKey: brandsDropdownKey,
+      itemsDropdownKey: brandsDropdownKey,
     );
   }
 
@@ -241,7 +241,7 @@ class AlimentController extends GetxController {
       items: categories,
       name: FormKeys.categories,
       newItemFormKey: newCategoryFormKey,
-      itemsDropDownKey: categoriesDropdownKey,
+      itemsDropdownKey: categoriesDropdownKey,
     );
   }
 
@@ -250,14 +250,14 @@ class AlimentController extends GetxController {
     required Rx<List<String>> items,
     required String name,
     required GlobalKey<FormBuilderState> newItemFormKey,
-    required GlobalKey<DropdownSearchState<String>> itemsDropDownKey,
+    required GlobalKey<DropdownSearchState<String>> itemsDropdownKey,
   }) {
     if (newItemFormKey.currentState!.saveAndValidate()) {
       final String newItem = newItemFormKey.currentState?.value[name];
 
       if (!items.value.contains(newItem)) {
         items.value.insert(0, newItem);
-        itemsDropDownKey.currentState!.getPopupState!.selectItems([newItem]);
+        itemsDropdownKey.currentState!.getPopupState!.selectItems([newItem]);
 
         goBack();
         goBack();
