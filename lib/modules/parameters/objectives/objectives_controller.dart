@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_template/data/services/objective_service.dart';
+import '../../../data/services/objective_service.dart';
 import 'package:get/get.dart';
 
 import '../../../data/models/objective_model.dart';

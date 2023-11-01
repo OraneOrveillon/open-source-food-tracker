@@ -1,4 +1,4 @@
-import 'package:flutter_template/data/providers/database_provider.dart';
+import '../../data/providers/database_provider.dart';
 import 'package:get/get.dart';
 
 import 'home_controller.dart';
