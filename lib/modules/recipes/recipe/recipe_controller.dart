@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -19,6 +21,7 @@ class RecipeController extends GetxController {
 
   String? initialName;
   List<String>? initialTags = [];
+  Uint8List? initialImage;
   String? initialPortions = '1';
   String? initialDescription;
 
@@ -32,6 +35,9 @@ class RecipeController extends GetxController {
     if (recipe != null) {
       initialName = recipe!.name;
       initialTags = recipe!.tags;
+      if (recipe!.image != null) {
+        initialImage = Uint8List.fromList(recipe!.image!);
+      }
       initialPortions = recipe!.portions.toString();
       initialDescription = recipe!.description;
 
@@ -63,7 +69,6 @@ class RecipeController extends GetxController {
     }
   }
 
-  // TODO vérifier
   // TODO mettre à jour les macros si les aliments ont changé
   Future<void> updateRecipe() async {
     if (formKey.currentState!.validate()) {
@@ -100,6 +105,12 @@ class RecipeController extends GetxController {
     }
   }
 
+  Future<void> updateImage(Uint8List image) async {
+    formKey.currentState!.patchValue({FormKeys.image: image});
+  }
+
+  void clearImage() => formKey.currentState!.patchValue({FormKeys.image: null});
+
   void goBack() => Get.back();
 
   /// Returns sorted [_selectedTags].
@@ -118,6 +129,7 @@ class RecipeController extends GetxController {
 abstract class FormKeys {
   static const String name = 'name';
   static const String tags = 'tags';
+  static const String image = 'image';
   static const String portions = 'portions';
   static const String description = 'description';
 }

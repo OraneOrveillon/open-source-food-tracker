@@ -49,7 +49,7 @@ class AlimentPage extends StatelessWidget {
                               title: SectionTexts.general,
                               isFirstSection: true,
                             ),
-                            ImageInput(
+                            ImageSelector(
                               name: FormKeys.image,
                               initialValue: cAliment.initialImage,
                               pickImageCallback: (image) =>

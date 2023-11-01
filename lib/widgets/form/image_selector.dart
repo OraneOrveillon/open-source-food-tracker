@@ -8,8 +8,8 @@ import 'package:image_picker/image_picker.dart';
 import '../../core/utils/texts.dart';
 import '../../core/utils/value_transformers.dart';
 
-class ImageInput extends StatelessWidget {
-  const ImageInput({
+class ImageSelector extends StatelessWidget {
+  const ImageSelector({
     super.key,
     required this.name,
     required this.initialValue,

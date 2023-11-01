@@ -8,6 +8,7 @@ import '../../../core/utils/paddings.dart';
 import '../../../core/utils/texts.dart';
 import '../../../core/utils/value_transformers.dart';
 import '../../../widgets/form/dropdown_search.dart';
+import '../../../widgets/form/image_selector.dart';
 import '../../../widgets/section_title.dart';
 import '../../../widgets/form/text_field.dart';
 import 'recipe_controller.dart';
@@ -37,9 +38,22 @@ class RecipePage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SectionTitle(
-                      title: SectionTexts.general,
-                      isFirstSection: true,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        const SectionTitle(
+                          title: SectionTexts.general,
+                          isFirstSection: true,
+                        ),
+                        ImageSelector(
+                          name: FormKeys.image,
+                          initialValue: cRecipe.initialImage,
+                          pickImageCallback: (image) =>
+                              cRecipe.updateImage(image),
+                          clearImageFunction: () => cRecipe.clearImage(),
+                        ),
+                      ],
                     ),
                     CustomTextField(
                       name: FormKeys.name,
