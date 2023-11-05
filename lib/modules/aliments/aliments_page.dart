@@ -87,9 +87,9 @@ class QuantityDialog extends StatelessWidget {
           initialValue: null,
           validator: FormBuilderValidators.compose([
             FormBuilderValidators.required(),
-            FormBuilderValidators.numeric(),
+            FormBuilderValidators.integer(),
           ]),
-          valueTransformer: ValueTransformers.doubleValue,
+          valueTransformer: ValueTransformers.intValue,
           keyboardType: TextInputType.number,
           onCancelClick: () => cAliments.goBack(),
           onOKClick: () => cAliments.onValidateRecipeAliment(aliment),

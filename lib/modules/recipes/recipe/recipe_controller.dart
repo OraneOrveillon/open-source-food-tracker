@@ -6,7 +6,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 
 import '../../../core/utils/enums.dart';
-import '../../../data/models/aliment_model.dart';
+import '../../../data/models/recipe_aliment_model.dart';
 import '../../../data/models/recipe_model.dart';
 import '../../../data/services/recipe_service.dart';
 import '../../../routes/routes.dart';
@@ -31,7 +31,7 @@ class RecipeController extends GetxController {
   final tags = Rx<List<String>>([]);
   final _selectedTags = Rx<List<String>>([]);
 
-  final aliments = Rx<List<Aliment>>([]);
+  final recipeAliments = Rx<List<RecipeAliment>>([]);
 
   @override
   Future<void> onInit() async {
@@ -117,20 +117,24 @@ class RecipeController extends GetxController {
   void clearImage() => formKey.currentState!.patchValue({FormKeys.image: null});
 
   Future<void> onAddAlimentClick() async {
-    final aliment = await Get.toNamed(
+    final recipeAliment = await Get.toNamed(
       Routes.recipes + Routes.recipe + Routes.aliments,
       arguments: AlimentsPageMode.recipeModule,
     );
 
-    if (aliment != null && !(aliments.value.contains(aliment))) {
-      aliments.value.add(aliment);
-      aliments.refresh();
+    if (recipeAliment != null &&
+        !(recipeAliments.value
+            .map((e) => e.aliment.value)
+            .toList()
+            .contains(recipeAliment.aliment.value))) {
+      recipeAliments.value.add(recipeAliment);
+      recipeAliments.refresh();
     }
   }
 
-  void onRemoveAlimentClick(Aliment aliment) {
-    aliments.value.removeWhere((element) => element.id == aliment.id);
-    aliments.refresh();
+  void onRemoveAlimentClick(RecipeAliment aliment) {
+    recipeAliments.value.removeWhere((element) => element.id == aliment.id);
+    recipeAliments.refresh();
   }
 
   void goBack() => Get.back();

@@ -105,13 +105,15 @@ class RecipePage extends StatelessWidget {
                             maxLines: 5,
                           ),
                           const SectionTitle(title: SectionTexts.aliments),
-                          for (final aliment in cRecipe.aliments.value)
+                          for (final recipeAliment
+                              in cRecipe.recipeAliments.value)
                             ListTile(
-                              title: Text(aliment.name.toString()),
+                              title: Text(
+                                  recipeAliment.aliment.value!.name.toString()),
                               trailing: IconButton(
                                 icon: const Icon(Icons.remove),
                                 onPressed: () =>
-                                    cRecipe.onRemoveAlimentClick(aliment),
+                                    cRecipe.onRemoveAlimentClick(recipeAliment),
                               ),
                             )
                           // TODO ListTile pour chaque aliment, le tout enrobé d'un FormBuilderField (afficher un texte en rouge s'il n'y a aucun aliment ajouté)

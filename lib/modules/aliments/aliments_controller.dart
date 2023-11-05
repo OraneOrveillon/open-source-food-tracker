@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_template/data/models/recipe_aliment_model.dart';
 import 'package:get/get.dart';
 
 import '../../../data/models/aliment_model.dart';
@@ -70,9 +71,18 @@ class AlimentsController extends GetxController
   void updateActiveDose(String? value) => activeDose.value = value!;
 
   void onValidateRecipeAliment(Aliment aliment) {
-    // TODO
+    if (recipeAlimentFormKey.currentState!.saveAndValidate()) {
+      final int quantity =
+          recipeAlimentFormKey.currentState!.value[FormKeys.quantity];
 
-    goBack(result: aliment);
+      goBack();
+      goBack(
+        result: RecipeAliment()
+          ..aliment.value = aliment
+          ..dose = activeDose.value
+          ..quantity = quantity,
+      );
+    }
   }
 
   void goBack({dynamic result}) => Get.back(result: result);
