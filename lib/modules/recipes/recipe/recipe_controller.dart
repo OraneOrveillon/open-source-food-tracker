@@ -122,8 +122,7 @@ class RecipeController extends GetxController {
       arguments: AlimentsPageMode.recipeModule,
     );
 
-    // TODO et que l'aliment n'existe pas déjà dans la liste
-    if (aliment != null) {
+    if (aliment != null && !(aliments.value.contains(aliment))) {
       aliments.value.add(aliment);
       aliments.refresh();
     }
