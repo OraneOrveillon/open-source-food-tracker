@@ -31,9 +31,6 @@ abstract class InputLabelTexts {
   static const String tags = 'Tags';
   static const String portions = 'Number of portions';
   static const String description = 'Description';
-
-  static const String dose = 'Dose';
-  static const String quantity = 'Quantity';
 }
 
 abstract class InputSuffixTexts {
@@ -52,6 +49,7 @@ abstract class DialogTexts {
   static const String addTag = 'Add a tag';
   static const String addWeighing = 'Add a weighing';
   static const String editWeighing = 'Edit a weighing';
+  static const String addQuantity = 'Add the quantity';
 }
 
 abstract class SectionTexts {

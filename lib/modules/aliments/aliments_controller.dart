@@ -1,17 +1,26 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 
 import '../../../data/models/aliment_model.dart';
 import '../../../data/services/aliment_service.dart';
 import '../../core/mixins/scroll_pagination_mixin.dart';
 import '../../core/utils/enums.dart';
+import '../../core/utils/lists.dart';
 import '../../routes/routes.dart';
 
 class AlimentsController extends GetxController
     with ScrollPaginationMixin<Aliment> {
   AlimentsPageMode pageMode = Get.arguments;
   final AlimentService _service = AlimentService();
+
+  final GlobalKey<FormBuilderState> recipeAlimentFormKey = GlobalKey();
+
+  List<String> initialDosesList = [];
+
+  final activeDose = Rx<String>('');
 
   @override
   Future<void> onInit() async {
@@ -45,18 +54,36 @@ class AlimentsController extends GetxController
 
   void onAddClick() => Get.toNamed(Routes.aliments + Routes.aliment);
 
-  void onAlimentClick(Aliment aliment) {
+  void onAlimentClick({
+    required Aliment aliment,
+    required Widget dialog,
+  }) {
     if (pageMode == AlimentsPageMode.alimentsModule) {
       Get.toNamed(Routes.aliments + Routes.aliment, arguments: aliment);
     } else if (pageMode == AlimentsPageMode.recipeModule) {
-      // TODO dialog avec dose + quantité
-      Get.back(result: aliment);
+      initialDosesList = [aliment.unit!, ...Lists.doses];
+      activeDose.value = initialDosesList[0];
+      Get.dialog(dialog);
     }
   }
+
+  void updateActiveDose(String? value) => activeDose.value = value!;
+
+  void onValidateRecipeAliment(Aliment aliment) {
+    // TODO
+
+    goBack(result: aliment);
+  }
+
+  void goBack({dynamic result}) => Get.back(result: result);
 
   @override
   void onClose() {
     super.onClose();
     pagingController.dispose();
   }
+}
+
+abstract class FormKeys {
+  static const String quantity = 'quantity';
 }

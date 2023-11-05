@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../../../data/models/aliment_model.dart';
 import '../../core/utils/enums.dart';
+import '../../core/utils/value_transformers.dart';
+import '../../widgets/form/dialog_single_input.dart';
 import 'aliments_controller.dart';
 import '../../../core/utils/texts.dart';
 
@@ -21,7 +24,10 @@ class AlimentsPage extends StatelessWidget {
           pagingController: cAliments.pagingController,
           builderDelegate: PagedChildBuilderDelegate<Aliment>(
             itemBuilder: (_, aliment, index) => ListTile(
-              onTap: () => cAliments.onAlimentClick(aliment),
+              onTap: () => cAliments.onAlimentClick(
+                aliment: aliment,
+                dialog: QuantityDialog(aliment: aliment),
+              ),
               title: Text(aliment.name.toString()),
               subtitle: Text(aliment.creationDate.toString()),
               leading: CircleAvatar(
@@ -59,5 +65,56 @@ class AlimentsPage extends StatelessWidget {
     }
 
     return null;
+  }
+}
+
+class QuantityDialog extends StatelessWidget {
+  const QuantityDialog({
+    super.key,
+    required this.aliment,
+  });
+
+  final Aliment aliment;
+
+  @override
+  Widget build(BuildContext context) {
+    return GetX<AlimentsController>(
+      builder: (cAliments) {
+        return DialogSingleInput(
+          title: DialogTexts.addQuantity,
+          formKey: cAliments.recipeAlimentFormKey,
+          inputName: FormKeys.quantity,
+          initialValue: null,
+          validator: FormBuilderValidators.compose([
+            FormBuilderValidators.required(),
+            FormBuilderValidators.numeric(),
+          ]),
+          valueTransformer: ValueTransformers.doubleValue,
+          keyboardType: TextInputType.number,
+          onCancelClick: () => cAliments.goBack(),
+          onOKClick: () => cAliments.onValidateRecipeAliment(aliment),
+          suffix: PopupMenuButton(
+            child: Wrap(
+              children: [
+                Text(cAliments.activeDose.value),
+                Icon(
+                  Icons.arrow_drop_down,
+                  color: Get.theme.hintColor,
+                ),
+              ],
+            ),
+            onSelected: (value) => cAliments.updateActiveDose(value),
+            itemBuilder: (_) {
+              return cAliments.initialDosesList.map((dose) {
+                return PopupMenuItem(
+                  value: dose,
+                  child: Text(dose),
+                );
+              }).toList();
+            },
+          ),
+        );
+      },
+    );
   }
 }
