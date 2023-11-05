@@ -116,7 +116,7 @@ class RecipeController extends GetxController {
 
   void clearImage() => formKey.currentState!.patchValue({FormKeys.image: null});
 
-  Future<void> goToRecipeAliment() async {
+  Future<void> onAddAlimentClick() async {
     final aliment = await Get.toNamed(
       Routes.recipes + Routes.recipe + Routes.aliments,
       arguments: AlimentsPageMode.recipeModule,
@@ -126,6 +126,11 @@ class RecipeController extends GetxController {
       aliments.value.add(aliment);
       aliments.refresh();
     }
+  }
+
+  void onRemoveAlimentClick(Aliment aliment) {
+    aliments.value.removeWhere((element) => element.id == aliment.id);
+    aliments.refresh();
   }
 
   void goBack() => Get.back();

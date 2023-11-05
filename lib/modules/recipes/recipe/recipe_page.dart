@@ -104,9 +104,8 @@ class RecipePage extends StatelessWidget {
                         title: Text(aliment.name.toString()),
                         trailing: IconButton(
                           icon: const Icon(Icons.remove),
-                          onPressed: () {
-                            // TODO
-                          },
+                          onPressed: () =>
+                              cRecipe.onRemoveAlimentClick(aliment),
                         ),
                       )
                     // TODO ListTile pour chaque aliment, le tout enrobé d'un FormBuilderField (afficher un texte en rouge s'il n'y a aucun aliment ajouté)
@@ -116,12 +115,13 @@ class RecipePage extends StatelessWidget {
               ),
             ),
           ),
+          // TODO remplacer par un bouton normal
           floatingActionButton: FloatingActionButton.extended(
             label: const Text('Add aliment'),
             icon: const Icon(Icons.add),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            onPressed: () => cRecipe.goToRecipeAliment(),
+            onPressed: () => cRecipe.onAddAlimentClick(),
           ),
         );
       },
