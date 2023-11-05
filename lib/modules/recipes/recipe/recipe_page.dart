@@ -111,6 +111,7 @@ class RecipePage extends StatelessWidget {
                           for (final recipeAliment
                               in cRecipe.recipeAliments.value)
                             ListTile(
+                              minLeadingWidth: 56,
                               title: Text(
                                   recipeAliment.aliment.value!.name.toString()),
                               leading: _buildListTileImage(recipeAliment),
@@ -140,7 +141,7 @@ class RecipePage extends StatelessWidget {
     );
   }
 
-  Widget? _buildListTileImage(RecipeAliment recipeAliment) {
+  Widget _buildListTileImage(RecipeAliment recipeAliment) {
     final image = recipeAliment.aliment.value?.image;
 
     if (image != null) {
@@ -148,6 +149,6 @@ class RecipePage extends StatelessWidget {
         image: MemoryImage(Uint8List.fromList(image)),
       );
     }
-    return null;
+    return const SizedBox.square();
   }
 }
