@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -7,6 +9,7 @@ import '../../../core/utils/errors.dart';
 import '../../../core/utils/paddings.dart';
 import '../../../core/utils/texts.dart';
 import '../../../core/utils/value_transformers.dart';
+import '../../../data/models/recipe_aliment_model.dart';
 import '../../../widgets/form/dropdown_search.dart';
 import '../../../widgets/form/image_selector.dart';
 import '../../../widgets/section_title.dart';
@@ -110,6 +113,7 @@ class RecipePage extends StatelessWidget {
                             ListTile(
                               title: Text(
                                   recipeAliment.aliment.value!.name.toString()),
+                              leading: _buildListTileImage(recipeAliment),
                               trailing: IconButton(
                                 icon: const Icon(Icons.remove),
                                 onPressed: () =>
@@ -134,5 +138,16 @@ class RecipePage extends StatelessWidget {
         );
       },
     );
+  }
+
+  Widget? _buildListTileImage(RecipeAliment recipeAliment) {
+    final image = recipeAliment.aliment.value?.image;
+
+    if (image != null) {
+      return Image(
+        image: MemoryImage(Uint8List.fromList(image)),
+      );
+    }
+    return null;
   }
 }
