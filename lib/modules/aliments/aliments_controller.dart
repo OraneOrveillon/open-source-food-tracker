@@ -5,10 +5,12 @@ import 'package:get/get.dart';
 import '../../../data/models/aliment_model.dart';
 import '../../../data/services/aliment_service.dart';
 import '../../core/mixins/scroll_pagination_mixin.dart';
+import '../../core/utils/enums.dart';
 import '../../routes/routes.dart';
 
 class AlimentsController extends GetxController
     with ScrollPaginationMixin<Aliment> {
+  AlimentsPageMode pageMode = Get.arguments;
   final AlimentService _service = AlimentService();
 
   @override
@@ -41,10 +43,16 @@ class AlimentsController extends GetxController
     deleteItemInList((element) => aliment.id == element.id);
   }
 
-  void goToAddAliment() => Get.toNamed(Routes.aliments + Routes.aliment);
+  void onAddClick() => Get.toNamed(Routes.aliments + Routes.aliment);
 
-  void goToEditAliment(Aliment aliment) =>
+  void onAlimentClick(Aliment aliment) {
+    if (pageMode == AlimentsPageMode.alimentsModule) {
       Get.toNamed(Routes.aliments + Routes.aliment, arguments: aliment);
+    } else if (pageMode == AlimentsPageMode.recipeModule) {
+      // TODO dialog avec dose + quantité
+      Get.back(result: aliment);
+    }
+  }
 
   @override
   void onClose() {

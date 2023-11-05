@@ -1,0 +1,4 @@
+enum AlimentsPageMode {
+  alimentsModule,
+  recipeModule,
+}

@@ -30,6 +30,9 @@ abstract class InputLabelTexts {
   static const String tags = 'Tags';
   static const String portions = 'Number of portions';
   static const String description = 'Description';
+
+  static const String dose = 'Dose';
+  static const String quantity = 'Quantity';
 }
 
 abstract class InputSuffixTexts {
@@ -54,6 +57,7 @@ abstract class SectionTexts {
   static const String general = 'General';
   static const String nutrition = 'Nutrition';
   static const String doses = 'Doses';
+  static const String aliments = 'Aliments';
 }
 
 abstract class ItemTexts {

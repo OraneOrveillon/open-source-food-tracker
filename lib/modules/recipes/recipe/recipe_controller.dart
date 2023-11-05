@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 
+import '../../../core/utils/enums.dart';
+import '../../../data/models/aliment_model.dart';
 import '../../../data/models/recipe_model.dart';
 import '../../../data/services/recipe_service.dart';
+import '../../../routes/routes.dart';
 import '../recipes_controller.dart';
 
 class RecipeController extends GetxController {
@@ -27,6 +30,8 @@ class RecipeController extends GetxController {
 
   final tags = Rx<List<String>>([]);
   final _selectedTags = Rx<List<String>>([]);
+
+  final aliments = Rx<List<Aliment>>([]);
 
   @override
   Future<void> onInit() async {
@@ -111,6 +116,18 @@ class RecipeController extends GetxController {
 
   void clearImage() => formKey.currentState!.patchValue({FormKeys.image: null});
 
+  Future<void> goToRecipeAliment() async {
+    final aliment = await Get.toNamed(
+      Routes.recipes + Routes.recipe + Routes.aliments,
+      arguments: AlimentsPageMode.recipeModule,
+    );
+
+    if (aliment != null) {
+      aliments.value.add(aliment);
+      aliments.refresh();
+    }
+  }
+
   void goBack() => Get.back();
 
   /// Returns sorted [_selectedTags].
@@ -132,4 +149,5 @@ abstract class FormKeys {
   static const String image = 'image';
   static const String portions = 'portions';
   static const String description = 'description';
+  static const String aliments = 'aliments';
 }

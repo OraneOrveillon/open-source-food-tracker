@@ -98,11 +98,30 @@ class RecipePage extends StatelessWidget {
                       keyboardType: TextInputType.multiline,
                       maxLines: 5,
                     ),
-                    // TODO aliments
+                    const SectionTitle(title: SectionTexts.aliments),
+                    for (final aliment in cRecipe.aliments.value)
+                      ListTile(
+                        title: Text(aliment.name.toString()),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.remove),
+                          onPressed: () {
+                            // TODO
+                          },
+                        ),
+                      )
+                    // TODO ListTile pour chaque aliment, le tout enrobé d'un FormBuilderField (afficher un texte en rouge s'il n'y a aucun aliment ajouté)
+                    // TODO afficher l'image des aliments qui en ont une
                   ],
                 ),
               ),
             ),
+          ),
+          floatingActionButton: FloatingActionButton.extended(
+            label: const Text('Add aliment'),
+            icon: const Icon(Icons.add),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            onPressed: () => cRecipe.goToRecipeAliment(),
           ),
         );
       },

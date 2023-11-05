@@ -40,6 +40,13 @@ List<GetPage> pages = [
         name: Routes.recipe,
         page: () => const RecipePage(),
         binding: RecipeBinding(),
+        children: [
+          GetPage(
+            name: Routes.aliments,
+            page: () => const AlimentsPage(),
+            binding: AlimentsBinding(),
+          ),
+        ],
       ),
     ],
   ),
