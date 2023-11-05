@@ -9,6 +9,7 @@ abstract class AppBarTexts {
 abstract class ButtonTexts {
   static const String ok = "OK";
   static const String cancel = "CANCEL";
+  static const String addAliment = "Add aliment";
 }
 
 abstract class InputLabelTexts {
