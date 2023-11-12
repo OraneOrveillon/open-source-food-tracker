@@ -65,12 +65,6 @@ const RecipeAlimentSchema = CollectionSchema(
   idName: r'id',
   indexes: {},
   links: {
-    r'recipe': LinkSchema(
-      id: -944611800953094446,
-      name: r'recipe',
-      target: r'RecipeVariant',
-      single: true,
-    ),
     r'aliment': LinkSchema(
       id: -7863505916073223436,
       name: r'aliment',
@@ -168,14 +162,12 @@ Id _recipeAlimentGetId(RecipeAliment object) {
 }
 
 List<IsarLinkBase<dynamic>> _recipeAlimentGetLinks(RecipeAliment object) {
-  return [object.recipe, object.aliment];
+  return [object.aliment];
 }
 
 void _recipeAlimentAttach(
     IsarCollection<dynamic> col, Id id, RecipeAliment object) {
   object.id = id;
-  object.recipe
-      .attach(col, col.isar.collection<RecipeVariant>(), r'recipe', id);
   object.aliment.attach(col, col.isar.collection<Aliment>(), r'aliment', id);
 }
 
@@ -1043,20 +1035,6 @@ extension RecipeAlimentQueryObject
 
 extension RecipeAlimentQueryLinks
     on QueryBuilder<RecipeAliment, RecipeAliment, QFilterCondition> {
-  QueryBuilder<RecipeAliment, RecipeAliment, QAfterFilterCondition> recipe(
-      FilterQuery<RecipeVariant> q) {
-    return QueryBuilder.apply(this, (query) {
-      return query.link(q, r'recipe');
-    });
-  }
-
-  QueryBuilder<RecipeAliment, RecipeAliment, QAfterFilterCondition>
-      recipeIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'recipe', 0, true, 0, true);
-    });
-  }
-
   QueryBuilder<RecipeAliment, RecipeAliment, QAfterFilterCondition> aliment(
       FilterQuery<Aliment> q) {
     return QueryBuilder.apply(this, (query) {

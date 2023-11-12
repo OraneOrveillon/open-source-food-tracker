@@ -1,3 +1,4 @@
+import 'package:flutter_template/data/models/recipe_aliment_model.dart';
 import 'package:get/get.dart';
 import 'package:isar/isar.dart';
 
@@ -35,9 +36,24 @@ class RecipeService {
     return tagsList;
   }
 
-  Future<void> putRecipe(Recipe recipe) async {
+  // FIXME, changer, ne marche que si on a qu'une seule variante
+  Future<void> putRecipe({
+    required Recipe recipe,
+    required List<RecipeVariant> recipeVariants,
+    required List<RecipeAliment> recipeAliments,
+  }) async {
     _db.writeTxn(() async {
       await _db.recipes.put(recipe);
+      await _db.recipeVariants.putAll(recipeVariants);
+      await _db.recipeAliments.putAll(recipeAliments);
+
+      await recipe.variants.save();
+      for (final recipeVariant in recipeVariants) {
+        await recipeVariant.aliments.save();
+      }
+      for (final recipeAliment in recipeAliments) {
+        await recipeAliment.aliment.save();
+      }
     });
   }
 

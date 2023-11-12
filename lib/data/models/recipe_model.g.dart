@@ -69,7 +69,7 @@ const RecipeSchema = CollectionSchema(
       id: 2734937484159725996,
       name: r'variants',
       target: r'RecipeVariant',
-      single: true,
+      single: false,
     )
   },
   embeddedSchemas: {},
@@ -1366,9 +1366,52 @@ extension RecipeQueryLinks on QueryBuilder<Recipe, Recipe, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> variantsIsNull() {
+  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> variantsLengthEqualTo(
+      int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'variants', length, true, length, true);
+    });
+  }
+
+  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> variantsIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.linkLength(r'variants', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> variantsIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'variants', 0, false, 999999, true);
+    });
+  }
+
+  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> variantsLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'variants', 0, true, length, include);
+    });
+  }
+
+  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> variantsLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'variants', length, include, 999999, true);
+    });
+  }
+
+  QueryBuilder<Recipe, Recipe, QAfterFilterCondition> variantsLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(
+          r'variants', lower, includeLower, upper, includeUpper);
     });
   }
 }
@@ -1670,7 +1713,14 @@ const RecipeVariantSchema = CollectionSchema(
   deserializeProp: _recipeVariantDeserializeProp,
   idName: r'id',
   indexes: {},
-  links: {},
+  links: {
+    r'aliments': LinkSchema(
+      id: -2848725311062719762,
+      name: r'aliments',
+      target: r'RecipeAliment',
+      single: false,
+    )
+  },
   embeddedSchemas: {},
   getId: _recipeVariantGetId,
   getLinks: _recipeVariantGetLinks,
@@ -1737,12 +1787,14 @@ Id _recipeVariantGetId(RecipeVariant object) {
 }
 
 List<IsarLinkBase<dynamic>> _recipeVariantGetLinks(RecipeVariant object) {
-  return [];
+  return [object.aliments];
 }
 
 void _recipeVariantAttach(
     IsarCollection<dynamic> col, Id id, RecipeVariant object) {
   object.id = id;
+  object.aliments
+      .attach(col, col.isar.collection<RecipeAliment>(), r'aliments', id);
 }
 
 extension RecipeVariantQueryWhereSort
@@ -2068,7 +2120,68 @@ extension RecipeVariantQueryObject
     on QueryBuilder<RecipeVariant, RecipeVariant, QFilterCondition> {}
 
 extension RecipeVariantQueryLinks
-    on QueryBuilder<RecipeVariant, RecipeVariant, QFilterCondition> {}
+    on QueryBuilder<RecipeVariant, RecipeVariant, QFilterCondition> {
+  QueryBuilder<RecipeVariant, RecipeVariant, QAfterFilterCondition> aliments(
+      FilterQuery<RecipeAliment> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.link(q, r'aliments');
+    });
+  }
+
+  QueryBuilder<RecipeVariant, RecipeVariant, QAfterFilterCondition>
+      alimentsLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'aliments', length, true, length, true);
+    });
+  }
+
+  QueryBuilder<RecipeVariant, RecipeVariant, QAfterFilterCondition>
+      alimentsIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'aliments', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<RecipeVariant, RecipeVariant, QAfterFilterCondition>
+      alimentsIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'aliments', 0, false, 999999, true);
+    });
+  }
+
+  QueryBuilder<RecipeVariant, RecipeVariant, QAfterFilterCondition>
+      alimentsLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'aliments', 0, true, length, include);
+    });
+  }
+
+  QueryBuilder<RecipeVariant, RecipeVariant, QAfterFilterCondition>
+      alimentsLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'aliments', length, include, 999999, true);
+    });
+  }
+
+  QueryBuilder<RecipeVariant, RecipeVariant, QAfterFilterCondition>
+      alimentsLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(
+          r'aliments', lower, includeLower, upper, includeUpper);
+    });
+  }
+}
 
 extension RecipeVariantQuerySortBy
     on QueryBuilder<RecipeVariant, RecipeVariant, QSortBy> {

@@ -46,11 +46,11 @@ class RecipeController extends GetxController {
       initialDescription = recipe!.description;
 
       _selectedTags.value = recipe!.tags ?? [];
+
+      initialRecipeAliments = recipe!.variants.toList().first.aliments.toList();
     }
 
     tags.value = await _service.getAllTagsDistinct();
-
-    // TODO init aliments
   }
 
   void onValidateClick() => recipe == null ? addRecipe() : updateRecipe();
@@ -59,17 +59,28 @@ class RecipeController extends GetxController {
   Future<void> addRecipe() async {
     if (formKey.currentState!.saveAndValidate()) {
       final formValues = formKey.currentState!.value;
+      final List<RecipeAliment> recipeAliments = formValues[FormKeys.aliments];
 
-      // final Recipe recipe = Recipe()
-      //   ..creationDate = DateTime.now()
-      //   ..name = formValues[FormKeys.name]
-      //   ..portions = formValues[FormKeys.portions]
-      //   ..description = formValues[FormKeys.description]
-      //   ..deleted = false;
+      Recipe recipe = Recipe()
+        ..creationDate = DateTime.now()
+        ..name = formValues[FormKeys.name]
+        ..portions = formValues[FormKeys.portions]
+        ..description = formValues[FormKeys.description];
 
-      // await _service.putRecipe(recipe);
+      RecipeVariant recipeVariant = RecipeVariant()
+        ..name = formValues[FormKeys.name]
+        ..deleted = false;
 
-      // cRecipes.addRecipeInList(recipe);
+      recipeVariant.aliments.addAll(formValues[FormKeys.aliments]);
+      recipe.variants.add(recipeVariant);
+
+      await _service.putRecipe(
+        recipe: recipe,
+        recipeVariants: [recipeVariant],
+        recipeAliments: recipeAliments,
+      );
+
+      cRecipes.addRecipeInList(recipe);
 
       goBack();
     }
@@ -118,25 +129,27 @@ class RecipeController extends GetxController {
   void clearImage() => formKey.currentState!.patchValue({FormKeys.image: null});
 
   Future<void> onAddAlimentClick() async {
+    formKey.currentState!.save();
     final recipeAliments = formKey.currentState!.value[FormKeys.aliments];
     final recipeAliment = await Get.toNamed(
       Routes.recipes + Routes.recipe + Routes.aliments,
       arguments: AlimentsPageMode.recipeModule,
     );
 
-    if (recipeAliment != null &&
-        !(recipeAliments.value
+    if (recipeAliment is RecipeAliment &&
+        !(recipeAliments
             .map((e) => e.aliment.value)
             .toList()
             .contains(recipeAliment.aliment.value))) {
-      recipeAliments.value.add(recipeAliment);
-      formKey.currentState!.patchValue({FormKeys.aliments: recipeAliment});
+      recipeAliments.add(recipeAliment);
+      formKey.currentState!.patchValue({FormKeys.aliments: recipeAliments});
     }
   }
 
   void onRemoveAlimentClick(RecipeAliment aliment) {
+    formKey.currentState!.save();
     final recipeAliments = formKey.currentState!.value[FormKeys.aliments];
-    recipeAliments.value.removeWhere((element) => element.id == aliment.id);
+    recipeAliments.removeWhere((element) => element.id == aliment.id);
 
     formKey.currentState!.patchValue({FormKeys.aliments: recipeAliments});
   }

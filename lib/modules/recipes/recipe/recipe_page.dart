@@ -41,7 +41,6 @@ class RecipePage extends StatelessWidget {
               children: [
                 Expanded(
                   child: SingleChildScrollView(
-                    // TODO image
                     child: FormBuilder(
                       key: cRecipe.formKey,
                       child: Column(
@@ -109,7 +108,7 @@ class RecipePage extends StatelessWidget {
                             maxLines: 5,
                           ),
                           const SectionTitle(title: SectionTexts.aliments),
-                          // TODO wigdet à part ?
+                          // TODO wigdet à part
                           FormBuilderField<List<RecipeAliment>>(
                             name: FormKeys.aliments,
                             initialValue: cRecipe.initialRecipeAliments,
@@ -128,9 +127,13 @@ class RecipePage extends StatelessWidget {
                                 children: field.value!.map((recipeAliment) {
                                   return ListTile(
                                     minLeadingWidth: 56,
-                                    title: Text(recipeAliment
-                                        .aliment.value!.name
-                                        .toString()),
+                                    title: Text(
+                                      recipeAliment.aliment.value!.name
+                                          .toString(),
+                                    ),
+                                    subtitle: Text(
+                                      '${recipeAliment.quantity}${recipeAliment.dose}',
+                                    ),
                                     leading: _buildListTileImage(recipeAliment),
                                     trailing: IconButton(
                                       icon: const Icon(Icons.remove),
