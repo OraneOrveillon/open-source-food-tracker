@@ -27,11 +27,10 @@ class RecipeController extends GetxController {
   Uint8List? initialImage;
   String? initialPortions = '1';
   String? initialDescription;
+  List<RecipeAliment> initialRecipeAliments = [];
 
   final tags = Rx<List<String>>([]);
   final _selectedTags = Rx<List<String>>([]);
-
-  final recipeAliments = Rx<List<RecipeAliment>>([]);
 
   @override
   Future<void> onInit() async {
@@ -50,6 +49,8 @@ class RecipeController extends GetxController {
     }
 
     tags.value = await _service.getAllTagsDistinct();
+
+    // TODO init aliments
   }
 
   void onValidateClick() => recipe == null ? addRecipe() : updateRecipe();
@@ -117,6 +118,7 @@ class RecipeController extends GetxController {
   void clearImage() => formKey.currentState!.patchValue({FormKeys.image: null});
 
   Future<void> onAddAlimentClick() async {
+    final recipeAliments = formKey.currentState!.value[FormKeys.aliments];
     final recipeAliment = await Get.toNamed(
       Routes.recipes + Routes.recipe + Routes.aliments,
       arguments: AlimentsPageMode.recipeModule,
@@ -128,13 +130,15 @@ class RecipeController extends GetxController {
             .toList()
             .contains(recipeAliment.aliment.value))) {
       recipeAliments.value.add(recipeAliment);
-      recipeAliments.refresh();
+      formKey.currentState!.patchValue({FormKeys.aliments: recipeAliment});
     }
   }
 
   void onRemoveAlimentClick(RecipeAliment aliment) {
+    final recipeAliments = formKey.currentState!.value[FormKeys.aliments];
     recipeAliments.value.removeWhere((element) => element.id == aliment.id);
-    recipeAliments.refresh();
+
+    formKey.currentState!.patchValue({FormKeys.aliments: recipeAliments});
   }
 
   void goBack() => Get.back();

@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import '../../../core/utils/errors.dart';
 import '../../../core/utils/paddings.dart';
 import '../../../core/utils/texts.dart';
+import '../../../core/utils/validators.dart';
 import '../../../core/utils/value_transformers.dart';
 import '../../../data/models/recipe_aliment_model.dart';
 import '../../../widgets/form/dropdown_search.dart';
@@ -108,21 +109,39 @@ class RecipePage extends StatelessWidget {
                             maxLines: 5,
                           ),
                           const SectionTitle(title: SectionTexts.aliments),
-                          for (final recipeAliment
-                              in cRecipe.recipeAliments.value)
-                            ListTile(
-                              minLeadingWidth: 56,
-                              title: Text(
-                                  recipeAliment.aliment.value!.name.toString()),
-                              leading: _buildListTileImage(recipeAliment),
-                              trailing: IconButton(
-                                icon: const Icon(Icons.remove),
-                                onPressed: () =>
-                                    cRecipe.onRemoveAlimentClick(recipeAliment),
-                              ),
-                            )
-                          // TODO ListTile pour chaque aliment, le tout enrobé d'un FormBuilderField (afficher un texte en rouge s'il n'y a aucun aliment ajouté)
-                          // TODO afficher l'image des aliments qui en ont une
+                          // TODO wigdet à part ?
+                          FormBuilderField<List<RecipeAliment>>(
+                            name: FormKeys.aliments,
+                            initialValue: cRecipe.initialRecipeAliments,
+                            validator: Validators.recipeAlimentsValidator,
+                            valueTransformer: null,
+                            builder: (field) {
+                              if (field.hasError) {
+                                return TextFormField(
+                                  decoration: InputDecoration(
+                                    errorText: field.errorText,
+                                  ),
+                                  readOnly: true,
+                                );
+                              }
+                              return Column(
+                                children: field.value!.map((recipeAliment) {
+                                  return ListTile(
+                                    minLeadingWidth: 56,
+                                    title: Text(recipeAliment
+                                        .aliment.value!.name
+                                        .toString()),
+                                    leading: _buildListTileImage(recipeAliment),
+                                    trailing: IconButton(
+                                      icon: const Icon(Icons.remove),
+                                      onPressed: () => cRecipe
+                                          .onRemoveAlimentClick(recipeAliment),
+                                    ),
+                                  );
+                                }).toList(),
+                              );
+                            },
+                          ),
                         ],
                       ),
                     ),
